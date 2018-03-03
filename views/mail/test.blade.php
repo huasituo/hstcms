@@ -1,0 +1,1 @@
+{!! hst_lang('hstcms::manage.email.test.content') !!}
