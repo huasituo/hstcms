@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;                //认证
 use Huasituo\Hstcms\Model\ConfigModel;
 use Huasituo\Hstcms\Model\ManageUserModel;
 use Huasituo\Hstcms\Libraries\HstcmsPinYin;
+use Huasituo\Hstcms\Libraries\Hststring;
 
 
 /**
@@ -913,6 +914,20 @@ if ( ! function_exists('hst_check_write_able'))
 	}
 }
 
+if ( ! function_exists('hst_strLen'))
+{
+    /**
+     * 求取字符串长度
+     *
+     * @param string $string
+     * @param string $charset
+     * @return string
+     */
+    function hst_strLen($string, $charset = '')
+    {
+        return Hststring::strlen($string, $charset);
+    }
+}
 
 
 

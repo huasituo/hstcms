@@ -41,15 +41,17 @@ class AttachmentController extends BasicController
     {
         $arrRequest = $request->all();
         $_extsize = array();
-        foreach ($arrRequest['extsize'] as $key => $value) 
-        {
-            if (!empty($value['ext'])) $_extsize[$value['ext']] = abs(intval($value['size']));
+        if(isset($arrRequest['extsize']) && $arrRequest['extsize']) {
+            foreach ($arrRequest['extsize'] as $key => $value) 
+            {
+                if (!empty($value['ext'])) $_extsize[$value['ext']] = abs(intval($value['size']));
+            }
         }
         $arrRequest['storage'] = $arrRequest['storage'] ? $arrRequest['storage'] : 'local';
         $arrRequest['dirs'] = $arrRequest['dirs'] ? $arrRequest['dirs'] : 'ymd';
         $data =[
             ['name'=>'extsize', 'value'=>$_extsize, 'issystem'=>1],
-            ['name'=>'storage', 'value'=>trim($arrRequest['storage'])],
+            ['name'=>'storage', 'value'=>$arrRequest['storage'] ? trim($arrRequest['storage']) : 'local'],
             ['name'=>'dirs', 'value'=>trim($arrRequest['dirs'])]
         ];
         $configData = [

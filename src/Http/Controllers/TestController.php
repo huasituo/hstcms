@@ -27,6 +27,7 @@ class TestController extends BasicController
 		//if ($result instanceof HstError) return $this->showError($result->getError());
 		//echo 'verify success';
     	//$this->showError('test');
+         echo route('hstsmsApiOldIndex');
         return $this->loadTemplate('hstcms::test');
     }
 

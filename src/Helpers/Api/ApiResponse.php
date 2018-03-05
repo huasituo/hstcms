@@ -45,7 +45,7 @@ trait ApiResponse
      * @param string $state
      * @return mixed
      */
-    public function message($message, $state = "success", $data = [])
+    public function message($message, $state = "success", $data = [], $code = null)
     {
         if(is_array($state)) {
             $data = $state;
@@ -54,7 +54,7 @@ trait ApiResponse
         return $this->state($state, [
             'data'=>$data,
             'message' => $message
-        ]);
+        ], $code);
     }
 
     /**
