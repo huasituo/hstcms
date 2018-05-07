@@ -108,7 +108,7 @@ class BasicController extends Controller
         } else if($with == 5) {                                     //返回上一级提示
             return back()->with($viewData);
         }
-        return $this->loadTemplate('common.tips', $viewData);
+        return $this->loadTemplate('hstcms::common.tips', $viewData);
     }
 
     /**

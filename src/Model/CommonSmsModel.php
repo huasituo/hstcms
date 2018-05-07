@@ -41,6 +41,9 @@ class CommonSmsModel extends Model
                 'components'=>'Huasituo\Hstcms\Libraries\Hstsms'
             ]
         ];
+        if(config('hook.version')) {
+            $platforms = hst_hook('s_sms', $platforms, true);
+        }
         if($k) {
             return $platforms[$k];
         }

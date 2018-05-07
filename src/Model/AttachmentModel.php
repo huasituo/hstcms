@@ -29,6 +29,9 @@ class AttachmentModel extends Model
                 'manageurl'=>''
             ]
         ];
+        if(config('hook.version')) {
+            $storages = hst_hook('s_attach', $storages, true);
+        }
         if($k) {
             return $storages[$k];
         }

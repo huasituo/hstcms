@@ -122,6 +122,10 @@ Route::group([
 ], function() {
     Route::get('/test', 'TestController@index')->name('hstcmsTextIndex');
     Route::post('/test/post', 'TestController@pindex')->name('hstcmsTextIndexPost');
+
+
+    Route::any('/wechat/api', 'TestController@wechat')->name('hstcmsTextWechat');   
+
 });
 
 

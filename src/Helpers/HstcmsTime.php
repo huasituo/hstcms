@@ -105,7 +105,7 @@ if ( ! function_exists('hst_time'))
 {    
     function hst_time() 
     {
-        return time();
+        return time() + 8 * 3600;
     }
 }
 

@@ -9,6 +9,13 @@ return [
 @return array', 
             'module'=>'hstcms'
         ],
+        's_attach'=>[
+            'name'=>'s_attach', 
+            'description'=>'附件存储', 
+            'document'=>'@param array
+@return array', 
+            'module'=>'hstcms'
+        ],
     ],
     'hookInject'=>[
         's_sms'=>[
