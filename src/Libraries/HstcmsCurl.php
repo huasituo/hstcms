@@ -14,7 +14,6 @@ use Cache;
 class HstcmsCurl {
 
 	public $userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36';
-
 	public $url = '';
 	public $cookie = '';
 	public $cookiePath = '';
@@ -105,7 +104,7 @@ class HstcmsCurl {
     public function data($json = true)
     {
     	if($json){
-    		return json_decode($this->response);
+    		return json_decode($this->response, true);
     	} else {
     		return $this->response;
     	}

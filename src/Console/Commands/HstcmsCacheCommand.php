@@ -56,9 +56,7 @@ class HstcmsCacheCommand extends Command
         CommonRoleUriModel::setCache('manage', false);
         ManageMenuModel::setCache('manage', false);
         ManageUserModel::setCache(false);
-        if(config('hook.version')) {
-            hst_hook('s_cache');
-        }
+        hstcms_hook('s_cache');
         $this->info('Success');
     }
 }

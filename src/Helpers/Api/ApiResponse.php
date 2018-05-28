@@ -45,16 +45,19 @@ trait ApiResponse
      * @param string $state
      * @return mixed
      */
-    public function message($message, $state = "success", $data = [], $code = null)
+    public function message($message, $state = 0, $data = [], $code = null)
     {
         if(is_array($state)) {
             $data = $state;
-            $state = 'success';
+            $state = 0;
         }
-        return $this->state($state, [
-            'data'=>$data,
+        $datas = [
             'message' => $message
-        ], $code);
+        ];
+        if($data) {
+            $datas['data'] = $data;
+        }
+        return $this->state($state, $datas, $code);
     }
 
     /**
@@ -83,9 +86,9 @@ trait ApiResponse
      * @param string $state
      * @return mixed
      */
-    public function failed($message, $code = FoundationResponse::HTTP_BAD_REQUEST, $state = 'error'){
+    public function failed($message, $code = FoundationResponse::HTTP_BAD_REQUEST, $state = '-1'){
 
-        return $this->setStateCode($code)->message($message,$state);
+        return $this->setStateCode($code)->message($message, $state);
     }
 
     /**
@@ -112,7 +115,7 @@ trait ApiResponse
      * @param string $state
      * @return mixed
      */
-    public function success($data, $state = "success")
+    public function toSuccess($data, $state = "0")
     {
         return $this->state($state, compact('data'));
     }

@@ -8,18 +8,43 @@
     overflow-y: hidden;
     overflow-x: hidden;
   }
+  .hstui-topbar-inverse .hstui-topbar-nav>li.hstui-active>a:after,
+  .hstui-topbar-inverse .hstui-topbar-nav>li.hstui-active>a:hover:after,
+  .hstui-topbar-inverse .hstui-topbar-nav>li.hstui-active>a:focus:after {
+    border-bottom-color: #0b6fa2;
+  }
 </style>
 </head>
 <body>
 <div class="hstui-content" id="app" style="display: none;">
       <header class="hstui-topbar hstui-topbar-inverse manage-header">
-        <div class="hstui-topbar-brand">
-          <a href="{!! route('manageIndex') !!}"><strong>华思拓网络</strong></a> <small>{{ hst_lang('hstcms::manage.manage.systim')}}</small>
+        <div class="hstui-topbar-brand" style="width: 189px;">
+          <a href="{!! route('manageIndex') !!}"><img src="{{ hst_assets('manage/images/logo.png') }}" width="169" height="40"></a> 
         </div>
-        <!-- <button class="hstui-topbar-btn hstui-topbar-toggle hstui-button hstui-button-sm hstui-button-success hstui-show-sm-only" data-hstui-collapse="{target: '#topbar-collapse'}"><span class="hstui-sr-only">导航切换</span> <span class="hstui-icon-bars"></span></button> -->
         <div class="hstui-topbar-collapse hstui-collapse" id="topbar-collapse">
-          <ul class="hstui-nav hstui-nav-pills hstui-topbar-nav hstui-topbar-right admin-header-list">
-            <!-- <li>
+          <ul class="hstui-nav hstui-nav-pills hstui-topbar-nav hstui-topbar-left" id="hstui-topbar-nav">
+            <li class="hstui-hide-sm-only">
+              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+            </li>
+            <li class="hstui-hide-sm-only">
+              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+            </li>
+            <li class="hstui-hide-sm-only">
+              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+            </li>
+            <li class="hstui-hide-sm-only">
+              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+            </li>
+            <li class="hstui-hide-sm-only">
+              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+            </li>
+            <li class="hstui-hide-sm-only">
+              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+            </li>
+          </ul>
+
+          <ul class="hstui-nav hstui-nav-pills hstui-topbar-nav hstui-topbar-right">
+           <!--  <li>
               <a href="javascript:;"><span class="hstui-icon hstui-icon-email"></span> 收件箱 <span class="hstui-badge hstui-badge-warning">5</span></a>
             </li> -->
             <li class="hstui-dropdown" data-hstui-dropdown data-id="hstui-dropdown-content">
@@ -50,7 +75,7 @@
             <ul class="hstui-lnav" id="B_menubar">
             </ul>
           </div>
-          <!-- <div class="manage-left-setting">
+         <!--  <div class="manage-left-setting">
             <i class="hstui-icon hstui-icon-arrowleft" data-icon1="hstui-icon-arrowleft" data-icon2="hstui-icon-arrowright"></i>
           </div> -->
         </div>
@@ -79,39 +104,74 @@
 <script>
       var  SUBMENU_CONFIG = {!! $menus !!};/*主菜单区*/
       Hstui.use('jquery', 'common', function() {
-        Hstui.js('{{ hst_public('hstcms/manage/js/common.js') }}', function() {
-          var html = [];
+        Hstui.js('{{ hst_public('assets/manage/js/common.js') }}', function() {
+          var topbar = [];
           $.each(SUBMENU_CONFIG,function(i,o) {
-            var lihtml = '<li class="J_lid_'+o.id+'">';
-            if(o.url) {
-              lihtml +='<a data-name="'+o.name+'" data-id="'+o.id+'" data-tid="'+o.id+'" data-href="'+o.url+'" href="javascript:;" ><i class="hstui-icon hstui-icon-triangle-arrow-r"></i> '+o.name+'</a>';
-            } else {
-              lihtml +='<a href="javascript:;" class="dropdown-toggle"><i class="hstui-icon '+o.icon+'"></i>'+o.name+'<i class="hstui-icon hstui-icon-arrowright"></i></a>';
-              if(o.items) {
-                lihtml +='<ul class="submenu">';
-                $.each(o.items,function(x,v) {
-                  lihtml +='<li>';
-                  if(v.url) {
-                    lihtml +='<a data-name="'+v.name+'" data-tid="'+o.id+'" data-id="'+v.id+'" data-href="'+v.url+'" href="javascript:;"><i class="hstui-icon hstui-icon-triangle-arrow-r"></i>'+v.name+'</a>';
-                  } else {
-                    lihtml +='<a href="javascript:;" class="dropdown-toggle">'+v.name+'<i class="hstui-icon hstui-icon-arrowright"></i></a>';
-                    lihtml +='<ul class="submenu">';
-                    $.each(v.items,function(c,t) {
-                      lihtml +='<li>';
-                      lihtml +='<a data-name="'+t.name+'" data-tid="'+o.id+'" data-id="'+t.id+'" data-href="'+t.url+'" href="javascript:;"><i class="hstui-icon hstui-icon-triangle-arrow-r"></i>'+t.name+'</a>';
-                      lihtml +='</li>';
-                    });
-                      lihtml +='</ul>';
-                  }
-                  lihtml +='</li>';
-                });
-                lihtml +='</ul>';
-              }
+            var lihtml = '<li class="hstui-hide-sm-only">';
+            if(!o.url) {
+              lihtml += '<a data-name="'+o.name+'" data-id="'+o.id+'" href="javascript:;">'+o.name+'</a>';
             }
             lihtml +='</li>';
-            html.push(lihtml);
+            topbar.push(lihtml);
           });
-          $('#B_menubar').html(html.join(''));
+          $('#hstui-topbar-nav').html(topbar.join(''));
+          $('#hstui-topbar-nav li').eq(0).addClass('hstui-active');
+          function setLeftMenu(topbarId) {
+            var html = [];
+            $.each(SUBMENU_CONFIG[topbarId].items,function(i,o) {
+              var lihtml = '<li class="J_lid_'+o.id+'">';
+              if(o.url) {
+                lihtml +='<a data-name="'+o.name+'" data-id="'+o.id+'" data-tid="'+o.id+'" data-href="'+o.url+'" href="javascript:;" ><i class="hstui-icon hstui-icon-triangle-arrow-r"></i> '+o.name+'</a>';
+              } else {
+                lihtml +='<a href="javascript:;" class="dropdown-toggle"><i class="hstui-icon '+o.icon+'"></i>'+o.name+'<i class="hstui-icon hstui-icon-arrowright"></i></a>';
+                if(o.items) {
+                  lihtml +='<ul class="submenu">';
+                  $.each(o.items,function(x,v) {
+                    lihtml +='<li>';
+                    if(v.url) {
+                      lihtml +='<a data-name="'+v.name+'" data-tid="'+o.id+'" data-id="'+v.id+'" data-href="'+v.url+'" href="javascript:;"><i class="hstui-icon hstui-icon-triangle-arrow-r"></i>'+v.name+'</a>';
+                    } else {
+                      lihtml +='<a href="javascript:;" class="dropdown-toggle">'+v.name+'<i class="hstui-icon hstui-icon-arrowright"></i></a>';
+                      lihtml +='<ul class="submenu">';
+                      $.each(v.items,function(c,t) {
+                        lihtml +='<li>';
+                        lihtml +='<a data-name="'+t.name+'" data-tid="'+o.id+'" data-id="'+t.id+'" data-href="'+t.url+'" href="javascript:;"><i class="hstui-icon hstui-icon-triangle-arrow-r"></i>'+t.name+'</a>';
+                        lihtml +='</li>';
+                      });
+                        lihtml +='</ul>';
+                    }
+                    lihtml +='</li>';
+                  });
+                  lihtml +='</ul>';
+                }
+              }
+              lihtml +='</li>';
+              html.push(lihtml);
+            });
+            $('#B_menubar').html(html.join(''));
+            Hstui.Util.treenav($(".hstui-lnav"), function(o) {
+              var href = o.data('href'),
+                id = o.data('id'),
+                name = o.text();
+                if(href != null) {
+                  iframeJudge({
+                    elem: o,
+                    href: href,
+                    id: id,
+                    name: name
+                  });
+                }
+            });
+          }
+          $('#hstui-topbar-nav li a').on('click', function(e){
+            e.preventDefault();
+            var _this = $(this),
+              id = _this.data('id');
+              $('#hstui-topbar-nav li').removeClass('hstui-active');
+              setLeftMenu(id);
+              _this.parent().addClass('hstui-active');
+          });
+          setLeftMenu($('#hstui-topbar-nav li a').eq(0).data('id'));
           function initHw() {
             var bh = $('body').height();
             var bw = $('body').width();
@@ -148,22 +208,9 @@
             $(iframe_default).show();
             $("#app").show();
           });
-          Hstui.Util.treenav($(".hstui-lnav"), function(o) {
-            var href = o.data('href'),
-              id = o.data('id'),
-              name = o.text();
-            if(href != null) {
-              iframeJudge({
-                elem: o,
-                href: href,
-                id: id,
-                name: name
-              });
-            }
-          });
 
           //判断显示或创建iframe
-          function iframeJudge(options) {
+          window.iframeJudge = function (options) {
             var elem = options.elem,
               href = options.href,
               id = options.id,
@@ -311,7 +358,7 @@
             wscript.SendKeys("{F11}");
           }
         }
-      }
+      }     
 </script>
 </body>
 </html>

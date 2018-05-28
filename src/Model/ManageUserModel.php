@@ -61,6 +61,13 @@ class ManageUserModel extends Model
         return $data;
     }
 
+    static function getUser($uid = 0)
+    {
+        if(!$uid) return [];
+        $users = self::getAll();
+        return isset($users[$uid]) && $users[$uid] ? $users[$uid] : [];
+    }
+
     static function getAll()
     {
         if (!Cache::has('manageUser')) {
@@ -88,11 +95,12 @@ class ManageUserModel extends Model
                 'email'=>trim($value['email']),
                 'gid'=>trim($value['gid']),
                 'qq'=>trim($value['qq']),
-                'weixin'=>trim($value['weixin']),
+                'weixin'=>trim($value['weixin'])
             ];
         }
         Cache::forever('manageUser', $cacheData);
         if(!$result) {
+            unset($data);
             unset($cacheData);
             return '';
         }

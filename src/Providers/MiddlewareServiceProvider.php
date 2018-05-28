@@ -28,5 +28,14 @@ class MiddlewareServiceProvider extends ServiceProvider
         $this->app->singleton('api.service', function ($app) {
             return new \Huasituo\Hstcms\Http\Middleware\ApiService($app['hstcms']);
         });
+        $this->app->singleton('module.service', function ($app) {
+            return new \Huasituo\Hstcms\Http\Middleware\ModuleService($app['hstcms']);
+        });
+        // $this->app->singleton('module.api.service', function ($app) {
+        //     return new \Huasituo\Hstcms\Http\Middleware\ModuleApiService($app['hstcms']);
+        // });
+        // $this->app->singleton('module.openapi.service', function ($app) {
+        //     return new \Huasituo\Hstcms\Http\Middleware\ModuleOpenApiService($app['hstcms']);
+        // });
     }
 }

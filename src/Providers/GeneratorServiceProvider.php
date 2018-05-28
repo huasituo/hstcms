@@ -21,7 +21,8 @@ class GeneratorServiceProvider extends ServiceProvider
     {
         $generators = [
             'command.make.hstcms'                   => \Huasituo\Hstcms\Console\Generators\MakeInstallCommand::class,
-            'command.make.hstcms.manage.founder'       => \Huasituo\Hstcms\Console\Generators\MakeManageFounderCommand::class,
+            'command.make.hstcms.manage.founder'    => \Huasituo\Hstcms\Console\Generators\MakeManageFounderCommand::class,
+            'command.make.hstcms.api'               => \Huasituo\Hstcms\Console\Generators\MakeApiCommand::class,
         ];
 
         foreach ($generators as $slug => $class) {

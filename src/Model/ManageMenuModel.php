@@ -147,9 +147,7 @@ class ManageMenuModel extends Model
      */
     static function verifyMenuConfig($menus)
     {
-        if(config('hook.version')) {
-            $menus = hst_hook('s_manage_menu', $menus, true);
-        }
+        $menus = hstcms_hook('s_manage_menu', $menus, true);
         $_menus = [];
         foreach ($menus as $key => $menu)
         {

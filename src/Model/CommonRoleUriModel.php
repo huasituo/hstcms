@@ -22,9 +22,7 @@ class CommonRoleUriModel extends Model
         } else {
             $data = Cache::get($cacheName);
         }
-        if(config('hook.version')) {
-            $data = hst_hook('s_common_role_uri', $data, true);
-        }
+        $data = hstcms_hook('s_common_role_uri', $data, true);
         return $data;
     }
 

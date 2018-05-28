@@ -3,11 +3,6 @@
 namespace Huasituo\Hstcms\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-// use Illuminate\Foundation\Bus\DispatchesJobs;
-// use Illuminate\Routing\Controller as BaseController;
-// use Illuminate\Foundation\Validation\ValidatesRequests;
-// use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -31,11 +26,15 @@ class BasicController extends Controller
             $this->viewData['skin_color'] = $skin_color;
         }
         //网站关闭
-        $icp = hst_config('site', 'info.icp') ? '<a href="http://www.miibeian.gov.cn/" target="_blank">'.hst_config('site', 'info.icp').'</a>' : '';
+        $icp = hst_config('site', 'icp') ? '<a href="http://www.miibeian.gov.cn/" target="_blank">'.hst_config('site', 'icp').'</a>' : '';
         $this->viewData['icp'] = $icp;
-        if (hst_config('site', 'visit.state')) {
-            $closeTmpl = hst_config('site', 'visit.message.template') ? hst_config('site', 'visit.message.template') : 'close';
-            $this->viewData['visitMessage'] = hst_config('site', 'visit.message') ? hst_config('site', 'visit.message') : hst_lang('hstcms::public.site.close.tips');
+        if (!hst_config('site', 'vstate')) {
+            $closeTmpl = hst_config('site', 'vmtemplate') ? hst_config('site', 'vmtemplate') : '';
+            $message = hst_config('site', 'vmessage') ? hst_config('site', 'vmessage') : hst_lang('hstcms::public.site.close.tips');
+            if(!$closeTmpl) {
+                return $this->showError($message);
+            }
+            $this->viewData['visitMessage'] = $message;
             return $this->loadTemplate($closeTmpl);
         }
     }
@@ -101,8 +100,13 @@ class BasicController extends Controller
                 return redirect($routeName)
                     ->withErrors($message)
                     ->withInput();
+            }                               //表单提交错误提示
+            if($routeName) {
+                return redirect()->route($routeName)
+                    ->withErrors($message)
+                    ->withInput();
             }
-            return redirect()->route($routeName)
+            return back()
                 ->withErrors($message)
                 ->withInput();
         } else if($with == 5) {                                     //返回上一级提示

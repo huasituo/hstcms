@@ -27,9 +27,22 @@ class LibrariesServiceProvider extends ServiceProvider
         $file = $this->app->make(Filesystem::class);
         $path    = realpath(__DIR__.'/../Libraries');
         $libraries = $file->glob($path.'/*.php');
-        foreach ($libraries as $librarie) 
-        {
+        foreach ($libraries as $librarie) {
             require_once($librarie);
+        }
+
+        $libraries2 = $file->glob($path.'/HuasituoApi/*.php');
+        foreach ($libraries2 as $librarie) {
+            require_once($librarie);
+        }
+
+        $libraries3 = $file->glob($path.'/HuasituoApi/Request/*.php');
+        foreach ($libraries3 as $librarie) {
+            require_once($librarie);
+        }
+        $fields = $file->glob($path.'/Fields/*.php');
+        foreach ($fields as $field) {
+            require_once($field);
         }
     }
 }

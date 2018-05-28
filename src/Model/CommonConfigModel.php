@@ -5,7 +5,7 @@ namespace Huasituo\Hstcms\Model;
 use Illuminate\Database\Eloquent\Model;
 use Cache; 
 
-class ConfigModel extends Model
+class CommonConfigModel extends Model
 {
     protected $table = 'common_config';
 
@@ -22,7 +22,7 @@ class ConfigModel extends Model
      */
     static function getConfigByNamespace($namespace) 
     {
-        $data = ConfigModel::where('namespace', $namespace)->get();
+        $data = CommonConfigModel::where('namespace', $namespace)->get();
         if (!empty($data)) {
             return $data;
         }
@@ -38,7 +38,7 @@ class ConfigModel extends Model
      */
     static function getConfigByName($namespace, $name) 
     {
-        $info = ConfigModel::where('namespace', $namespace)
+        $info = CommonConfigModel::where('namespace', $namespace)
                                     ->where('name', $name)
                                     ->first();
         if (!empty($info)) {
@@ -58,6 +58,7 @@ class ConfigModel extends Model
         foreach ($data as $value) {
             $value['issystem'] = isset($value['issystem']) && $value['issystem'] ? intval($value['issystem']) : 0 ;
             $value['desc'] = isset($value['desc']) && $value['desc'] ? $value['desc'] : '' ;
+            $value['value'] = isset($value['value']) && $value['value'] ? $value['value'] : '';
             self::storeConfig($value['namespace'], $value['name'], $value['value'], $value['issystem'], $value['desc']);
         }
         return true;
@@ -73,20 +74,20 @@ class ConfigModel extends Model
      * @param string $desc 配置项描述
      * @return boolean
      */
-    static function storeConfig($namespace, $name, $value, $issystem = 0, $desc = null) 
+    static function storeConfig($namespace, $name, $value = '', $issystem = 0, $desc = null) 
     {
         $array = [];
         list($array['vtype'], $array['value']) = self::_toString($value);
         $array['desc'] = isset($desc) && $desc ? $desc : '' ;
         isset($issystem) && $array['issystem'] = $issystem;
         if (self::getConfigByName($namespace, $name)) {
-            $result = ConfigModel::where('namespace', $namespace)
+            $result = CommonConfigModel::where('namespace', $namespace)
                                         ->where('name', $name)
                                         ->update($array);
         } else {
             $array['name'] = $name;
             $array['namespace'] = $namespace;
-            $result = ConfigModel::insert($array);
+            $result = CommonConfigModel::insert($array);
         }
         self::setCache($namespace);
         return $result;
@@ -100,8 +101,9 @@ class ConfigModel extends Model
      */
     static function deleteConfig($namespace) 
     {
-        $result = ConfigModel::where('namespace', $namespace)->delete();
-        Cache::forget($namespace);
+        $result = CommonConfigModel::where('namespace', $namespace)->delete();
+        $cacheName = 'config:'.$namespace;
+        Cache::forget($cacheName);
         return $result;
     }
 
@@ -114,7 +116,7 @@ class ConfigModel extends Model
      */
     static function deleteConfigByName($namespace, $name) 
     {
-        $result = ConfigModel::where('namespace', $namespace)
+        $result = CommonConfigModel::where('namespace', $namespace)
                                     ->where('name', $name)
                                     ->delete();
         self::setCache($namespace);
@@ -165,7 +167,7 @@ class ConfigModel extends Model
     static function setCache($namespace)
     {
         $cacheData = [];
-        $data = ConfigModel::getConfigByNamespace($namespace);
+        $data = CommonConfigModel::getConfigByNamespace($namespace);
         foreach ($data as $key => $value) {
             $cacheData[$value['name']] = [
                 'value'=>self::_getInfo($value['vtype'], $value['value']),
@@ -173,7 +175,8 @@ class ConfigModel extends Model
                 'desc'=>$value['desc']
             ];
         }
-        Cache::forever($namespace, $cacheData);
+        $cacheName = 'config:'.$namespace;
+        Cache::forever($cacheName, $cacheData);
         return $cacheData;
     }
 
@@ -182,7 +185,7 @@ class ConfigModel extends Model
      */
     static function setAllCache()
     {
-        $list = ConfigModel::select('namespace')->get();
+        $list = CommonConfigModel::select('namespace')->get();
         if($list) {
             foreach ($list as $key => $value) {
                 self::setCache($value['namespace']);
@@ -195,13 +198,14 @@ class ConfigModel extends Model
 
     static function get($namespace, $name = null, $isall = false)
     {
-        if (!Cache::has($namespace)) {
+        $cacheName = 'config:'.$namespace;
+        if (!Cache::has($cacheName)) {
             $data = self::setCache($namespace);
         } else {
-            $data = Cache::get($namespace);
+            $data = Cache::get($cacheName, []);
             if($name) {
                 if(!$isall) return isset($data[$name]['value']) ? $data[$name]['value'] : null;
-                return isset($data[$name]) ? $data[$name] : array();
+                return isset($data[$name]) ? $data[$name] : [];
             }
         }
         if(!$isall) {

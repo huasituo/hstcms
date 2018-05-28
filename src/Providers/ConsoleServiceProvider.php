@@ -3,6 +3,7 @@
 namespace Huasituo\Hstcms\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Filesystem\Filesystem;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,7 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->registerInfoCommand();
         $this->registerSeedCommand();
         $this->registerCacheCommand();
+        $this->registerHookCommand();
     }
 
     /**
@@ -67,5 +69,24 @@ class ConsoleServiceProvider extends ServiceProvider
             return new \Huasituo\Hstcms\Console\Commands\HstcmsCacheCommand($app['hstcms']);
         });
         $this->commands('command.hstcms.cache');
+    }
+
+    protected function registerHookCommand()
+    {
+        $this->app->singleton('command.hook.cache', function ($app) {
+            $file = $this->app->make(Filesystem::class);
+            return new \Huasituo\Hstcms\Console\Commands\HookCacheCommand($file);
+        });
+        $this->commands('command.hook.cache');
+
+        $this->app->singleton('command.hook.list', function ($app) {
+            return new \Huasituo\Hstcms\Console\Commands\HookListCommand($app['hstcms']);
+        });
+        $this->commands('command.hook.list');
+        
+        $this->app->singleton('command.hook.manage', function ($app) {
+            return new \Huasituo\Hstcms\Console\Commands\HookManageCommand($app['hstcms']);
+        });
+        $this->commands('command.hook.manage');
     }
 }

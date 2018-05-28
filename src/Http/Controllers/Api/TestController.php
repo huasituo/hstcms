@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 class TestController extends ApiBaseController
 {
 
-    public function index() 
+    public function index(Request $request) 
     {
-        return $this->message('测试成功');
+    	$apps = hst_api_app();
+        return $this->notFond();
     }
 }

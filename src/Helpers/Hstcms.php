@@ -4,10 +4,11 @@ use Jenssegers\Agent\Agent;                         //Agent
 use Illuminate\Support\Facades\Mail;                //邮箱服务
 use Illuminate\Support\Facades\Auth;                //认证
 
-use Huasituo\Hstcms\Model\ConfigModel;
+use Huasituo\Hstcms\Model\CommonConfigModel;
 use Huasituo\Hstcms\Model\ManageUserModel;
 use Huasituo\Hstcms\Libraries\HstcmsPinYin;
 use Huasituo\Hstcms\Libraries\Hststring;
+use Huasituo\Hstcms\Libraries\HstcmsFields;
 
 
 /**
@@ -38,7 +39,7 @@ if ( ! function_exists('hst_config'))
 {
 	function hst_config($namespace = '', $name  = null)
     {
-        $arrConfig = ConfigModel::get($namespace, $name);
+        $arrConfig = CommonConfigModel::get($namespace, $name);
         return $arrConfig;
     }
 }
@@ -55,8 +56,46 @@ if ( ! function_exists('hst_save_config'))
 {
 	function hst_save_config($namespace, $data = array())
     {
-        $arrConfig = ConfigModel::saveVals($namespace, $data);
+        $arrConfig = CommonConfigModel::saveVals($namespace, $data);
         return $arrConfig;
+    }
+}
+
+/**
+ * 返回错误信息
+ *
+ */
+
+if ( ! function_exists('hst_message'))
+{
+    function hst_message($message  = '', $state = 'error', $data = [])
+    {
+        $message = [
+            'state'=>'error',
+            'message'=> hst_lang($message),
+            'data'=>$data
+        ];
+        return $message;
+    }
+}
+
+if ( ! function_exists('hst_message_verify'))
+{
+    function hst_message_verify($message  = '')
+    {
+        if(!is_array($message)) {
+            return false;
+        }
+        if(!isset($message['state'])) {
+            return false;
+        }
+        if(!isset($message['message'])) {
+            return false;
+        }
+        if($message['state'] == 'error') {
+            return true;
+        }
+        return false;
     }
 }
 
@@ -152,7 +191,7 @@ if ( ! function_exists('hst_manager'))
         }
         $managers = decrypt($manager);
         list($uid, $username, $mobile, $email, $time) = explode('|', $managers);
-        $uinfo = ManageUserModel::where('uid', $uid)->first();
+        $uinfo = ManageUserModel::getUser($uid);
         if(!$uinfo) {
              $uinfo = array('uid'=>0, 'username'=>'system');
         }
@@ -422,14 +461,15 @@ if ( ! function_exists('hst_keyByGroup'))
  */
 if ( ! function_exists('hst_rand'))
 {    
-    function hst_rand($proArr, $randNum) {
+    function hst_rand($proArr) {
         $result = '';
         //概率数组的总概率精度
         $proSum = array_sum($proArr);
         //概率数组循环
         foreach ($proArr as $key => $proCur) {
+            $randNum = mt_rand(1, $proSum);
             if ($randNum <= $proCur) {
-                $result = $proCur;
+                $result = $key;
                 break;
             } else {
                 $proSum -= $proCur;
@@ -929,6 +969,64 @@ if ( ! function_exists('hst_strLen'))
     }
 }
 
+if ( ! function_exists('hst_buildContent'))
+{
+    /**
+     * 内容替换/支持语音包
+     *
+     * @return string
+     */
+    function hst_buildContent($content = '', $strReplaces = [])
+    {
+        $content = hst_lang($content);
+        if(!is_array($strReplaces)) {
+            return $content;
+        }
+        $search = [];
+        $replace = [];
+        foreach ($strReplaces as $key => $value) {
+            $search[] = '{'.$key.'}';
+            $replace[] = $value;
+        }
+        return str_replace($search, $replace, $content);
+    }
+}
+
+if ( ! function_exists('hst_api_app'))
+{
+    /**
+     * 
+     */
+    function hst_api_app($appid = '')
+    {
+        $cacheName = 'hstcms:api';
+        if (!Cache::has($cacheName)) {
+            $data = [];
+        } else {
+            $data = Cache::get($cacheName, []);
+        }
+        if($appid) {
+            return isset($data[$appid]) ? $data[$appid] : [];
+        }
+        return $data;
+    }
+}
+
+if ( ! function_exists('hst_get_value'))
+{
+    /**
+     * 
+     */
+    function hst_get_value($fieldType = '', $value = '', $cfg = [])
+    {
+        $hstcmsFields = new HstcmsFields();
+        $obj = $hstcmsFields->get($fieldType);
+        if (!is_object($obj)) {
+            return $value;
+        }
+        return $obj->output($value, $cfg);
+    }
+}
 
 
 

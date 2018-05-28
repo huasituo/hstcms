@@ -4,7 +4,8 @@ namespace Huasituo\Hstcms\Http\Controllers\Manage;
 
 use Huasituo\Hstcms\Model\CommonSmsModel;
 
-use Illuminate\Support\Facades\Mail;
+use Huasituo\Hstcms\Libraries\HstcmsSmsApi;
+
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Validator;
@@ -82,27 +83,29 @@ class SmsController extends BasicController
             'hstsmsConfig'=>['name'=>hst_lang('hstcms::manage.sms.setting'),'url'=>'manageSmsHstsmsConfig'],
             'payHstsms'=>['name'=>hst_lang('hstcms::manage.sms.purchase'),'url'=>'manageSmsHstsmsBuy'],
         ];
+        $HstcmsSmsApi = new HstcmsSmsApi();
+        $result = $HstcmsSmsApi->getSurplus();
         $this->viewData['navs'] = $this->getNavs('hstsmsConfig');
-        return $this->loadTemplate('sms.hstsms', ['config'=>$config]);
+        return $this->loadTemplate('sms.hstsms', ['config'=>$config, 'surplus'=>$result]);
     }
 
     public function hstsmsConfigSave(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'hstsmsdaima' => 'required',
+            'hstsmsappid' => 'required',
             'hstsmskey' => 'required',
             'hstsmssign' => 'required',
         ],[
-            'hstsmsdaima.required'=>hst_lang('hstcms::manage.sms.hstsmsdaima.empty'),
+            'hstsmsappid.required'=>hst_lang('hstcms::manage.sms.hstsmsappid.empty'),
             'hstsmskey.required'=>hst_lang('hstcms::manage.sms.hstsmskey.empty'),
             'hstsmssign.required'=>hst_lang('hstcms::manage.sms.hstsmssign.empty'),
         ]);
         if ($validator->fails()) {
             return $this->showError($validator->errors(), 2);
         }
-
+        $arrRequest = $request->all();
         $data =[
-            ['name'=>'hstsmsdaima', 'value'=>trim($arrRequest['hstsmsdaima'])],
+            ['name'=>'hstsmsappid', 'value'=>trim($arrRequest['hstsmsappid'])],
             ['name'=>'hstsmskey', 'value'=>trim($arrRequest['hstsmskey'])],
             ['name'=>'hstsmssign', 'value'=>trim($arrRequest['hstsmssign'])],
         ];
@@ -120,8 +123,18 @@ class SmsController extends BasicController
             'hstsmsConfig'=>['name'=>hst_lang('hstcms::manage.sms.setting'),'url'=>'manageSmsHstsmsConfig'],
             'payHstsms'=>['name'=>hst_lang('hstcms::manage.sms.purchase'),'url'=>'manageSmsHstsmsBuy'],
         ];
+        $HstcmsSmsApi = new HstcmsSmsApi();
+        $result = $HstcmsSmsApi->getSurplus();
+
         $this->viewData['navs'] = $this->getNavs('payHstsms');
-        return $this->loadTemplate('sms.hstsms_buy', ['config'=>$config]);
+        return $this->loadTemplate('sms.hstsms_buy', ['config'=>$config, 'surplus'=>$result]);
+    }
+
+    public function hstsmsBuys(Request $request) 
+    {
+        $HstcmsSmsApi = new HstcmsSmsApi();
+        $result = $HstcmsSmsApi->getPay($request->get('money'));
+        return redirect($result);
     }
 
     public function log(Request $request)

@@ -6,16 +6,10 @@ use Huasituo\Hstcms\Model\ManageOperationLogModel;
 
 use App\Http\Controllers\Controller;
 
-// use Illuminate\Foundation\Bus\DispatchesJobs;
-// use Illuminate\Routing\Controller as BaseController;
-// use Illuminate\Foundation\Validation\ValidatesRequests;
-// use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Route;
 
 class BasicController extends Controller
 {
-    // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
 	public $navs = array();                    //内页导航
     public $viewData = array();                //传递给模版的共享内容
     protected $lav_route = '';                 //路由名称
@@ -95,7 +89,7 @@ class BasicController extends Controller
     	return $html;
     }
 
-    public function addOperationLog($remark = '', $change = '', $newdata = array(), $olddata = array())
+    public function addOperationLog($remark = '', $change = '', $newdata = [], $olddata = [])
     {
         if(hst_config('safe', 'operation')) return ;
         return ManageOperationLogModel::addLog(hst_manager(), $remark, $change, $newdata, $olddata);

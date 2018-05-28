@@ -12,14 +12,12 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// Route::get('/manage', function (Request $request) {
-   
-// })->middleware('auth:api');
 Route::group([
-    'domain'=> '',
-    'prefix' => '',
     'middleware'=>['api.service']
 ], function() {
-	Route::get('/test', 'Api\TestController@index')->name('hstcmsApiTextIndex');
+	Route::get('/', function(){
+		echo '欢迎Cms Api接口';
+	})->name('hstcmsApi');
+	Route::get('/test', 'TestController@index')->name('hstcmsApiText');
+	Route::post('/test', 'TestController@index')->name('hstcmsApiTextPost');
 });

@@ -23,7 +23,7 @@ class AttachmentController extends BasicController
     {
     	$config = hst_config('attachment');
         if(!isset($config['storage']) || !$config['storage']) {
-            $config['storage'] = 'local';
+            $config['storage'] = 'public';
         }
         $storages = AttachmentModel::getStorages();
         $this->viewData['navs'] = $this->getNavs('index');
@@ -47,11 +47,11 @@ class AttachmentController extends BasicController
                 if (!empty($value['ext'])) $_extsize[$value['ext']] = abs(intval($value['size']));
             }
         }
-        $arrRequest['storage'] = $arrRequest['storage'] ? $arrRequest['storage'] : 'local';
+        $arrRequest['storage'] = $arrRequest['storage'] ? $arrRequest['storage'] : 'public';
         $arrRequest['dirs'] = $arrRequest['dirs'] ? $arrRequest['dirs'] : 'ymd';
         $data =[
             ['name'=>'extsize', 'value'=>$_extsize, 'issystem'=>1],
-            ['name'=>'storage', 'value'=>$arrRequest['storage'] ? trim($arrRequest['storage']) : 'local'],
+            ['name'=>'storage', 'value'=>$arrRequest['storage'] ? trim($arrRequest['storage']) : 'public'],
             ['name'=>'dirs', 'value'=>trim($arrRequest['dirs'])]
         ];
         $configData = [

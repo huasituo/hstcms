@@ -35,7 +35,10 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapWebRoutes();
+        
         $this->mapApiRoutes();
+
+        $this->mapOpenApiRoutes();
     }
 
     /**
@@ -66,10 +69,24 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => 'api',
-            'namespace'  => $this->namespace,
-            'prefix'     => 'api',
+            'namespace'  => $this->namespace.'\Api',
+            'domain'     => config('hstcms.apiDomain') ? config('hstcms.apiDomain') : env('APP_URL'),
+            'prefix'     => config('hstcms.apiDomain') ? '' : config('hstcms.apiPrefix') ? config('hstcms.apiPrefix') : 'api',
         ], function ($router) {
              require __DIR__.'/../Routes/api.php';
+        });
+    }
+
+    //开放平台API
+    protected function mapOpenApiRoutes()
+    {
+        Route::group([
+            'middleware' => 'api',
+            'namespace'  => $this->namespace.'\Open',
+            'prefix'     => config('openapi.apiDomain') ? config('openapi.apiDomain') : env('APP_URL'),
+            'prefix'     => config('openapi.apiDomain') ? 'api/cms' : 'open/api/cms',
+        ], function ($router) {
+            require __DIR__.'/../Routes/openapi.php';
         });
     }
 }

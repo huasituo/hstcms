@@ -7,12 +7,12 @@ use Huasituo\Hstcms\Model\AttachmentModel;
 use League\Flysystem\Util\MimeType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
 /**
 * 
 */
 class HstcmsUpload
 {
-	public $storages = [];
 	public $saveDir = '';
 	public $allowExtsizes = [];
 	public $app = 'system';
@@ -23,14 +23,26 @@ class HstcmsUpload
 	public $clientName = '';
 	public $file = '';
 
-	public function __construct() {
+    public $disks = 'public';
+
+	public function __construct() 
+    {
 		self::setStorage();
 	}
+
+    public function setStorage($disks = '')
+    {
+        if($disks) {
+            $this->disks = $disks;
+            return $this;
+        }
+        $this->disks = hst_config('attachment', 'storage');
+    }
 
 	public function  setFile($file) 
 	{
 		if(!$file) {
-			return new HstcmsError('no file');
+			return hst_message('no file');
 		}
 		$attachmentConfig = hst_config('attachment');
 		$this->file = $file;
@@ -43,28 +55,28 @@ class HstcmsUpload
             $mimeType = MimeType::getExtensionToMimeTypeMap();
             if (!empty($extsizes)) {
                 if (!in_array($this->extension, $extsizes)) {
-                    return new HstcmsError('hstcms::public.file.type.is.not.allowed.to.upload');
+                    return hst_message('hstcms::public.file.type.is.not.allowed.to.upload');
                 }
             }
             if (isset($this->allowExtension) && $this->allowExtension) {
                 foreach ($this->allowExtension as $item) {
                     if (!in_array(FileClass::getMimeTypeByExtension($item), $mimeType)) {
-                    	return new HstcmsError('hstcms::public.file.type.is.not.allowed.to.upload');
+                    	return hst_message('hstcms::public.file.type.is.not.allowed.to.upload');
                     }
                 }
             }
             if (!in_array($file->getMimeType(), $mimeType)) {
-                return new HstcmsError('hstcms::public.unknown.file.type');
+                return hst_message('hstcms::public.unknown.file.type');
             }
             $attachmentConfig['extsize'][$this->extension] = isset($attachmentConfig['extsize'][$this->extension]) ? $attachmentConfig['extsize'][$this->extension] : 2048;
             if ($this->fileSize > $file->getMaxFilesize() || $this->fileSize > $attachmentConfig['extsize'][$this->extension] * 1024) {
-                return new HstcmsError('hstcms::public.upload.files.beyond.the server.size.limit');
+                return hst_message('hstcms::public.upload.files.beyond.the server.size.limit');
             }
 			$this->setDirs();
 			$this->setFileName();
 			return $this;
         }
-        return new HstcmsError('hstcms::public.upload.error');
+        return hst_message('hstcms::public.upload.error');
 	}
 
 	public function setExtsize($allowExtsizes = []) 
@@ -103,22 +115,16 @@ class HstcmsUpload
 		return $this;
 	}
 
-	public function setStorage() 
-	{
-		$storage = hst_config('attachment', 'storage');
-        $this->storages = AttachmentModel::getStorages($storage);
-	}
-
 	public function doSave() 
 	{
         //判断文件上传过程中是否出错
         if ($this->file->isValid()) {
-	        $status = Storage::disk($this->storages['alias'])->put($this->saveDir . '/' . $this->fileName, file_get_contents($this->file->getRealPath()));
+            $status = Storage::disk($this->disks)->putFileAs($this->saveDir, $this->file, $this->fileName);
 	        if($status) {
 	        	return true;
 	        }
         }
-        return new HstcmsError('hstcms::public.upload.error');
+        return hst_message('hstcms::public.upload.error');
 	}
 
 	public function getData ()
@@ -127,14 +133,14 @@ class HstcmsUpload
     		'name'=>$this->clientName,
     		'type'=>$this->extension,
     		'size'=>$this->fileSize,
-    		'path'=>$this->saveDir . $this->fileName,
+    		'path'=>$this->saveDir .'/'. $this->fileName,
     		'ifthumb'=>0,
     		'created_userid'=>0,
     		'created_time'=>hst_time(),
     		'app'=>$this->app,
     		'app_id'=>0,
     		'descrip'=>'',
-    		'disk'=>$this->storages['alias']
+    		'disk'=>$this->disks
     	];
     	$aid = AttachmentModel::insertGetId($postData);
     	$data = [
@@ -147,6 +153,9 @@ class HstcmsUpload
     		'aid'=>$aid,
     		'descrip'=>'',
     	];
+        if($this->disks != 'local') {
+            $data['url'] = storage::disk($this->disks)->url($data['path']);
+        }
     	return $data;
 	}
 

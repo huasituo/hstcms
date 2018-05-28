@@ -2,6 +2,7 @@
 
 namespace Huasituo\Hstcms\Http\Controllers\Manage;
 
+use Huasituo\Hstcms\Libraries\HstcmsEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -71,10 +72,11 @@ class EmailController extends BasicController
         if ($validator->fails()) {
             return $this->showError($validator->errors(), 2);
         }
-        $flag = Mail::queue('hstcms::mail.test', [], function($message) use($toemail) {
-            $message ->to($toemail)->subject(hst_lang('hstcms::manage.email.test.title'));
-        });
-        if($flag == 1) {
+        // $flag = Mail::queue('hstcms::mail.test', [], function($message) use($toemail) {
+        //     $message ->to($toemail)->subject(hst_lang('hstcms::manage.email.test.title'));
+        // });
+        $flag = HstcmsEmail::sendMail(['email'=>$toemail, 'title'=>hst_lang('hstcms::manage.email.test.title')], 'hstcms::mail.test');
+        if(!$flag) {
             $this->addOperationLog(hst_lang('hstcms::public.to').$toemail.hst_lang('hstcms::manage.email.test.success'));
             return $this->showMessage('hstcms::public.send.success');
         } else {

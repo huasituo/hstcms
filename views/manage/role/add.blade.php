@@ -12,10 +12,10 @@
     <div class="hstui-frame-title">{!! hst_lang('hstcms::public.add', 'hstcms::public.role') !!}</div>
     <div class="hstui-frame-content">
       <div class="hstui-form-group hstui-form-group-sm @if($errors->has('name')) hstui-form-error @endif" id="J_form_error_name">
-        <label for="doc-ipt-3-1" class="hstui-u-sm-2 hstui-form-label">{!! hst_lang('hstcms::manage.role.name') !!}</label>
-        <div class="hstui-u-sm-10">
-          <input type="text" name="name" id="hstcms_name" value="{{ hst_value('name') }}" class="hstui-form-field hstui-length-6" placeholder="{{ hst_lang('hstcms::manage.enter.one.role.name') }}">
-          <span class="hstui-form-input-tips" id="J_form_tips_name"></span>
+        <label class="hstui-u-sm-2 hstui-form-label">{!! hst_lang('hstcms::manage.role.name') !!}</label>
+        <div class="hstui-u-sm-10 hstui-form-input">
+          <input type="text" name="name" id="hstcms_name" value="{{ hst_value('name') }}" class="hstui-input hstui-length-3" placeholder="">
+          <span class="hstui-form-input-tips" id="J_form_tips_name" data-tips="{{ hst_lang('hstcms::manage.enter.one.role.name') }}">{{ hst_lang('hstcms::manage.enter.one.role.name') }}</span>
         </div>
       </div>
       <div class="hstui-form-group hstui-form-group-sm">
@@ -35,7 +35,7 @@
                 @if($menu['items'])
                  @foreach($menu['items'] as $k=>$v)  
                 <div class="hstui-form-group hstui-form-group-sm">
-                  <label for="doc-ipt-3-1" class="hstui-u-sm-2 hstui-form-label">{!! $v['name'] !!}</label>
+                  <label class="hstui-u-sm-2 hstui-form-label">{!! $v['name'] !!}</label>
                   <div class="hstui-u-sm-10">
                     @if(isset($v['url']) && $v['url'])
                       @foreach($roleUriDatas[$k] as $r=>$rv)
@@ -65,13 +65,11 @@
           </div>
         </div>
       </div>
-      <div class="hstui-form-group">
-        <div class="hstui-u-sm-10 hstui-u-sm-offset-2">
-          <button type="submit" class="hstui-button hstui-button-default J_ajax_submit_btn">{!! hst_lang('hstcms::public.submit') !!}</button>
-        </div>
-      </div>
     </div>
   </div>
+    <div class="hstui-form-button">
+       <button type="submit" class="hstui-button hstui-button-primary J_ajax_submit_btn">{{ hst_lang('hstcms::public.save') }}</button>
+    </div>
 </form>
 </div>
 <script>

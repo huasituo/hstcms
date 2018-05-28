@@ -27,7 +27,7 @@ class CheckAuth
         }
         $managers = decrypt($manager);
         list($uid, $username, $mobile, $email, $time) = explode('|', $managers);
-        $uinfo = ManageUserModel::where('uid', $uid)->first();
+        $uinfo = ManageUserModel::getUser($uid);
         if(!$uinfo) {
             $request->session()->forget('manager');
             return redirect()->route('manageAuthLogin');
@@ -63,6 +63,7 @@ class CheckAuth
                 return back()->with(['state'=>'error', 'message'=> hst_lang('hstcms::manage.no.auth')]);
             }
         }
+        $request->attributes->add(['managerInfo'=>$uinfo]);    //添加参数
         return $next($request);
     }
 }

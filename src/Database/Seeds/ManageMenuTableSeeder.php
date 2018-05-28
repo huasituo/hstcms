@@ -15,10 +15,9 @@ class ManageMenuTableSeeder extends Seeder
     public function run()
     {
         \DB::table('manage_menu')->delete();
-        \DB::table('manage_menu')->insert(array (
-            0 => 
-            array (
-                'id' => 3,
+        \DB::table('manage_menu')->insert([
+            [
+                'id' => 1,
                 'name' => '系统配置',
                 'ename' => 'system',
                 'icon' => '',
@@ -26,11 +25,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'root',
                 'parents' => '',
                 'level' => 1,
-                'module' => 'manage',
-            ),
-            1 => 
-            array (
-                'id' => 4,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 2,
                 'name' => '管理中心',
                 'ename' => 'manage',
                 'icon' => '',
@@ -38,11 +36,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => '',
                 'level' => 2,
-                'module' => 'manage',
-            ),
-            2 => 
-            array (
-                'id' => 5,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 3,
                 'name' => '创始人',
                 'ename' => 'manageFounderIndex',
                 'icon' => '',
@@ -50,11 +47,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'manage',
                 'level' => 3,
-                'module' => 'manage',
-            ),
-            3 => 
-            array (
-                'id' => 6,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 4,
                 'name' => '工作人员',
                 'ename' => 'manageUserIndex',
                 'icon' => '',
@@ -62,11 +58,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'manage',
                 'level' => 3,
-                'module' => 'manage',
-            ),
-            4 => 
-            array (
-                'id' => 7,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 5,
                 'name' => '安全配置',
                 'ename' => 'manageSafeIndex',
                 'icon' => '',
@@ -74,11 +69,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'manage',
                 'level' => 3,
-                'module' => 'manage',
-            ),
-            5 => 
-            array (
-                'id' => 8,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 6,
                 'name' => '日志管理',
                 'ename' => 'manageLogRequest',
                 'icon' => '',
@@ -86,11 +80,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'manage',
                 'level' => 3,
-                'module' => 'manage',
-            ),
-            6 => 
-            array (
-                'id' => 9,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 7,
                 'name' => '菜单权限',
                 'ename' => 'manageMenuNav',
                 'icon' => '',
@@ -98,11 +91,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'manage',
                 'level' => 3,
-                'module' => 'manage',
-            ),
-            7 => 
-            array (
-                'id' => 10,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 8,
                 'name' => '全局',
                 'ename' => 'config',
                 'icon' => '',
@@ -110,10 +102,31 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => '',
                 'level' => 2,
-                'module' => 'manage',
-            ),
-            8 => 
-            array (
+                'module' => 'manage'
+            ],
+            [
+                'id' => 9,
+                'name' => hst_lang('hstcms::manage.config.site'),
+                'ename' => 'manageConfigIndex',
+                'icon' => '',
+                'url' => 'manageConfigIndex',
+                'parent' => 'system',
+                'parents' => 'config',
+                'level' => 3,
+                'module' => 'hstcms'
+            ],
+            [
+                'id' => 10,
+                'name' => hst_lang('hstcms::manage.config.global'),
+                'ename' => 'manageConfigGlobal',
+                'icon' => '',
+                'url' => 'manageConfigGlobal',
+                'parent' => 'system',
+                'parents' => 'config',
+                'level' => 3,
+                'module' => 'hstcms'
+            ],
+            [
                 'id' => 11,
                 'name' => '电子邮箱',
                 'ename' => 'manageConfigEmailIndex',
@@ -122,11 +135,10 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'config',
                 'level' => 3,
-                'module' => 'manage',
-            ),
-            9 => 
-            array (
-                'id' => 13,
+                'module' => 'manage'
+            ],
+            [
+                'id' => 12,
                 'name' => '工具',
                 'ename' => 'tool',
                 'icon' => '',
@@ -134,10 +146,9 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => '',
                 'level' => 2,
-                'module' => 'manage',
-            ),
-        ));
-        
-        
+                'module' => 'manage'
+            ]
+
+        ]);
     }
 }

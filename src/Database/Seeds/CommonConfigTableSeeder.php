@@ -17,6 +17,15 @@ class CommonConfigTableSeeder extends Seeder
         \DB::table('common_config')->delete();
         \DB::table('common_config')->insert([
                 [
+                    'name' => 'name',
+                    'namespace' => 'site',
+                    'value' => '我的网站',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL
+                ],[
                     'name' => 'icp',
                     'namespace' => 'site',
                     'value' => '',
@@ -26,7 +35,34 @@ class CommonConfigTableSeeder extends Seeder
                     'created_at' => NULL,
                     'updated_at' => NULL
                 ], [
-                    'name' => 'time.cv',
+                    'name' => 'headerhtml',
+                    'namespace' => 'site',
+                    'value' => '',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL
+                ], [
+                    'name' => 'footerhtml',
+                    'namespace' => 'site',
+                    'value' => '',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL
+                ], [
+                    'name' => 'timezone',
+                    'namespace' => 'site',
+                    'value' => 'Asia/Shanghai',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL
+                ], [
+                    'name' => 'timecv',
                     'namespace' => 'site',
                     'value' => '0',
                     'vtype' => 'string',
@@ -35,16 +71,7 @@ class CommonConfigTableSeeder extends Seeder
                     'created_at' => NULL,
                     'updated_at' => NULL
                 ], [
-                    'name' => 'closemsg',
-                    'namespace' => 'site',
-                    'value' => '<h1>暂时关闭注册</h1>',
-                    'vtype' => 'string',
-                    'desc' => '',
-                    'issystem' => 1,
-                    'created_at' => NULL,
-                    'updated_at' => NULL
-                ], [
-                    'name' => 'visit.state',
+                    'name' => 'vstate',
                     'namespace' => 'site',
                     'value' => '0',
                     'vtype' => 'string',
@@ -53,7 +80,7 @@ class CommonConfigTableSeeder extends Seeder
                     'created_at' => NULL,
                     'updated_at' => NULL
                 ], [
-                    'name' => 'visit.message',
+                    'name' => 'vmessage',
                     'namespace' => 'site',
                     'value' => '网站正关闭维护中，请稍微访问',
                     'vtype' => 'string',
@@ -62,9 +89,18 @@ class CommonConfigTableSeeder extends Seeder
                     'created_at' => NULL,
                     'updated_at' => NULL
                 ], [
-                    'name' => 'visit.message.template',
+                    'name' => 'vmtemplate',
                     'namespace' => 'site',
-                    'value' => 'close',
+                    'value' => 'hstcms::common.close',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 1,
+                    'created_at' => NULL,
+                    'updated_at' => NULL
+                ], [
+                    'name' => 'url',
+                    'namespace' => 'site',
+                    'value' => '',
                     'vtype' => 'string',
                     'desc' => '',
                     'issystem' => 1,
@@ -170,42 +206,6 @@ class CommonConfigTableSeeder extends Seeder
                     'created_at' => NULL,
                     'created_at' => NULL
                 ], [
-                    'name' => 'host',
-                    'namespace' => 'ftp',
-                    'value' => '',
-                    'vtype' => 'string',
-                    'desc' => '',
-                    'issystem' => 0,
-                    'created_at' => NULL,
-                    'created_at' => NULL
-                ], [
-                    'name' => 'port',
-                    'namespace' => 'ftp',
-                    'value' => '21',
-                    'vtype' => 'string',
-                    'desc' => '',
-                    'issystem' => 0,
-                    'created_at' => NULL,
-                    'created_at' => NULL
-                ], [
-                    'name' => 'username',
-                    'namespace' => 'ftp',
-                    'value' => '',
-                    'vtype' => 'string',
-                    'desc' => '',
-                    'issystem' => 0,
-                    'created_at' => NULL,
-                    'created_at' => NULL
-                ], [
-                    'name' => 'password',
-                    'namespace' => 'ftp',
-                    'value' => '',
-                    'vtype' => 'string',
-                    'desc' => '',
-                    'issystem' => 0,
-                    'created_at' => NULL,
-                    'created_at' => NULL
-                ], [
                     'name' => 'extsize',
                     'namespace' => 'attachment',
                     'value' => 'a:7:{s:3:"jpg";i:2048;s:3:"gif";i:2048;s:3:"png";i:2048;s:3:"bmp";i:2048;s:3:"xls";i:2048;s:4:"jpeg";i:2048;s:3:"zip";i:2048;}',
@@ -268,242 +268,106 @@ class CommonConfigTableSeeder extends Seeder
                     'issystem' => 0,
                     'created_at' => NULL,
                     'created_at' => NULL
+                ], [
+                    'name' => 'hstsmsdaima',
+                    'namespace' => 'sms',
+                    'value' => '',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 0,
+                    'created_at' => NULL,
+                    'created_at' => NULL
+                ], [
+                    'name' => 'hstsmskey',
+                    'namespace' => 'sms',
+                    'value' => '',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 0,
+                    'created_at' => NULL,
+                    'created_at' => NULL
+                ], [
+                    'name' => 'hstsmssign',
+                    'namespace' => 'sms',
+                    'value' => '',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 0,
+                    'created_at' => NULL,
+                    'created_at' => NULL
+                ],[
+                    'name' => 'width',
+                    'namespace' => 'captcha',
+                    'value' => '120',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 0,
+                    'created_at' => NULL,
+                    'created_at' => NULL
+                ],[
+                    'name' => 'height',
+                    'namespace' => 'captcha',
+                    'value' => '60',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 0,
+                    'created_at' => NULL,
+                    'created_at' => NULL
+                ],[
+                    'name' => 'length',
+                    'namespace' => 'captcha',
+                    'value' => '5',
+                    'vtype' => 'string',
+                    'desc' => '',
+                    'issystem' => 0,
+                    'created_at' => NULL,
+                    'created_at' => NULL
                 ]
-            ]
 
-            //array (
-            // 0 => 
-            // array (
-            //     'name' => 'icp',
-            //     'namespace' => 'site',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => NULL,
-            // ),
-            // 1 => 
-            // array (
-            //     'name' => 'time.cv',
-            //     'namespace' => 'site',
-            //     'value' => '0',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => NULL,
-            // ),
-            // 2 => 
-            // array (
-            //     'name' => 'closemsg',
-            //     'namespace' => 'site',
-            //     'value' => '<h1>暂时关闭注册</h1>',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => NULL,
-            // ),
-            // 3 => 
-            // array (
-            //     'name' => 'visit.state',
-            //     'namespace' => 'site',
-            //     'value' => '0',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => NULL,
-            // ),
-            // 4 => 
-            // array (
-            //     'name' => 'visit.message',
-            //     'namespace' => 'site',
-            //     'value' => '网站正关闭维护中，请稍微访问',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => NULL,
-            // ),
-            // 5 => 
-            // array (
-            //     'name' => 'visit.message.template',
-            //     'namespace' => 'site',
-            //     'value' => 'close',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => NULL,
-            // ),
-            // 6 => 
-            // array (
-            //     'name' => 'host',
-            //     'namespace' => 'email',
-            //     'value' => 'smtp.ym.163.com',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 7 => 
-            // array (
-            //     'name' => 'port',
-            //     'namespace' => 'email',
-            //     'value' => '25',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 8 => 
-            // array (
-            //     'name' => 'from',
-            //     'namespace' => 'email',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 9 => 
-            // array (
-            //     'name' => 'from.name',
-            //     'namespace' => 'email',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 10 => 
-            // array (
-            //     'name' => 'auth',
-            //     'namespace' => 'email',
-            //     'value' => '1',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 11 => 
-            // array (
-            //     'name' => 'user',
-            //     'namespace' => 'email',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 12 => 
-            // array (
-            //     'name' => 'password',
-            //     'namespace' => 'email',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 11:02:13',
-            // ),
-            // 13 => 
-            // array (
-            //     'name' => 'manage.request',
-            //     'namespace' => 'safe',
-            //     'value' => '1',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-06 07:46:56',
-            // ),
-            // 14 => 
-            // array (
-            //     'name' => 'manage.operation',
-            //     'namespace' => 'safe',
-            //     'value' => '1',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-06 07:46:56',
-            // ),
-            // 15 => 
-            // array (
-            //     'name' => 'manage.login.ips',
-            //     'namespace' => 'safe',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-06 07:46:56',
-            // ),
-            // 16 => 
-            // array (
-            //     'name' => 'manage.login.ctime',
-            //     'namespace' => 'safe',
-            //     'value' => '60',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 1,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-06 07:46:56',
-            // ),
-            // 17 => 
-            // array (
-            //     'name' => 'host',
-            //     'namespace' => 'ftp',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 16:47:46',
-            // ),
-            // 18 => 
-            // array (
-            //     'name' => 'port',
-            //     'namespace' => 'ftp',
-            //     'value' => '21',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 16:47:46',
-            // ),
-            // 19 => 
-            // array (
-            //     'name' => 'username',
-            //     'namespace' => 'ftp',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 16:47:46',
-            // ),
-            // 20 => 
-            // array (
-            //     'name' => 'password',
-            //     'namespace' => 'ftp',
-            //     'value' => '',
-            //     'vtype' => 'string',
-            //     'desc' => '',
-            //     'issystem' => 0,
-            //     'created_at' => NULL,
-            //     'updated_at' => '2017-12-03 16:47:46',
-            // ),
-            // )
+
+
+
+
+
+                // ,
+                // [
+                //     'name' => 'host',
+                //     'namespace' => 'ftp',
+                //     'value' => '',
+                //     'vtype' => 'string',
+                //     'desc' => '',
+                //     'issystem' => 0,
+                //     'created_at' => NULL,
+                //     'created_at' => NULL
+                // ], [
+                //     'name' => 'port',
+                //     'namespace' => 'ftp',
+                //     'value' => '21',
+                //     'vtype' => 'string',
+                //     'desc' => '',
+                //     'issystem' => 0,
+                //     'created_at' => NULL,
+                //     'created_at' => NULL
+                // ], [
+                //     'name' => 'username',
+                //     'namespace' => 'ftp',
+                //     'value' => '',
+                //     'vtype' => 'string',
+                //     'desc' => '',
+                //     'issystem' => 0,
+                //     'created_at' => NULL,
+                //     'created_at' => NULL
+                // ], [
+                //     'name' => 'password',
+                //     'namespace' => 'ftp',
+                //     'value' => '',
+                //     'vtype' => 'string',
+                //     'desc' => '',
+                //     'issystem' => 0,
+                //     'created_at' => NULL,
+                //     'created_at' => NULL
+                // ]
+            ]
         );
     }
 }
