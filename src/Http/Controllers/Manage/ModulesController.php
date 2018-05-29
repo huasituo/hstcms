@@ -131,7 +131,7 @@ class ModulesController extends BasicController
             return $this->showError(hst_lang('hstcms::manage.modules.no.ext'), 2);
         }
         $moduleInfo = ManageModulesModel::where('slug', $slug)->first();
-        $moduleInstallLog = Module::where('slug', $slug);
+        $moduleInstallLog = Module::where('slug', $slug)->toArray();
         if($moduleInfo && $moduleInstallLog) {
             return $this->showError(hst_lang('hstcms::manage.modules.install.donet'), 2);
         }

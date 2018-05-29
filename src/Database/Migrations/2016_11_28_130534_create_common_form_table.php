@@ -20,6 +20,7 @@ class CreateCommonFormTable extends Migration
             $table->string('module', 30)->default('site')->comment(hst_lang('hstcms::public.module'));
             $table->string('table', 30)->comment(hst_lang('hstcms::public.table'));
             $table->integer('relatedid')->nullable()->comment();
+            $table->integer('times')->nullable()->comment(hst_lang('hstcms::public.times'));
         });
     }
 

@@ -29,17 +29,13 @@ class HstcmsServiceProvider extends ServiceProvider
             __DIR__.'/../config/hstcms.php' => config_path('hstcms.php'),
         ], 'config');
         $this->loadViewsFrom(__DIR__.'/../views', 'hstcms');
-        // $this->publishes([
-        //     __DIR__.'/../views'=>base_path('resources/views/vendor/hstcms'),
-        // ]);
         $this->publishes([
             __DIR__.'/../assets' => public_path('assets'),
         ], 'public');
         $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
         $this->loadTranslationsFrom(__DIR__.'/../translations', 'hstcms');
-        // $this->publishes([
-        //     __DIR__.'/../translations' => resource_path('lang/vendor/hstcms'),
-        // ]);
+        //处理单页多元化模版
+        $this->loadViewsFrom(public_path('theme/special'), 'special');
     }
 
     /**
@@ -50,7 +46,6 @@ class HstcmsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/hstcms.php', 'hstcms'
         );
-
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(HelperServiceProvider::class);
         $this->app->register(ConsoleServiceProvider::class);

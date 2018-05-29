@@ -18,7 +18,7 @@ class CreateCommonRoleTable extends Migration
             $table->string('name')->nullable()->comment(hst_lang('hstcms::public.name'));
             $table->text('auths')->comment(hst_lang('hstcms::public.auths'));
             $table->string('module', 30)->default('manage')->comment(hst_lang('hstcms::public.module'));
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 

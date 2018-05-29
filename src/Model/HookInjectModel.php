@@ -83,9 +83,6 @@ class HookInjectModel extends Model
                 $data[$value['name']] = HookInjectModel::where('hook_name', $value['name'])->select(['hook_name','files', 'class', 'fun'])->get()->toArray();
             }
         }
-        if(!$data && config('hook.default.hookInject')) {
-            $data = config('hook.default.hookInject');
-        }
         Cache::forever('hookInject', $data);
         return $data;
     }

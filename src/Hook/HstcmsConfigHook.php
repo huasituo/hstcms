@@ -95,6 +95,16 @@ class HstcmsConfigHook
             'level' => 3,
             'module' => 'hstcms'
         ];
+        $data['manageSpecialIndex'] = [
+            'name' => hst_lang('hstcms::manage.special.manage'),
+            'ename' => 'manageSpecialIndex',
+            'icon' => '',
+            'url' => 'manageSpecialIndex',
+            'parent' => 'system',
+            'parents' => 'config',
+            'level' => 3,
+            'module' => 'hstcms'
+        ];
         return $data;
     }
 
@@ -557,6 +567,68 @@ class HstcmsConfigHook
             'parent' => 'manageFormIndex',
             'module' => 'hstcms'
         ];
+
+
+
+        $data['manageSpecialIndex'] = [
+            'name' => hst_lang('hstcms::manage.special.manage'),
+            'remark' => 'special',
+            'ename' => 'manageSpecialIndex',
+            'uri' => 'special',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialCache'] = [
+            'name' => hst_lang('hstcms::public.cache'),
+            'remark' => 'special cache',
+            'ename' => 'manageSpecialCache',
+            'uri' => 'special/cache',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialAdd'] = [
+            'name' => hst_lang('hstcms::public.add'),
+            'remark' => 'special add',
+            'ename' => 'manageSpecialAdd',
+            'uri' => 'special/add',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialAddSave'] = [
+            'name' => hst_lang('hstcms::public.add','hstcms::public.save'),
+            'remark' => 'special add save',
+            'ename' => 'manageSpecialAddSave',
+            'uri' => 'special/add/save',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialEdit'] = [
+            'name' => hst_lang('hstcms::public.edit'),
+            'remark' => 'special edit',
+            'ename' => 'manageSpecialEdit',
+            'uri' => 'special/edit/{id}',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialEditSave'] = [
+            'name' => hst_lang('hstcms::public.edit','hstcms::public.save'),
+            'remark' => 'special edit save',
+            'ename' => 'manageSpecialEditSave',
+            'uri' => 'special/edit/save',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialDelete'] = [
+            'name' => hst_lang('hstcms::public.delete'),
+            'remark' => 'special delete',
+            'ename' => 'manageSpecialDelete',
+            'uri' => 'special/delete/{id}',
+            'parent' => 'manageSpecialIndex',
+            'module' => 'hstcms'
+        ];
+
+
+
         return $data;
     }
 }

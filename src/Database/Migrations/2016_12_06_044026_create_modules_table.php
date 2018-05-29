@@ -22,6 +22,7 @@ class CreateModulesTable extends Migration
             $table->string('slug', 50)->default('')->comment();
             $table->string('version', 50)->comment();
             $table->string('enabled', 10)->comment();
+            $table->integer('times')->nullable()->comment(hst_lang('hstcms::public.times'));
         });
     }
 

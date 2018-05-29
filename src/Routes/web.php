@@ -159,7 +159,15 @@ Route::group([
     Route::get('/fields/edit/{id}', 'Manage\FieldsController@edit')->name('manageFieldsEdit');
     Route::post('/fields/edit/save', 'Manage\FieldsController@editSave')->name('manageFieldsEditSave');
     Route::get('/fields/cache', 'Manage\FieldsController@cache')->name('manageFieldsCache');
-    Route::get('/fields/delete/{id}', 'Manage\FieldsController@delete')->name('manageFieldsDelete');
+    Route::post('/fields/delete/{id}', 'Manage\FieldsController@delete')->name('manageFieldsDelete');
+    //单页服务
+    Route::get('/special', 'Manage\SpecialController@index')->name('manageSpecialIndex');
+    Route::get('/special/add', 'Manage\SpecialController@add')->name('manageSpecialAdd');
+    Route::post('/special/save', 'Manage\SpecialController@addSave')->name('manageSpecialAddSave');
+    Route::get('/special/cache', 'Manage\SpecialController@cache')->name('manageSpecialCache');
+    Route::get('/special/edit/{id}', 'Manage\SpecialController@edit')->name('manageSpecialEdit');
+    Route::post('/special/edit/save', 'Manage\SpecialController@editSave')->name('manageSpecialEditSave');
+    Route::post('/special/delete/{id}', 'Manage\SpecialController@delete')->name('manageSpecialDelete');
 
 });
 
@@ -201,6 +209,13 @@ Route::group([
     Route::post('/form/save', 'FormController@save')->name('formContentSave');
     //上传入口
     Route::post('/upload/save', 'UploadController@save')->name('uploadSave');
+    //图片处理
+    Route::get('/image/{aid}', 'ImageController@view')->name('imageView');
+    Route::get('/image/{aid}/{type}/{width}/{height}', 'ImageController@resize')->name('imageResize');
+    //单页多元化处理
+    Route::get('/special/{id}', 'SpecialController@view')->name('specialView')->where('id', '[0-9]+');
+    Route::get('/special/{dir}', 'SpecialController@view')->name('specialViewDir')->where('dir', '[0-9a-zA-Z\/]+');
+
 });
 
 

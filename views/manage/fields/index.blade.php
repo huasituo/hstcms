@@ -37,7 +37,7 @@
                 <td>@if($v['ismember']) {{ hst_lang('hstcms::public.opens') }} @else - @endif</td>
                 <td>@if(!$v['disabled']) {{ hst_lang('hstcms::public.opens') }} @else {{ hst_lang('hstcms::public.closes') }} @endif</td>
                 <td>
-                   <a href="{{ route('manageFieldsDelete', ['id'=>$v['id']]) }}" data-message="" class="J_ajax_delete" style="margin-right: 5px;">{{ hst_lang('hstcms::public.delete') }}</a>
+                   <a href="{{ route('manageFieldsDelete', ['id'=>$v['id']]) }}" class="J_ajax_del" style="margin-right: 5px;">{{ hst_lang('hstcms::public.delete') }}</a>
                    <a  href="{{ route('manageFieldsEdit', ['id'=>$v['id'], 'rname'=>$rname, 'relatedid'=>$relatedid]) }}">{{ hst_lang('hstcms::public.edit') }}</a>
                 </td>
             </tr>

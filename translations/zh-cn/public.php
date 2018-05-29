@@ -32,6 +32,7 @@ return [
     'coefficient'=>'系数',
     'to'=>'给',
     'note'=>'备注',
+    'dir'=>'目录',
     'view'=>'查看',
     'add.times'=>'添加时间',
     'front.end'=>'前端',

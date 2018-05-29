@@ -26,6 +26,10 @@ class CreateSmsLogsTable extends Migration
             $table->text('content', 255)->comment(hst_lang('hstcms::public.content'));
             $table->text('mobile', 255)->comment(hst_lang('hstcms::public.mobile'));
             $table->tinyInteger('status', false)->default(1)->comment(hst_lang('hstcms::public.status'));
+            $table->string('rtype', 255)->default('')->comment();
+            $table->string('requestid', 255)->default('')->comment();
+            $table->integer('jstimes')->nullable()->comment();
+            $table->integer('stimes')->nullable()->comment();
         });
     }
 

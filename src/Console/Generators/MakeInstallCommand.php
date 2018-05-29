@@ -87,8 +87,6 @@ class MakeInstallCommand extends Command
         }
         if (!$this->files->isFile(base_path('.env'))) {
             $this->files->copy(base_path('.env.example'), base_path('.env'));
-            //$this->error('.env files do not exist');
-            //return true;
         }
         $this->container['lang']        = $this->ask('Please enter the site url:', env('locale', 'zh-en'));
         //检查数据库信息是否配置
@@ -194,14 +192,5 @@ class MakeInstallCommand extends Command
             }
         }
         return true;
-    }
-    
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
     }
 }

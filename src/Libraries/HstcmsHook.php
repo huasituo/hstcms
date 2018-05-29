@@ -40,7 +40,7 @@ class HstcmsHook
 	 */
 	public function __construct()
 	{
-	    $hook = Cache::get(md5('hookInject'));
+	    $hook = Cache::get('hookInject');
 		$this->hooks =& $hook;
 	}
 

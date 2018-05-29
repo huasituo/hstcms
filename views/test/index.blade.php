@@ -13,6 +13,11 @@
 
 
 </style>
+<!-- <img src="{{ hst_image_resize(229, ['width'=>100, 'height'=>100, 'type'=>'force']) }}" style="width: 100px">
+
+
+<img src="{{ route('imageView', ['aid'=>231]) }}" style="width: 100px">
+<img src="{{ route('imageResize', ['aid'=>231, 'width'=>130, 'height'=>130, 'type'=>'resize']) }}" style="width: 100px"> -->
 		
 		<div class="hstui-upload J_upload"></div>
 		<div class="hstui-upload J_uploads"></div>

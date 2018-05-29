@@ -37,15 +37,16 @@ class TestController extends BasicController
 
     public function index(Request $request) 
     {
-        $slug = 'test';
-            Artisan::call('module:migrate:refresh', [
-                'slug'=>$slug,
-                '--pretend'=>true
-            ]);
-         Artisan::call('hook:cache', [
-            '--p'=>'Modules/'.ucfirst($slug),
-            '--f'=>'app'
-        ]);
+        // $slug = 'test';
+        //     Artisan::call('module:migrate:refresh', [
+        //         'slug'=>$slug,
+        //         '--pretend'=>true
+        //     ]);
+        //  Artisan::call('hook:cache', [
+        //     '--p'=>'Modules/'.ucfirst($slug),
+        //     '--f'=>'app'
+        // ]);
+        echo hst_image_resize(231, ['width'=>100, 'height'=>100, 'type'=>'force']);
         // $HstcmsSign = new HstcmsSign();
         // $appid = 1819337410;
         // $data = [

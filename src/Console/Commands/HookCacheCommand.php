@@ -129,7 +129,7 @@ class HookCacheCommand extends Command
             foreach ($hookInjects as $key => $value) {
                 foreach ($value as $k => $v) {
                     $info = HookInjectModel::where('hook_name', $v['hook_name'])->where('alias', 'mod_'.$v['alias'])->first();
-                    if(!$info && $t === 'null') {
+                    if(!$info && ($t === null || $t === 'null')) {
                         HookInjectModel::addInfo($v['hook_name'], $v['alias'], $v['files'], $v['class'], $v['fun'], $v['description'], 1);
                         $this->info('Add HookInjetct: '.$v['hook_name']. '   '.$v['alias'].'         Success');
                     } else {
