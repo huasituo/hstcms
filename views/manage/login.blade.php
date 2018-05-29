@@ -12,13 +12,13 @@
       <form class="hstui-form hstui-form-horizontal" action="{!! route('manageAuthDoLogin') !!}" method="post">
       {!! hst_csrf() !!}
         <div class="hstui-form-group hstui-form-group-sm @if($errors->has('username')) hstui-form-error @endif">
-          <div class="hstui-input-icon hstui-icon-fr @if($errors->has('username')) hstui-field-error @endif">
+          <div class="hstui-input-icon hstui-icon-lf @if($errors->has('username')) hstui-field-error @endif">
             <i class="hstui-icon hstui-icon-person"></i>
             <input class="hstui-input" id="userName" name="username" value="{{ hst_value('username') }}" placeholder="{{ hst_lang('hstcms::public.enter.one.username') }}" />
           </div>
         </div>
         <div class="hstui-form-group hstui-form-group-sm @if($errors->has('password')) hstui-form-error @endif">
-          <div class="hstui-input-icon hstui-icon-fr @if($errors->has('password')) hstui-field-error @endif">
+          <div class="hstui-input-icon hstui-icon-lf @if($errors->has('password')) hstui-field-error @endif">
             <i class="hstui-icon hstui-icon-password"></i>
             <input type="test" onfocus="this.type='password'" class="hstui-input" id="passWord" name="password" value="{{ hst_value('username') }}" placeholder="{{ hst_lang('hstcms::public.enter.one.password')}}" />
           </div> 
@@ -37,8 +37,8 @@
     </div>
   </div>
   <div class="copyRight">
-    <p>&copy; 2016-2017 huasituo.com Inc. All Rights Reserved.</p>
-    <p>Powered by <a href="{{ config('hstcms.website') }}" target="_blank">{{ config('hstcms.name') }}</a> {{ config('hstcms.version') }}</p>
+    <p>&copy; 2014 - {{ hst_time2str(hst_time(), 'Y') }} huasituo.com Inc. All Rights Reserved.</p>
+    <p>Powered by <a href="{{ config('hstcms.website') }}" target="_blank">{{ config('hstcms.name') }}</a> V{{ config('hstcms.version') }}</p>
   </div>
 </div>
 <script>
@@ -47,8 +47,8 @@ Hstui.use('jquery','common',function() {
     window.parent.location.href = '{!! route('manageAuthLogin') !!}';
   }
   $(".hstui-button").on('click',function() {
-      Hstui.Util.ajaxBtnDisable($(this));
-      $(".hstui-form").submit();
+    Hstui.Util.ajaxBtnDisable($(this));
+    $(".hstui-form").submit();
   })
 });
 </script>

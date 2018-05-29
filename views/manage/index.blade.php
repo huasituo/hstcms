@@ -329,7 +329,6 @@
           });
         });
       });
-
       function requestFullScreen(element) {  // 判断各种浏览器，找到正确的方法
         var requestMethod = element.requestFullScreen || //W3C
            element.webkitRequestFullScreen || //Chrome等
@@ -344,7 +343,6 @@
           } 
         }
       }
-
       function exitFull() {
         var exitMethod = document.exitFullscreen || //W3C
           document.mozCancelFullScreen || //Chrome等

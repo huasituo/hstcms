@@ -429,31 +429,6 @@ a {
 	border: 1px solid #ddd;
 	border-bottom: 0px;
 }
-
-.hstui-form .hstui-frame {
-	background: #FFFFFF;
-	width: 100%;
-}
-.hstui-frame .hstui-frame-title,
-.hstui-form .hstui-frame .hstui-frame-title {
-	background: #FFFFFF;
-}
-
-.hstui-form .hstui-form-group {
-	border-bottom: 1px dotted #e2e2e2;
-	margin-bottom: 0;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-}
-
-.hstui-form .hstui-form-group:first-child {
-	padding-top: 0px;
-}
-
-.hstui-form .hstui-form-group:last-child {
-	border-bottom: 0;
-	padding-bottom: 0;
-}
 /*信息提醒*/
 .manage-tips {
 	position: absolute;
@@ -525,3 +500,9 @@ a {
 	margin-right: 10px;
 	margin-bottom: 5px;
 }
+
+.hstui-form .hstui-form-input-tips{
+	margin-left: 0px;
+}
+
+
