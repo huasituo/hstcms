@@ -73,7 +73,7 @@ class BasicController extends Controller
             $message = hst_lang($message);
         }
         $viewDatas = isset($this->viewData) ? $this->viewData : array();
-        if($routeName && !preg_match('|^http://|', $routeName) && !$with) {
+        if($routeName && !preg_match('|^http://|', $routeName) && !preg_match('|^https://|', $routeName) && !$with) {
             $routeName = $routeName ? route($routeName) : '';
         }
         $viewData = [
@@ -84,19 +84,19 @@ class BasicController extends Controller
         ];
         $viewData = array_merge($viewData, $viewDatas);
         if(substr_count($_SERVER['HTTP_ACCEPT'], 'application/json')) {
-            if($routeName && !preg_match('|^http://|', $routeName)) {
+            if($routeName && !preg_match('|^http://|', $routeName) && !preg_match('|^https://|', $routeName)) {
                 $routeName = $routeName ? route($routeName) : '';
             }
             $viewData['referer'] = $routeName;
             return response()->json($viewData);
         }
         if($with == 1) {                                            //跳转指定链接提示
-            if(preg_match('|^http://|', $routeName)) {
+            if(preg_match('|^http://|', $routeName) || preg_match('|^https://|', $routeName)) {
                 return redirect($routeName)->with($viewData);
             }
             return redirect()->route($routeName)->with($viewData);
         } else if($with == 2) {                                     //表单提交错误提示
-            if(preg_match('|^http://|', $routeName)) {
+            if(preg_match('|^http://|', $routeName) || preg_match('|^https://|', $routeName)) {
                 return redirect($routeName)
                     ->withErrors($message)
                     ->withInput();

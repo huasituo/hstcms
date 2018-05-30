@@ -59,7 +59,7 @@ class BasicController extends Controller
         if(!$ibutton){
             $html = '<div class="tnav">';
             if(isset($this->navs['return'])) {
-                if(!preg_match('|^http://|', $this->navs['return']['url'])) {
+                if(!preg_match('|^http://|', $this->navs['return']['url']) && !preg_match('|^https://|', $this->navs['return']['url'])) {
                    $this->navs['return']['url'] = route($this->navs['return']['url']);
                 }
                 $html .= '<div class="return"><a href="'.$this->navs['return']['url'].'"><i class="hstui-icon hstui-icon-undo1"></i>'.$this->navs['return']['name'].'</a></div>';
@@ -69,7 +69,7 @@ class BasicController extends Controller
 		foreach ($this->navs as $key=>$nav) {
             if($key != 'return') {
                 $nav['current'] = $key == $current ? 'current' : '';
-                if(!preg_match('|^http://|', $nav['url'])) {
+                if(!preg_match('|^http://|', $nav['url']) && !preg_match('|^https://|', $nav['url'])) {
                    $nav['url'] = route($nav['url']);
                 }
                 $nav['class'] = isset($nav['class']) ? $nav['class'] : '';
