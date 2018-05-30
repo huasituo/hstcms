@@ -2,6 +2,7 @@
 
 namespace Huasituo\Hstcms\Console\Commands;
 
+use Huasituo\Hstcms\Hstcms;
 use Huasituo\Hstcms\Model\HookModel;
 use Huasituo\Hstcms\Model\HookInjectModel;
 

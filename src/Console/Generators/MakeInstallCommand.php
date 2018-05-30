@@ -70,7 +70,7 @@ class MakeInstallCommand extends Command
      */
     public function handle()
     {
-        $this->container['site_url'] = hst_domain();
+        $this->container['site_url'] = 'null';
         $this->stepOne();
     }
 
@@ -133,7 +133,11 @@ class MakeInstallCommand extends Command
                 $this->container['db_password']    = env('DB_PASSWORD');
                 $this->container['db_database']    = env('DB_DATABASE');
             }
-            $envData['APP_URL'] = $this->container['site_url'];
+            if($this->container['site_url'] !== 'null') {
+                $envData['APP_URL'] = $this->container['site_url'];
+            } else {
+                $envData['APP_URL'] = '';
+            }
             hst_updateEnvInfo($envData);
             $link = mysqli_connect($this->container['db_host'], $this->container['db_username'], $this->container['db_password']);
             if (!$link) {
@@ -162,6 +166,12 @@ class MakeInstallCommand extends Command
                     ['name'=>'url', 'value'=>$this->container['site_url'], 'issystem'=>1],
                     ['name'=>'debug', 'value'=>1, 'issystem'=>1]
                 ]);
+                if($this->container['site_url'] === 'null') {
+                    hst_save_config('site', [
+                        ['name'=>'url', 'value'=>'', 'issystem'=>1],
+                        ['name'=>'debug', 'value'=>1, 'issystem'=>1]
+                    ]);
+                }
                 $salt = hst_random(6);
                 ManageUserModel::insert([
                     'gid'=>99,
@@ -175,9 +185,6 @@ class MakeInstallCommand extends Command
                 $this->error(hst_lang('hstcms::install.install.error'));
                 return $this->stepOne();
             } else {
-                $this->info('---------Install Success---------');
-                $this->comment('Home:          '.url(''));
-                $this->comment('Admin:         '.route('manageIndex'));
                 $this->call('key:generate');
                 $this->call('vendor:publish', [
                     '--tag'=>'config'
@@ -185,10 +192,19 @@ class MakeInstallCommand extends Command
                 $this->call('vendor:publish', [
                     '--tag'=>'public'
                 ]);
-                $this->call('migrate', [
-                    '--force'=>true
-                ]);
+                $this->call('hstcms:cache');
+                // $this->call('migrate', [
+                //     '--force'=>true
+                // ]);
                 File::put(base_path('hstcms.install.lck'), env('APP_KEY'));
+                $this->info('---------Install Success---------');
+                if($this->container['site_url'] !== 'null') {
+                    $this->comment('Home:          '.env('APP_URL'));
+                    $this->comment('Admin:         '.env('APP_URL').'/manage');
+                } else {
+                    $this->comment('Home:          http(https)://域名(ip)');
+                    $this->comment('Admin:         http(https)://域名(ip)/manage');
+                }
             }
         }
         return true;

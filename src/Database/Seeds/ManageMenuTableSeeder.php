@@ -17,7 +17,6 @@ class ManageMenuTableSeeder extends Seeder
         \DB::table('manage_menu')->delete();
         \DB::table('manage_menu')->insert([
             [
-                'id' => 1,
                 'name' => '系统配置',
                 'ename' => 'system',
                 'icon' => '',
@@ -28,7 +27,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 2,
                 'name' => '管理中心',
                 'ename' => 'manage',
                 'icon' => '',
@@ -39,7 +37,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 3,
                 'name' => '创始人',
                 'ename' => 'manageFounderIndex',
                 'icon' => '',
@@ -50,7 +47,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 4,
                 'name' => '工作人员',
                 'ename' => 'manageUserIndex',
                 'icon' => '',
@@ -61,7 +57,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 5,
                 'name' => '安全配置',
                 'ename' => 'manageSafeIndex',
                 'icon' => '',
@@ -72,7 +67,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 6,
                 'name' => '日志管理',
                 'ename' => 'manageLogRequest',
                 'icon' => '',
@@ -83,7 +77,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 7,
                 'name' => '菜单权限',
                 'ename' => 'manageMenuNav',
                 'icon' => '',
@@ -94,7 +87,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 8,
                 'name' => '全局',
                 'ename' => 'config',
                 'icon' => '',
@@ -105,7 +97,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 9,
                 'name' => hst_lang('hstcms::manage.config.site'),
                 'ename' => 'manageConfigIndex',
                 'icon' => '',
@@ -116,7 +107,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'hstcms'
             ],
             [
-                'id' => 10,
                 'name' => hst_lang('hstcms::manage.config.global'),
                 'ename' => 'manageConfigGlobal',
                 'icon' => '',
@@ -127,7 +117,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'hstcms'
             ],
             [
-                'id' => 11,
                 'name' => '电子邮箱',
                 'ename' => 'manageConfigEmailIndex',
                 'icon' => '',
@@ -138,7 +127,6 @@ class ManageMenuTableSeeder extends Seeder
                 'module' => 'manage'
             ],
             [
-                'id' => 12,
                 'name' => '工具',
                 'ename' => 'tool',
                 'icon' => '',

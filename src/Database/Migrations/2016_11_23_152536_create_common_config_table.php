@@ -24,7 +24,6 @@ class CreateCommonConfigTable extends Migration
             $table->text('desc', 255)->comment(hst_lang('hstcms::public.desc'));
             $table->tinyInteger('issystem', false)->default(0)->comment(hst_lang('hstcms::public.issystem'));
             $table->unique(['name','namespace']);
-            $table->timestamps();
         });
     }
 

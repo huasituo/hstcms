@@ -73,16 +73,14 @@ class HookModel extends Model
     {
         $allHook1 = HookModel::where('name', '!=', '')->orderBy('times', 'desc')->get()->toArray();
         $allHooks = [];
-        $defHooks = config('hook.default.hookList');
         foreach ($allHook1 as $key => $value) {
             $allHooks[$value['name']] = ['name'=>$value['name'], 'description'=>$value['description']];
         }
-        if($allHooks) {
-            $defHooks = array_merge($defHooks, $allHooks);
-        }
         $allHook2 = [];
-        foreach ($defHooks as $key => $value) {
-            $allHook2[] = $value;
+        if($allHooks) {
+            foreach ($allHooks as $key => $value) {
+                $allHook2[] = $value;
+            }
         }
         Cache::forever('hookAll2', $allHook2);
         Cache::forever('hookAll1', $allHook1);
