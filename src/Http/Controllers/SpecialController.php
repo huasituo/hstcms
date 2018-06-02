@@ -2,7 +2,6 @@
 
 namespace Huasituo\Hstcms\Http\Controllers;
 
-use Huasituo\Hstcms\Http\Controllers\BasicController as BaseController;
 use Huasituo\Hstcms\Model\CommonSpecialModel;
 use Illuminate\Http\Request;
 /**

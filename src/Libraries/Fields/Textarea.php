@@ -88,8 +88,9 @@ class Textarea extends FieldAbs {
 		// 字段提示信息
 		$tips = isset($cfg['validate']['tips']) && $cfg['validate']['tips'] ? $cfg['validate']['tips'] : '';
 		// 字段默认值
-		$value = $value ? $value : $cfg['option']['value'];// 禁止修改
-		$disabled = $id && $value && isset($cfg['validate']['isedit']) && $cfg['validate']['isedit'] ? 'disabled' : ''; 
+		$value = $value ? $value : $cfg['option']['value'];
+		// 禁止修改
+		$disabled = !$this->isadmin &&  $id && $value && isset($cfg['validate']['isedit']) && $cfg['validate']['isedit'] ? 'disabled' : ''; 
 		// 当字段必填时，加入html5验证标签
 		$required = isset($cfg['validate']['required']) && $cfg['validate']['required'] == 1 ? ' required="required"' : '';
 		$str = '<textarea '.$disabled.' class="hstui-textarea" style="height:'.$height.'px; width:'.$width.(is_numeric($width) ? 'px' : '').';" name="'.$name.'" id="hstcms_'.$name.'" '. $attr . $disabled . $required .'>'.$value.'</textarea>';

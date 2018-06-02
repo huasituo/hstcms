@@ -95,7 +95,7 @@ class Select extends FieldAbs {
         }
 		// 表单选项
 		$options = isset($cfg['option']['list']) && $cfg['option']['list'] ? $cfg['option']['list'] : '';
-		$disabled = $id && $value && isset($cfg['validate']['isedit']) && $cfg['validate']['isedit'] ? ' disabled' : ''; 
+		$disabled = !$this->isadmin &&  $id && $value && isset($cfg['validate']['isedit']) && $cfg['validate']['isedit'] ? ' disabled' : ''; 
 		$str = '<select '.$disabled.' name="'.$name.'" id="hstcms_'.$name.'" class="hstui-select" '.$attr.' >';
 		if ($options) {
 			$options = explode(PHP_EOL, str_replace(array(chr(13), chr(10)), PHP_EOL, $options));

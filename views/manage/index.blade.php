@@ -99,8 +99,7 @@
         </div>
       </div>
 </div>
-
-<div class="loading" id="loading"><i class="hstui-spinner"></i>{{ hst_lang('hstcms::public.loading') }}</div>
+<div class="loading hstui-loading" id="loading"><i class="hstui-spinner"></i>{{ hst_lang('hstcms::public.loading') }}</div>
 <script>
       var  SUBMENU_CONFIG = {!! $menus !!};/*主菜单区*/
       Hstui.use('jquery', 'common', function() {

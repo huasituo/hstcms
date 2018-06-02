@@ -93,7 +93,7 @@ class Text extends FieldAbs {
 			$value = isset($value) && $value ? htmlspecialchars_decode($value) : "";
 		}
 		//修改
-		$disabled = $id && $value && isset($cfg['validate']['isedit']) && !$cfg['validate']['isedit'] ? ' disabled' : ' ';
+		$disabled = !$this->isadmin && $id && $value && isset($cfg['validate']['isedit']) && !$cfg['validate']['isedit'] ? ' disabled' : ' ';
 		$_type = $ispass ? 'password' : 'text';
 		// 当字段必填时，加入html5验证标签
 		$required = isset($cfg['validate']['required']) && $cfg['validate']['required'] == 1 ? ' required="required"' : '';

@@ -2,8 +2,6 @@
 
 namespace Huasituo\Hstcms\Http\Controllers;
 
-use Huasituo\Hstcms\Http\Controllers\GlobalBasicController as BaseController;
-
 use Huasituo\Hstcms\Model\CommonFormModel;
 use Huasituo\Hstcms\Libraries\HstcmsFields;
 use Huasituo\Hstcms\Model\CommonFieldsModel;

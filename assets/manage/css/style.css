@@ -108,8 +108,9 @@ a {
     position: absolute;
     left: 50%;
     margin-left: -40px;
-    top: 150px;
-        font-size: 24px;
+    top: 50%;
+    margin-top: -40px;
+    font-size: 24px;
 }
 .hstui-form-group .hstui-switchx{
 	top: 0px;

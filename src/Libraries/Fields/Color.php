@@ -105,7 +105,11 @@ class Color extends FieldAbs {
 		// 字段默认值
 		$value = $value ? $value : $cfg['option']['value'];
 		$str = '';
-		$str .= '<span class="hstui-color-pick J_color_pick"><em style="background:'.$value.';" class="J_bg"></em></span><input type="hidden" name="'.$name.'" class="J_hidden_color" id="hstcms_'.$name.'" value="' . $value . '" />';
+		if(!$this->isadmin &&  $id && $value && isset($cfg['validate']['isedit']) && !$cfg['validate']['isedit']) {
+			$str .= '<span class="hstui-color-pick"><em style="background:'.$value.';" class="J_bg"></em></span><input type="hidden" name="'.$name.'" class="J_hidden_color" id="hstcms_'.$name.'" value="' . $value . '" />';
+		} else {
+			$str .= '<span class="hstui-color-pick J_color_pick"><em style="background:'.$value.';" class="J_bg"></em></span><input type="hidden" name="'.$name.'" class="J_hidden_color" id="hstcms_'.$name.'" value="' . $value . '" />';
+		}
 		return $this->input_format($name, $text, $str, $tips);
 	}
 	

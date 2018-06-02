@@ -26,6 +26,7 @@ class PublicController extends BaseController
         } else {
             $option = [];
         }
+        $fields = [];
         if($rname == 'form') {
             $formInfo = CommonFormModel::getForm($relatedid);
             $fields = CommonFieldsModel::getFields($formInfo['table'], $formInfo['module']);

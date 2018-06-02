@@ -131,7 +131,7 @@ class Date extends FieldAbs
 		$format = isset($cfg['option']['format']) && $cfg['option']['format'] ? $cfg['option']['format'] : 'Y-m-d';
 		$show = $value ? hst_time2str($value, $format) : '';
 		
-		$disabled = $id && $value && isset($cfg['validate']['isedit']) && !$cfg['validate']['isedit'] ? ' disabled' : ' ';
+		$disabled = !$this->isadmin &&  $id && $value && isset($cfg['validate']['isedit']) && !$cfg['validate']['isedit'] ? ' disabled' : ' ';
 		$required = isset($cfg['validate']['required']) && $cfg['validate']['required'] == 1 ? ' required="required"' : '';
 		$str = '';
 		$str.= '<input type="text" class="hstui-input J_date" value="'.$show.'" name="'.$name.'" id="hstcms_'.$name.'" ' . $width . $disabled . $attr.$required.' />';
