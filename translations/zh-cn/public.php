@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 return [
 
     'host'=>'服务器',
@@ -24,6 +28,9 @@ return [
     'basic.information'=>'基本资料',
     'vieworder'=>'排序',
     'income'=>'收入',
+    'expenditure'=>'支出',
+    'extends'=>'扩展',
+    'no.category'=>'暂无类别',
     'phone'=>'电话',
     'postal.code'=>'邮政编码',
     'expenditure'=>'支出',
@@ -81,6 +88,12 @@ return [
     'enterprise'=>'企业',
 
     'last.times'=>'最后时间',
+    'ordernum'=>'订单号',
+    'paynum'=>'付款单号',
+    'paytimes'=>'支付时间',
+    'subject'=>'标题',
+    'payuser'=>'付款账户',
+    'paymoney'=>'付款金额',
 
     'order.number'=>'订单号',
     'pay.order.number'=>'支付订单号',
@@ -91,6 +104,7 @@ return [
     'channel'=>'渠道',
     'platform'=>'平台',
     'alipay'=>'支付宝',
+    'wxpay'=>'微信支付',
     'aliww'=>'阿里旺旺',
     'wxpay'=>'微信支付',
     'wechat'=>'微信',
@@ -270,6 +284,7 @@ return [
     'registration.number'=>'注册号',
     'corporate.name'=>'公司名称',
     'enter.one.mobile' =>'请输入手机号',
+    'enter.one.mobile.code' =>'请输入手机验证码',
     'enter.one.realname' =>'请输入真实姓名',
     'enter.one.email' =>'请输入Email',
     'please.enter.the.correct.mailbox.address'=>'请输入正确的邮箱地址',

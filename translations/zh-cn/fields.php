@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 return  [
 	'text'=>'单行文本框',
 	'textarea'=>'多行文本框',
@@ -12,6 +16,7 @@ return  [
 	'redirect'=>'转向链接',
 	'file'=>'单文件上传',
 	'files'=>'多文件上传',
+	'area'=>'地区选择',
 
 	'file.upapp'=>'附件APP',
 	'file.upapp.tips'=>'附件归属',
@@ -43,4 +48,14 @@ return  [
 	'group.field.tips'=>'请选择分组的字段',
 	'group.rule'=>'分组显示',
 	'group.rule.tips'=>'一个字段只能出现一次',
+
+	'area.mode'=>'模式',
+	'area.mode.001'=>'省',
+	'area.mode.002'=>'省市',
+	'area.mode.003'=>'省市县(区)',
+	'area.mode.004'=>'市',
+	'area.mode.005'=>'市县(区)',
+	'area.mode.006'=>'县(区)',
+
+
 ];

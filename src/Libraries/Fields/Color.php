@@ -1,13 +1,13 @@
 <?php 
-namespace Huasituo\Hstcms\Libraries\Fields;
-
 /**
- *
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+
 class Color extends FieldAbs {
 	
 	/**
@@ -64,25 +64,6 @@ class Color extends FieldAbs {
                 </script>
 				'.$this->field_type($option['fieldtype'], $option['fieldlength'], $option['fvalue']);
 	}
-	
-	/**
-	 * 字段输出
-	 */
-	public function output($value, $cfg = []) 
-	{
-		return $value;
-	}
-	
-    /**
-     * 字段入库值
-     *
-     * @param	array	$field	字段信息
-     * @return  void
-     */
-    public function insert_value($value, $field = [])
-    {
-    	return $value;
-    }
 
 	/**
 	 * 字段表单输入
@@ -113,4 +94,13 @@ class Color extends FieldAbs {
 		return $this->input_format($name, $text, $str, $tips);
 	}
 	
+    /**
+     * 处理输入数据，提供给入库
+     */
+	public function insert_value(Request $request, $filed, $postData = [])
+	{
+		$value = $request->get($field['fieldname']);
+		$postData[$field['relatedtable']][$field['fieldname']] = trim($value);
+    	return $postData;
+    }
 }

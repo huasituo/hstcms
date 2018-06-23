@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +27,7 @@ use Huasituo\Hstcms\Libraries\HstcmsDb;
 use Illuminate\Database\Schema\Blueprint;
 
 use Huasituo\Hstcms\Model\CommonFormModel;
+use Huasituo\Hstcms\Model\CommonAreaModel;
 
 use Illuminate\Http\Request;
 /**
@@ -37,6 +42,12 @@ class TestController extends BasicController
 
     public function index(Request $request) 
     {
+        $a1=array("red"=>array("red","green"));
+$a2=array("red"=>array("blue","yellow"));
+print_r(array_merge($a1,$a2));
+        //echo hst_word2pinyin('中国人', false, true, false, true);
+        ///print_r(CommonAreaModel::getInfoByAreaid(5303, true));
+        //return CommonAreaModel::getSubByAreaid(0)->toJson();
         // $slug = 'test';
         //     Artisan::call('module:migrate:refresh', [
         //         'slug'=>$slug,

@@ -1,12 +1,13 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Libraries\HuasituoApi\Requests;
 
 use Huasituo\Hstcms\Libraries\HuasituoApi\apiBase;
-/**
- * 
- * @author auto create
- * @since 1.0, 2016.03.30
- */
+
 class HuasituoApiSmsRequests
 {
 	private $apiBase ;

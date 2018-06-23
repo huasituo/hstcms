@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Libraries;
 
 use Illuminate\Support\Facades\Mail;                //邮箱服务

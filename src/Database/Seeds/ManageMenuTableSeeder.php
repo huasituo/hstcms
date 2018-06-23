@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Database\Seeds;
 
 use Illuminate\Database\Seeder;
@@ -104,7 +108,7 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'config',
                 'level' => 3,
-                'module' => 'hstcms'
+                'module' => 'manage'
             ],
             [
                 'name' => hst_lang('hstcms::manage.config.global'),
@@ -114,7 +118,7 @@ class ManageMenuTableSeeder extends Seeder
                 'parent' => 'system',
                 'parents' => 'config',
                 'level' => 3,
-                'module' => 'hstcms'
+                'module' => 'manage'
             ],
             [
                 'name' => '电子邮箱',

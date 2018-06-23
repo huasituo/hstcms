@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 use Jenssegers\Agent\Agent;                         //Agent
 use Illuminate\Support\Facades\Mail;                //邮箱服务
 use Illuminate\Support\Facades\Auth;                //认证
@@ -753,9 +757,12 @@ if ( ! function_exists('hst_random_color'))
  */
 if ( ! function_exists('hst_word2pinyin'))
 {
-	function hst_word2pinyin($word, $quanpin = true, $daxie = false, $trim = false) 
+	function hst_word2pinyin($word, $quanpin = true, $daxie = false, $trim = false, $szm = false) 
 	{
-	    return HstcmsPinYin::result($word, $quanpin, $daxie, $trim);
+        if($szm) {
+            return substr(HstcmsPinYin::result($word, $quanpin, $daxie, $trim), 0, 1);
+        }
+        return HstcmsPinYin::result($word, $quanpin, $daxie, $trim);
 	}
 }
 
@@ -1012,19 +1019,19 @@ if ( ! function_exists('hst_api_app'))
     }
 }
 
-if ( ! function_exists('hst_get_value'))
+if ( ! function_exists('hst_get_data'))
 {
     /**
      * 
      */
-    function hst_get_value($fieldType = '', $value = '', $cfg = [])
+    function hst_get_data($field = [], $data = [])
     {
         $hstcmsFields = new HstcmsFields();
-        $obj = $hstcmsFields->get($fieldType);
+        $obj = $hstcmsFields->get($field['fieldType']);
         if (!is_object($obj)) {
-            return $value;
+            return $data;
         }
-        return $obj->output($value, $cfg);
+        return $obj->output_data($data, $field);
     }
 }
 

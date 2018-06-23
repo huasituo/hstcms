@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 return [
     'title' => 'HSTCMS管理系统',
     'login.title' => '系统登录',
@@ -262,4 +267,19 @@ return [
     'special.edit'=>'单页修改',
     'special.delete'=>'删除单页',
     'special.dir.one'=>'目录已存在',
+
+
+
+    'area.manage'=>'区域管理',
+    'area.list'=>'下一级',
+    'area.zip'=>'邮政编码',
+    'area.delete'=>'删除地区',
+    'area.delete.001'=>'请先删除下级区域',
+    'area.areaid'=>'地区行政编码',
+    'area.areaid.empty'=>'地区行政编码不能为空',
+    'area.name.empty'=>'地区名称不能为空',
+    'area.areaid.one'=>'地区行政编码不能重复',
+    'area.add'=>'添加地区',
+    'area.edit'=>'更新区域'
+
 ];

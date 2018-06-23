@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Hook;
 
 /**
@@ -105,6 +110,16 @@ class HstcmsConfigHook
             'level' => 3,
             'module' => 'hstcms'
         ];
+        $data['manageAreaIndex'] = [
+            'name' => hst_lang('hstcms::manage.area.manage'),
+            'ename' => 'manageAreaIndex',
+            'icon' => '',
+            'url' => 'manageAreaIndex',
+            'parent' => 'system',
+            'parents' => 'config',
+            'level' => 3,
+            'module' => 'hstcms'
+        ];
         return $data;
     }
 
@@ -172,7 +187,6 @@ class HstcmsConfigHook
             'parent' => 'manageHookIndex',
             'module' => 'manage'
         ];
-
         $data['manageHookInjectIndex'] = [
             'name' => hst_lang('hstcms::public.manage'),
             'remark' => 'Hook Inject',
@@ -237,7 +251,6 @@ class HstcmsConfigHook
             'parent' => 'manageSms',
             'module' => 'hstcms'
         ];
-
         $data['manageAttach'] = [
             'name' => hst_lang('hstcms::manage.attach.service'),
             'remark' => 'hstcms',
@@ -254,7 +267,6 @@ class HstcmsConfigHook
             'parent' => 'manageAttach',
             'module' => 'hstcms'
         ];
-        
         $data['manageApi'] = [
             'name' => hst_lang('hstcms::manage.api.service'),
             'remark' => 'hstcms',
@@ -271,7 +283,6 @@ class HstcmsConfigHook
             'parent' => 'manageApi',
             'module' => 'hstcms'
         ];
-
         $data['manageConfigIndex'] = [
             'name' => hst_lang('hstcms::manage.config.site'),
             'remark' => 'hstcms',
@@ -288,7 +299,6 @@ class HstcmsConfigHook
             'parent' => 'manageConfigIndex',
             'module' => 'hstcms'
         ];
-
         $data['manageConfigGlobal'] = [
             'name' => hst_lang('hstcms::manage.config.global'),
             'remark' => 'hstcms',
@@ -305,7 +315,6 @@ class HstcmsConfigHook
             'parent' => 'manageConfigGlobal',
             'module' => 'hstcms'
         ];
-
         $data['manageModules'] = [
             'name' => hst_lang('hstcms::public.manage'),
             'remark' => 'hstcms',
@@ -386,7 +395,6 @@ class HstcmsConfigHook
             'parent' => 'manageCaches',
             'module' => 'hstcms'
         ];
-
         $data['manageCaptchaIndex'] = [
             'name' => hst_lang('hstcms::captcha.name'),
             'remark' => 'captcha',
@@ -403,8 +411,6 @@ class HstcmsConfigHook
             'parent' => 'manageCaptchaIndex',
             'module' => 'hstcms'
         ];
-
-
         $data['manageFormIndex'] = [
             'name' => hst_lang('hstcms::public.manage'),
             'remark' => 'form',
@@ -501,8 +507,6 @@ class HstcmsConfigHook
             'parent' => 'manageFormIndex',
             'module' => 'hstcms'
         ];
-
-
         $data['manageFieldsIndex'] = [
             'name' => hst_lang('hstcms::public.field').hst_lang('hstcms::public.manage'),
             'remark' => 'form',
@@ -567,9 +571,6 @@ class HstcmsConfigHook
             'parent' => 'manageFormIndex',
             'module' => 'hstcms'
         ];
-
-
-
         $data['manageSpecialIndex'] = [
             'name' => hst_lang('hstcms::manage.special.manage'),
             'remark' => 'special',
@@ -626,9 +627,54 @@ class HstcmsConfigHook
             'parent' => 'manageSpecialIndex',
             'module' => 'hstcms'
         ];
-
-
-
+        $data['manageAreaIndex'] = [
+            'name' => hst_lang('hstcms::manage.area.manage'),
+            'remark' => 'area',
+            'ename' => 'manageAreaIndex',
+            'uri' => 'area',
+            'parent' => 'manageAreaIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageAreaAdd'] = [
+            'name' => hst_lang('hstcms::public.add'),
+            'remark' => 'area add',
+            'ename' => 'manageAreaAdd',
+            'uri' => 'area/add',
+            'parent' => 'manageAreaIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageAreaAddSave'] = [
+            'name' => hst_lang('hstcms::public.add','hstcms::public.save'),
+            'remark' => 'area add save',
+            'ename' => 'manageAreaAddSave',
+            'uri' => 'area/add/save',
+            'parent' => 'manageAreaIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageAreaEdit'] = [
+            'name' => hst_lang('hstcms::public.edit'),
+            'remark' => 'area edit',
+            'ename' => 'manageAreaEdit',
+            'uri' => 'area/edit/{areaid}',
+            'parent' => 'manageAreaIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageAreaEditSave'] = [
+            'name' => hst_lang('hstcms::public.edit','hstcms::public.save'),
+            'remark' => 'area edit save',
+            'ename' => 'manageAreaEditSave',
+            'uri' => 'area/edit/save',
+            'parent' => 'manageAreaIndex',
+            'module' => 'hstcms'
+        ];
+        $data['manageSpecialDelete'] = [
+            'name' => hst_lang('hstcms::public.delete'),
+            'remark' => 'area delete',
+            'ename' => 'manageAreaDelete',
+            'uri' => 'area/delete/{areaid}',
+            'parent' => 'manageAreaIndex',
+            'module' => 'hstcms'
+        ];
         return $data;
     }
 }

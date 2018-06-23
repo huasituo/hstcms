@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 return [
     'the.installation.file.was.not.detected' => 'Undetected installation files',
     'install.error'=>'Installation failure',

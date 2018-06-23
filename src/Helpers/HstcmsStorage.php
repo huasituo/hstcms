@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 use Huasituo\Hstcms\Libraries\HstcmsStorage;
 use Huasituo\Hstcms\Model\AttachmentModel;
 use Illuminate\Support\Facades\Storage;

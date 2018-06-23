@@ -1,10 +1,14 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Libraries\Fields;
 
-/**
- * 自定义字段抽象类
- */
- 
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+
 abstract class FieldAbs  {
 
 	public $isadmin;
@@ -43,9 +47,19 @@ abstract class FieldAbs  {
 	 * @return  string
 	 */
 	abstract public function option($option);
+
+	public function createSql($data)
+	{
+        return CommonFieldsModel::createSql($data);
+	}
+
+	public function deleteSql($data)
+	{
+        return CommonFieldsModel::deleteSql($data);
+	}
 	
 	/**
-	 * 字段表单输入
+	 * 字段表单输入样式
 	 *
 	 * @param	string	$cname	字段别名
 	 * @param	string	$name	字段名称
@@ -57,14 +71,68 @@ abstract class FieldAbs  {
 	abstract function input($cname, $name, $option, $value = NULL, $id = 0);
 	
 	/**
-	 * 字段输出
-	 *
-	 * @param	array	$value	数据库值
-	 * @return  string
+	 * 验证字段输入
 	 */
-	public function output($value, $cfg = [])
+	public function validate_filter(Request $request, $field, $validate, $error = []) 
 	{
-		return $value;
+        $fieldname = $field['fieldname'];
+		$value = $request->get($fieldname);
+        if($field['fieldtype'] == 'Date' || $field['fieldtype'] == 'DateTime') {
+            $value = hst_str2time($value);
+        }
+        // 验证必填字段
+		if ($field['fieldtype'] != 'Group' && isset($validate['required']) && $validate['required']) {
+			if ($value == '') {
+                if(isset($validate['kongzhitips']) && $validate['kongzhitips']) {
+                    $error[$fieldname] = [$validate['kongzhitips']];
+                } else {
+                    $error[$fieldname] = [hst_buildContent('hstcms::fields.post.content.kongzhi', ['name'=>$field['name']])];
+                }
+            } else {
+                // 正则验证
+                if (isset($validate['pattern']) && $validate['pattern'] && !preg_match($validate['pattern'], $value)) {
+                    if(isset($validate['errortips']) && $validate['errortips']) {
+                        $error[$fieldname] = [$validate['errortips']];
+                    } else {
+                        $error[$fieldname] = [hst_buildContent('hstcms::fields.post.content.error', ['name'=>$field['name']])];
+                    }
+                }
+            }
+		}
+        // 判断表字段值的唯一性
+        if ($field['ismain'] && isset($field['setting']['option']['unique']) && $field['setting']['option']['unique']) 
+        {
+        }
+		return $error;
+	}
+
+	/**
+	 * 处理输入数据，提供给入库
+	 */
+	public function insert_value(Request $request, $field, $postData = [])
+	{
+        $fieldname = $field['fieldname'];
+		$value = $request->get($fieldname);
+        if($field['fieldtype'] == 'Date' || $field['fieldtype'] == 'DateTime') {
+            $value = (int)hst_str2time($value);
+        }
+        if (strpos($field['setting']['option']['fieldtype'], 'INT') !== FALSE) {
+            $postData[$field['relatedtable']][$fieldname] = (int)$value;
+        } elseif ($field['setting']['option']['fieldtype'] == 'DECIMAL' || $field['setting']['option']['fieldtype'] == 'FLOAT') {
+            $postData[$field['relatedtable']][$fieldname] = (double)$value;
+        } else {
+            $postData[$field['relatedtable']][$fieldname] = $value ? $value : '';
+        }
+        return $postData;
+	}
+
+	/**
+	 * 处理输出数据
+	 *
+	 */
+	public function output_data($data, $field)
+	{
+		return $data;		
 	}
 	
 	public function get_columnAttribute($option) 

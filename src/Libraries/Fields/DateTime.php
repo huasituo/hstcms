@@ -1,13 +1,13 @@
 <?php
-namespace Huasituo\Hstcms\Libraries\Fields;
-
 /**
- *
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+
 class DateTime extends FieldAbs 
 {
 	
@@ -73,29 +73,6 @@ class DateTime extends FieldAbs
                 </script>
 				'.$this->field_type($option['fieldtype'], $option['fieldlength'], $option['fvalue']);
 	}
-	
-	/**
-	 * 字段输出
-	 */
-	public function output($value, $cfg = []) 
-	{
-		$format = isset($cfg['option']['format']) && $cfg['option']['format'] ? $cfg['option']['format'] : 'Y-m-d H:i';
-		if($value) {
-			return hst_time2str($value, $format);
-		}
-		return $value;
-	}
-	
-    /**
-     * 字段入库值
-     *
-     * @param	array	$field	字段信息
-     * @return  void
-     */
-    public function insert_value($value, $field)
-    {
-    	return (int)$value;
-    }
 
 	/**
 	 * 字段表单输入
@@ -139,5 +116,23 @@ class DateTime extends FieldAbs
 
         }
 		return $this->input_format($name, $text, $str, $tips);
+	}
+	
+	/**
+	 * 字段输出
+	 */
+	public function output_data($data, $field = [])  
+	{
+		if(!isset($data[$field['fieldname']])) {
+			return $data;
+		}
+		$value = $data[$field['fieldname']];
+		if(!$value) {
+			return $data;
+		}
+		$data['_'.$field['fieldname']] = $value;
+		$format = isset($cfg['option']['format']) && $cfg['option']['format'] ? $cfg['option']['format'] : 'Y-m-d H:i';
+		$data[$field['fieldname']] = hst_time2str($value, $format);
+		return $data;
 	}
 }

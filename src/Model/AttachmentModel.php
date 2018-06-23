@@ -1,5 +1,9 @@
 <?php 
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Model;
 
 use Illuminate\Database\Eloquent\Model;
@@ -46,7 +50,6 @@ class AttachmentModel extends Model
         if(!$attachInfo) {
             return [];
         }
-        
         $attachInfo['url'] = hst_storage_url($attachInfo['path'], $attachInfo['disk']);
         return $attachInfo->toArray();
     }

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Libraries;
 
 use Huasituo\Hstcms\Model\AttachmentModel;
@@ -8,9 +12,6 @@ use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Util\MimeType;
 use Illuminate\Support\Facades\DB;
 
-/**
-* 
-*/
 class HstcmsStorage
 {
 

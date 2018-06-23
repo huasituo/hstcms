@@ -1,5 +1,9 @@
 <?php 
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Model;
 
 use Huasituo\Hstcms\Libraries\HstcmsDb;
@@ -51,7 +55,12 @@ class CommonFieldsModel extends Model
     	}
         $id = CommonFieldsModel::insertGetId($postData);
         if($data['fieldtype'] !== 'Group') {
-            CommonFieldsModel::createSql($id, $postData);
+            $hstcmsFields = new HstcmsFields();
+            $fobj = $hstcmsFields->get($data['fieldtype']);
+            if($fobj !== NULL) {
+                $fobj->createSql($postData);
+            }
+            
         }
         return $id;
     }
@@ -68,7 +77,7 @@ class CommonFieldsModel extends Model
     	return true;
     }
 
-    public static function createSql($id, $data) 
+    public static function createSql($data) 
     {
         $hstcmsFields = new HstcmsFields();
         $fobj = $hstcmsFields->get($data['fieldtype']);
@@ -79,7 +88,6 @@ class CommonFieldsModel extends Model
             if(!$hstcmsDb->hasColumn($data['relatedtable'], $data['fieldname'])) {
                 $hstcmsDb->addColumn($data['relatedtable'], $data['fieldname'], $columnAttribute);
             }
-
         }
     }
 
@@ -89,11 +97,21 @@ class CommonFieldsModel extends Model
         $info = CommonFieldsModel::getField($id);
         if(!$info) return false;
         CommonFieldsModel::where('id', $id)->delete();
-        $hstcmsDb = new HstcmsDb();
-    	if($hstcmsDb->hasColumn($info['relatedtable'], $info['fieldname'])) {
-            $hstcmsDb->dropColumn($info['relatedtable'], $info['fieldname']);
-    	}
+        $hstcmsFields = new HstcmsFields();
+        $fobj = $hstcmsFields->get($info['fieldtype']);
+        if($fobj !== NULL) {
+            $fobj->deleteSql($info);
+        }
     	return true;
+    }
+
+    public static function deleteSql($data)
+    {
+        $hstcmsDb = new HstcmsDb();
+        if($hstcmsDb->hasColumn($data['relatedtable'], $data['fieldname'])) {
+            $hstcmsDb->dropColumn($data['relatedtable'], $data['fieldname']);
+        }
+        return true;
     }
 
     static function getManageContentListShowFields($table = '')

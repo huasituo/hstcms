@@ -1,13 +1,14 @@
 <?php 
-namespace Huasituo\Hstcms\Libraries\Fields;
-
-use Huasituo\Hstcms\Model\AttachmentModel;
 /**
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+use Huasituo\Hstcms\Model\AttachmentModel;
+
 class File extends FieldAbs 
 {
 	
@@ -19,7 +20,9 @@ class File extends FieldAbs
 		parent::__construct();
 		$this->name = hst_lang('hstcms::fields.file'); // 字段名称
 		// TRUE表全部可用字段类型,自定义格式为 array('可用字段类型名称' => '默认长度', ... );
-		$this->fieldtype = array('VARCHAR' => '255'); 
+		$this->fieldtype = [
+			'VARCHAR' => '255'
+		]; 
 		$this->defaulttype = 'VARCHAR'; // 当用户没有选择字段类型时的缺省值
     }
 	
@@ -88,33 +91,6 @@ class File extends FieldAbs
                 '.$this->field_type($option['fieldtype'], $option['fieldlength'], $option['fvalue']);
 	}
 	
-	
-	/**
-	 * 字段入库值
-	 */
-    public function insert_value($value, $field)
-	{
-		if(!$value) {
-			return 0;
-		}
-		return $value['aid'];
-	}
-	
-	/**
-	 * 字段输出
-	 *
-	 * @param	array	$value	数据库值
-	 * @return  string
-	 */
-	public function output($value, $cfg = []) 
-	{
-		if(!$value) {
-			return [];
-		}
-		$attachInfo = AttachmentModel::getAttach($value);
-		return $attachInfo;
-	}
-	
 	/**
 	 * 字段表单输入
 	 *
@@ -139,7 +115,7 @@ class File extends FieldAbs
 		$postDatas ='';
 		$attachs = [];
 		if ($value) {
-			$attachInfo = AttachmentModel::getAttach($value);
+			$attachInfo = $value;
 			$attachs[0] = $attachInfo;
 		}
 		$attachs = json_encode($attachs);
@@ -167,4 +143,34 @@ class File extends FieldAbs
 		</script>";
 		return $this->input_format($name, $text, $str, $tips);
 	}
+
+    /**
+     * 处理输入数据，提供给入库
+     */
+	public function insert_value(Request $request, $field, $postData = [])
+	{
+		$value = $request->get($field['fieldname']);
+		if($value) {
+			$value = $value['aid'];
+		}
+		$postData[$field['relatedtable']][$field['fieldname']] = (int)$value;
+    	return $postData;
+    }
+	
+	/**
+	 * 字段输出
+	 */
+	public function output_data($data, $field = []) 
+	{
+		if(!isset($data[$field['fieldname']])) {
+			return $data;
+		}
+		$value = $data[$field['fieldname']];
+		$data['_'.$field['fieldname']] = $value;
+		$data[$field['fieldname']] = AttachmentModel::getAttach($value);
+		$data[$field['fieldname'].'_imgurl'] = $data[$field['fieldname']]['url'];
+		return $data;
+	}
+
+
 }

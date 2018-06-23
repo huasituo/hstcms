@@ -1,11 +1,11 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Libraries\HuasituoApi;
 
-/**
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
- */
 class ApiMd5Sign
 {
 

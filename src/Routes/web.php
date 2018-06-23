@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -168,6 +172,14 @@ Route::group([
     Route::get('/special/edit/{id}', 'Manage\SpecialController@edit')->name('manageSpecialEdit');
     Route::post('/special/edit/save', 'Manage\SpecialController@editSave')->name('manageSpecialEditSave');
     Route::post('/special/delete/{id}', 'Manage\SpecialController@delete')->name('manageSpecialDelete');
+    //区域管理
+    Route::get('/area', 'Manage\AreaController@index')->name('manageAreaIndex');
+    Route::get('/area/add', 'Manage\AreaController@add')->name('manageAreaAdd');
+    Route::post('/area/save', 'Manage\AreaController@addSave')->name('manageAreaAddSave');
+    Route::get('/area/edit/{areaid}', 'Manage\AreaController@edit')->name('manageAreaEdit');
+    Route::post('/area/edit/save', 'Manage\AreaController@editSave')->name('manageAreaEditSave');
+    Route::post('/area/delete/{areaid}', 'Manage\AreaController@delete')->name('manageAreaDelete');
+
 
 });
 
@@ -204,6 +216,7 @@ Route::group([
     Route::get('/captcha/get', 'CaptchaController@get')->name('captchaIndexGet');
     Route::get('/public/field/type/html', 'PublicController@fieldsTypeHtml')->name('publicFieldsTypeHtml');
     Route::get('/public/topinyin', 'PublicController@topinyin')->name('publicTopinyin');
+    Route::get('/public/area/list', 'PublicController@getAreaSubList')->name('publicAreaList');
 
     Route::get('/form/show/{id}', 'FormController@show')->name('formContentShow');
     Route::post('/form/save', 'FormController@save')->name('formContentSave');

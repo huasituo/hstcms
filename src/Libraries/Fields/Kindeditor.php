@@ -1,12 +1,13 @@
 <?php 
-namespace Huasituo\Hstcms\Libraries\Fields;
-
 /**
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+
 class Kindeditor extends FieldAbs {
 	
 	/**
@@ -108,25 +109,6 @@ class Kindeditor extends FieldAbs {
 	}
 	
 	/**
-	 * 字段入库值
-	 */
-    public function insert_value($value, $field)
-	{
-		return $value;
-	}
-	
-	/**
-	 * 字段输出
-	 *
-	 * @param	array	$value	数据库值
-	 * @return  string
-	 */
-	public function output($value, $cfg = []) 
-	{
-		return $value;
-	}
-	
-	/**
 	 * 字段表单输入
 	 *
 	 * @param	string	$cname	字段别名
@@ -191,7 +173,17 @@ class Kindeditor extends FieldAbs {
 				});
 			})
 		</script>
-		".$tips;
+		";
 		return $this->input_format($name, $text, $str, $tips);
 	}
+	
+    /**
+     * 处理输入数据，提供给入库
+     */
+	public function insert_value(Request $request, $field, $postData = [])
+	{
+		$value = $request->get($field['fieldname']);
+		$postData[$field['relatedtable']][$field['fieldname']] = $value;
+    	return $postData;
+    }
 }

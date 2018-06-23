@@ -1,13 +1,13 @@
 <?php 
-namespace Huasituo\Hstcms\Libraries\Fields;
-
 /**
- *
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+
 class Group extends FieldAbs {
 	
 	/**
@@ -77,14 +77,6 @@ class Group extends FieldAbs {
 					});
 				});
 				</script>';
-	}
-	
-	/**
-	 * 字段入库值
-	 */
-	public function insert_value($field) 
-	{
-		
 	}
 	
 	/**

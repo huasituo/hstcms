@@ -14,7 +14,7 @@
         <div class="hstui-form-group hstui-form-group-sm" >
           <label class="hstui-u-sm-2 hstui-form-label">{{ hst_lang('hstcms::manage.sms.tiaos') }}</label>
           <div class="hstui-u-sm-10 hstui-form-input">
-              @if($surplus['state'] == 0) <font color="red">{{ $surplus['data']['surplus'] }}</font> 条 @else <font color="red">{{ $surplus['message'] }} </font>@endif
+              @if($surplus['state'] == 0) <font color="red">{{ @$surplus['data']['surplus'] }}</font> 条 @else <font color="red">{{ $surplus['message'] }} </font>@endif
             <div class="hstui-form-input-tips"></div>
           </div>
         </div>

@@ -35,7 +35,7 @@
                 <td>{!! (int)$v['created_uid'] !!}</td>
                 <td>{!! hst_time2str($v['created_time'], 'Y-m-d H:i:s') !!}</td>
                 @foreach($showFields as $key=>$field)
-                <td>{{ @$v[$field['fieldname']] }}</td>
+                <td>@if(isset($v[$field['fieldname'].'_str'])){{$v[$field['fieldname'].'_str']}}@else{{ @$v[$field['fieldname']] }}@endif</td>
                 @endforeach
                 <td>
                     <a href="{{ route('manageFormContentDelete', ['formid'=>$formid, 'id'=>$v['id']]) }}" class="J_ajax_del"  style="margin-right: 5px;">{{ hst_lang('hstcms::public.delete') }}</a>

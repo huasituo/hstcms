@@ -1,13 +1,13 @@
 <?php
-namespace Huasituo\Hstcms\Libraries\Fields;
-
 /**
- *
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+
 class Checkbox extends FieldAbs 
 {
 	
@@ -44,33 +44,6 @@ class Checkbox extends FieldAbs
 	          </div>
 	        </div>
                 '.$this->get_default_value($option['value']).$this->field_type($option['fieldtype'], $option['fieldlength'], $option['fvalue']);
-	}
-	
-	/**
-	 * 字段入库值
-	 */
-	public function insert_value($value, $field) 
-	{
-		return implode(',',$value);
-	}
-	
-	/**
-	 * 字段输出
-	 */
-	public function output($value, $cfg = []) 
-	{
-		if(!$value) return '';
-		$options = @explode(PHP_EOL, str_replace(array(chr(13), chr(10)), PHP_EOL, $cfg['list']));
-		$data = $_options = array();
-		foreach ($options as $key => $val) {
-			$_val = @explode('|', $val);
-			$_options[$_val[1]] = isset($_val[0]) ? $_val[0] : '';
-		}
-		$value = explode(',', $value);
-		foreach ($value as $key => $_value) {
-			$data[$_value] = $_options[$_value];
-		}
-		return $data;
 	}
 	
 	/**
@@ -120,6 +93,43 @@ class Checkbox extends FieldAbs
 			}
 		}
 		return $this->input_format($name, $text, $str, $tips);
+	}
+	
+    /**
+     * 处理输入数据，提供给入库
+     */
+	public function insert_value(Request $request, $filed, $postData = [])
+	{
+		$value = $request->get($field['fieldname']);
+		$postData[$field['relatedtable']][$field['fieldname']] = implode(',', $value);
+    	return $postData;
+    }
+	
+	/**
+	 * 字段输出
+	 */
+	public function output_data($data, $field = []) 
+	{
+		if(!isset($data[$field['fieldname']])) {
+			return $data;
+		}
+		$value = $data[$field['fieldname']];
+		if(!$value) {
+			return $data;
+		}
+		$data['_'.$field['fieldname']] = $value;
+		$cfg = $field['setting']['option'];
+		$options = @explode(PHP_EOL, str_replace(array(chr(13), chr(10)), PHP_EOL, $cfg['list']));
+		$_options = array();
+		foreach ($options as $key => $val) {
+			$_val = @explode('|', $val);
+			$_options[$_val[1]] = isset($_val[0]) ? $_val[0] : '';
+		}
+		$value = explode(',', $value);
+		foreach ($value as $key => $_value) {
+			$data[$field['fieldname']][$_value] = $_options[$_value];
+		}
+		return $data;
 	}
 	
 }

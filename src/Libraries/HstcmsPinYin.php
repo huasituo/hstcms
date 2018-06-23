@@ -1,14 +1,10 @@
 <?php 
-
-namespace Huasituo\Hstcms\Libraries;
 /**
- * huasituo Website Management System HstcmsPinYin.php 汉字转换拼音
- *
- * @since       version 1.0.0
- * @author      Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries;
  
 class HstcmsPinYin {
 
@@ -534,7 +530,7 @@ class HstcmsPinYin {
       static function result($s, $quanpin = true, $daxie = false, $trim = false)
       {
             $pyCount = 0;
-            if(is_array($quanpin) && $quanpin[1]){
+            if(is_array($quanpin) && $quanpin[1]) {
                   $pyCount = $quanpin[1];
                   unset($quanpin[1]);
                   $quanpin = $quanpin[0];
@@ -547,28 +543,21 @@ class HstcmsPinYin {
             // 加入这一句，自动识别UTF-8
             if (strlen("拼音") > 4)
             $s = iconv('UTF-8', 'GBK', $s);
-            if ($quanpin)
-            {
+            if ($quanpin) {
                   // 全拼
-                  for ($i = 0; $i < strlen($s); $i++)
-                  {
-                      if (ord($s[$i]) > 128)
-                      {
+                  for ($i = 0; $i < strlen($s); $i++) {
+                      if (ord($s[$i]) > 128) {
                           $char = self::asi2py(ord($s[$i]) + ord($s[$i + 1]) * 256);
                           $py.=$char.$_trim;
                           $i++;
-                      }
-                      else
-                      {
+                      } else {
                           $py.=$s[$i].$_trim;
                       }
                   }
             } else {
                   // 首字母
-                  for ($i = 0; $i < strlen($s); $i++)
-                  {
-                        if (ord($s[$i]) > 128)
-                        {
+                  for ($i = 0; $i < strlen($s); $i++) {
+                        if (ord($s[$i]) > 128) {
                               $char = self::asi2py(ord($s[$i]) + ord($s[$i + 1]) * 256);
                               $py	.=$char[0].$_trim;
                               $i++;

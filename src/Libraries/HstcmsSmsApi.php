@@ -1,12 +1,15 @@
 <?php
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Libraries;
 
 use Huasituo\Hstcms\Libraries\HuasituoSmsApi;
 use Huasituo\Hstcms\Libraries\HuasituoApi\ApiBase;
 use Huasituo\Hstcms\Libraries\HuasituoApi\Requests\HuasituoApiSmsRequests;
-/**
-* 
-*/
+
 class HstcmsSmsApi
 {
 	protected $smsConfig = [];

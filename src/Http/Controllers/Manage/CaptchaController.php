@@ -1,13 +1,9 @@
 <?php 
 /**
- * 验证码后台控制器
- *
  * @author huasituo <info@huasituo.com>
  * @copyright ©2016-2100 huasituo.com
  * @license http://www.huasituo.com
- * @version $Id: IndexController.php 
  */
-
 namespace Huasituo\Hstcms\Http\Controllers\Manage;
 
 use Illuminate\Http\Request;

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
+ */
 namespace Huasituo\Hstcms\Http\Controllers;
 
 use Huasituo\Hstcms\Libraries\HstcmsSms;
@@ -22,10 +26,10 @@ class MobileController extends GlobalBasicController
         $mobile = $request->get('mobile');
         $type = $request->get('type');
         if(!$mobile) {
-            return $this->showError('请输入手机号');
+            return $this->showError(hst_lang('hstcms::public.enter.one.mobile'));
         }
         if(!$type) {
-            return $this->showError('发送失败');
+            return $this->showError(hst_lang('hstcms::public.send.error'));
         }
         $user = UsersModel::getUsers($mobile, 'mobile', false);
         $uid = '';
@@ -44,13 +48,13 @@ class MobileController extends GlobalBasicController
         $type = $request->get('type');
         $mobileCode = $request->get('mobile_code');
         if(!$mobile) {
-            return $this->showError('请输入手机号');
+            return $this->showError(hst_lang('hstcms::public.enter.one.mobile'));
         }
         if(!$mobileCode) {
-            return $this->showError('请输入手机验证码');
+            return $this->showError(hst_lang('hstcms::public.enter.one.mobile.code'));
         }
         if(!$type) {
-            return $this->showError('验证失败');
+            return $this->showError(hst_lang('hstcms::public.verification.failure'));
         }
         $HstcmsSms = new HstcmsSms();
         $result = $HstcmsSms->checkVerify($mobile, $mobileCode, $type);

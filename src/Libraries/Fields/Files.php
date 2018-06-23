@@ -1,13 +1,14 @@
 <?php 
-namespace Huasituo\Hstcms\Libraries\Fields;
-
-use Huasituo\Hstcms\Model\AttachmentModel;
 /**
- * @since		version 1.0.0
- * @author		Huasituo <info@huasituo.com>
- * @license     http://www.huasituo.com/license
- * @copyright   Copyright (c) 2014 - 9999, huasituo.Com, Inc.
+ * @author huasituo <info@huasituo.com>
+ * @copyright ©2016-2100 huasituo.com
+ * @license http://www.huasituo.com
  */
+namespace Huasituo\Hstcms\Libraries\Fields;
+use Illuminate\Http\Request;
+use Huasituo\Hstcms\Model\CommonFieldsModel;
+use Huasituo\Hstcms\Model\AttachmentModel;
+
 class Files extends FieldAbs 
 {
 	
@@ -96,37 +97,6 @@ class Files extends FieldAbs
                 '.$this->field_type($option['fieldtype'], $option['fieldlength'], $option['fvalue']);
 	}
 	
-	
-	/**
-	 * 字段入库值
-	 */
-    public function insert_value($value, $field)
-	{
-		if(!$value) {
-			return '';
-		}
-		$aids = [];
-		foreach ($value['aid'] as $k => $v) {
-			$aids[] = $v;
-		}
-		return implode(',', $aids);
-	}
-	
-	/**
-	 * 字段输出
-	 *
-	 * @param	array	$value	数据库值
-	 * @return  string
-	 */
-	public function output($value, $cfg = []) 
-	{
-		if(!$value) {
-			return [];
-		}
-		$attachs = AttachmentModel::getAttachs(explode(',', $value));
-		return $attachs;
-	}
-	
 	/**
 	 * 字段表单输入
 	 *
@@ -152,7 +122,7 @@ class Files extends FieldAbs
 		$postDatas ='';
 		$attachs = [];
 		if ($value) {
-			$attachs = AttachmentModel::getAttachs(explode(',', $value));
+			$attachs = $value;
 		}
 		$attachs = json_encode($attachs);
 		$uploadUrl = route('uploadSave');
@@ -180,4 +150,37 @@ class Files extends FieldAbs
 		</script>";
 		return $this->input_format($name, $text, $str, $tips);
 	}
+	
+
+    /**
+     * 处理输入数据，提供给入库
+     */
+	public function insert_value(Request $request, $field, $postData = [])
+	{
+		$value = $request->get($field['fieldname']);
+		if($value) {
+			$aids = [];
+			foreach ($value['aid'] as $k => $v) {
+				$aids[] = $v;
+			}
+			$value = implode(',', $aids);
+		}
+		$postData[$field['relatedtable']][$field['fieldname']] = (string)$value;
+    	return $postData;
+    }
+	
+	/**
+	 * 字段输出
+	 */
+	public function output_data($data, $field = [])  
+	{
+		if(!isset($data[$field['fieldname']])) {
+			return $data;
+		}
+		$value = $data[$field['fieldname']];
+		$data['_'.$field['fieldname']] = $value;
+		$data[$field['fieldname']] = AttachmentModel::getAttachs(explode(',', $value));
+		return $data;
+	}
+
 }
