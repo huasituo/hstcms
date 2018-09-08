@@ -9,7 +9,6 @@
 	margin-left: -135px;
 	top: 180px;
 	width: 370px;
-
 }
 .common-tips.hstui-frame .hstui-frame-title{
 	height: 40px;
@@ -19,7 +18,7 @@
     text-align: center;
 }
 
-.common-tips.hstui-frame .hstui-frame-content{
+.common-tips.hstui-frame .hstui-frame-content {
     text-align: center;
 }
 .common-tips.hstui-frame .hstui-frame-content p {
@@ -27,7 +26,7 @@
 	margin-top: 10px;
 	font-size: 16px;
 }
-.common-tips.hstui-frame .hstui-frame-content a{
+.common-tips.hstui-frame .hstui-frame-content a {
 	cursor: pointer;
 	font-size: 12px;
 }
@@ -40,7 +39,7 @@
 	border: 0px;
 }
 
-.common-tips-dialog.hstui-frame .hstui-frame-content{
+.common-tips-dialog.hstui-frame .hstui-frame-content {
     text-align: center;
 }
 .common-tips-dialog.hstui-frame .hstui-frame-content p {
@@ -48,7 +47,7 @@
 	margin-top: 10px;
 	font-size: 16px;
 }
-.common-tips-dialog.hstui-frame .hstui-frame-content a{
+.common-tips-dialog.hstui-frame .hstui-frame-content a {
 	cursor: pointer;
 	font-size: 12px;
 }	

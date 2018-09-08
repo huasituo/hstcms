@@ -16,13 +16,14 @@ class BasicController extends Controller
 {
     // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected   $_showdata;                         //显示信息array
     public      $viewData = array();                //传递给模版的共享内容
+    public      $isMobile = false;                  //
     protected   $lav_route = '';
 
     public function __construct()
     {
         $this->lav_route = Route::currentRouteName();
+        $this->isMobile = hst_is_mobile();
         hst_checkInstall();
         //前端多彩主题
         $skin_color = hst_config('site', 'skin_color');
@@ -55,7 +56,7 @@ class BasicController extends Controller
     protected function addMessage($message = array(), $str = '')
     {
         if(!$str) return;
-        $this->_showdata[$str] = $message;
+        $this->viewData[$str] = $message;
     }
 
     public function showError($message = '', $routeName = '', $with = 0)
@@ -67,6 +68,12 @@ class BasicController extends Controller
         return $this->showMessage($message, $routeName, $with, 'fail');
     }
 
+    /*
+        with: 0 提示页面操作
+        with: 2 是表单验证返回
+        with: 1 redirect 跳转
+        with: 5 直接返回上一步
+    */
     public function showMessage($message = '', $routeName = '', $with = 0, $state='success') 
     {
         if(in_array($routeName, [1,2,3,5])) {
@@ -77,9 +84,6 @@ class BasicController extends Controller
             $message = hst_lang($message);
         }
         $viewDatas = isset($this->viewData) ? $this->viewData : array();
-        if($routeName && !preg_match('|^http://|', $routeName) && !preg_match('|^https://|', $routeName) && !$with) {
-            $routeName = $routeName ? route($routeName) : '';
-        }
         $viewData = [
             'message'=>$message,
             'referer'=>$routeName,
@@ -115,6 +119,9 @@ class BasicController extends Controller
                 ->withInput();
         } else if($with == 5) {                                     //返回上一级提示
             return back()->with($viewData);
+        }
+        if($this->isMobile) {
+            return $this->loadTemplate('hstcms::wap.tips', $viewData);
         }
         return $this->loadTemplate('hstcms::common.tips', $viewData);
     }

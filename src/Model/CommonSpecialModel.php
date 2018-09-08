@@ -97,6 +97,7 @@ class CommonSpecialModel extends Model
                 'isopen'=>trim($value['isopen']),
                 'header'=>trim($value['header']),
                 'footer'=>$value['footer'],
+                'ismobile'=>$value['ismobile'],
                 'keywords'=>$value['keywords'],
                 'description'=>$value['description'],
                 'domain'=>$value['domain'],

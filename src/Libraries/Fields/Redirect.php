@@ -29,7 +29,7 @@ class Redirect extends FieldAbs {
 	 * @param	array	$value	值
 	 * @return  string
 	 */
-	public function option($option) 
+	public function option($option)
 	{
 		$option['width'] = isset($option['width']) ? $option['width'] : 400;
 		$option['value'] = isset($option['value']) ? $option['value'] : '';

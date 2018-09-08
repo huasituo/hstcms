@@ -180,7 +180,13 @@ Route::group([
     Route::post('/area/edit/save', 'Manage\AreaController@editSave')->name('manageAreaEditSave');
     Route::post('/area/delete/{areaid}', 'Manage\AreaController@delete')->name('manageAreaDelete');
 
-
+    //数据块
+    Route::get('/block', 'Manage\BlockController@index')->name('manageBlockIndex');
+    Route::get('/block/add', 'Manage\BlockController@add')->name('manageBlockAdd');
+    Route::post('/block/add/save', 'Manage\BlockController@addSave')->name('manageBlockAddSave');
+    Route::get('/block/edit/{id}', 'Manage\BlockController@edit')->name('manageBlockEdit');
+    Route::post('/block/edit/save', 'Manage\BlockController@editSave')->name('manageBlockEditSave');
+    Route::post('/block/delete/{id}', 'Manage\BlockController@delete')->name('manageBlockDelete');
 });
 
 //安装路由器
@@ -199,11 +205,9 @@ Route::group([
     'middleware'=>['web']
 ], function() {
     Route::get('/test', 'TestController@index')->name('hstcmsTextIndex');
-    Route::get('/test/hook', 'TestController@hook')->name('hstcmsTextHook');
     Route::get('/test/captcha', 'TestController@captcha')->name('hstcmsTextCaptcha');
     Route::post('/test/captcha/check', 'TestController@captchaCheck')->name('hstcmsCaptchaTestCheck');
     Route::post('/test/post', 'TestController@pindex')->name('hstcmsTextIndexPost');
-    Route::any('/wechat/api', 'TestController@wechat')->name('hstcmsTextWechat');   
 });
 
 //前台路由
@@ -211,13 +215,16 @@ Route::group([
     'domain'=> env('APP_URL') ,
     'middleware'=>['web']
 ], function() {
-    Route::post('/mobile/send/code', 'MobileController@send')->name('hstcmsMobileSendCode');
-    Route::post('/mobile/verify/code', 'MobileController@verify')->name('hstcmsMobileVerifyCode');
+    Route::post('/mobile/code/send', 'MobileController@send')->name('hstcmsMobileSendCode');
+    Route::post('/mobile/code/verify', 'MobileController@verify')->name('hstcmsMobileVerifyCode');
     Route::get('/captcha/get', 'CaptchaController@get')->name('captchaIndexGet');
     Route::get('/public/field/type/html', 'PublicController@fieldsTypeHtml')->name('publicFieldsTypeHtml');
     Route::get('/public/topinyin', 'PublicController@topinyin')->name('publicTopinyin');
     Route::get('/public/area/list', 'PublicController@getAreaSubList')->name('publicAreaList');
+    //开发调试
+    Route::get('development/debugbar', 'Development\DebugbarController@index')->name('developmentDebugbarIndex');
 
+    //表单
     Route::get('/form/show/{id}', 'FormController@show')->name('formContentShow');
     Route::post('/form/save', 'FormController@save')->name('formContentSave');
     //上传入口

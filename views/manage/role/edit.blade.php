@@ -39,9 +39,11 @@
                   <label class="hstui-u-sm-2 hstui-form-label">{!! $v['name'] !!}</label>
                   <div class="hstui-u-sm-10">
                     @if(isset($v['url']) && $v['url'])
+                      @if(isset($roleUriDatas[$k]) && count($roleUriDatas[$k]) > 0)
                       @foreach($roleUriDatas[$k] as $r=>$rv)
                         <input name="auths[]" type="checkbox" value="{!! $rv['ename'] !!}" {!! hst_ifCheck(in_array($rv['ename'], $info['auths'])) !!}> {!! $rv['name'] !!}
                       @endforeach
+                      @endif
                     @endif
                     @if(isset($v['items']) && $v['items'])
                     @foreach($v['items'] as $ks=>$vs) 
@@ -49,9 +51,11 @@
                       <label class="hstui-u-sm-2 hstui-form-label">{!! $vs['name'] !!}</label>
                       <div class="hstui-u-sm-10">
                           @if(isset($vs['url']) && $vs['url'])
+                            @if(isset($roleUriDatas[$ks]) && count($roleUriDatas[$ks]) > 0)
                             @foreach($roleUriDatas[$ks] as $rs=>$rsv)
                               <input name="auths[]" type="checkbox" value="{!! $rsv['ename'] !!}" {!! hst_ifCheck(in_array($rsv['ename'], $info['auths'])) !!}> {!! $rsv['name'] !!}
                             @endforeach
+                            @endif
                           @endif
                       </div>
                     </div>

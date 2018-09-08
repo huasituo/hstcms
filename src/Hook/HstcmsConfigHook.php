@@ -19,6 +19,16 @@ class HstcmsConfigHook
      */
     public function getManageMenu($data)
     {
+        $data['content'] = [
+            'name' => hst_lang('hstcms::public.content'),
+            'ename' => 'content',
+            'icon' => '',
+            'url' => '',
+            'parent' => 'system',
+            'parents' => '',
+            'level' => 2,
+            'module' => 'hstcms'
+        ];
         $data['manageHookIndex'] = [
             'name' => 'Hook',
             'ename' => 'manageHookIndex',
@@ -91,12 +101,12 @@ class HstcmsConfigHook
             'module' => 'hstcms'
         ];
         $data['manageFormIndex'] = [
-            'name' => hst_lang('hstcms::manage.form'),
+            'name' => hst_lang('hstcms::manage.form').hst_lang('hstcms::public.manage'),
             'ename' => 'manageFormIndex',
             'icon' => '',
             'url' => 'manageFormIndex',
             'parent' => 'system',
-            'parents' => 'config',
+            'parents' => 'content',
             'level' => 3,
             'module' => 'hstcms'
         ];
@@ -106,7 +116,7 @@ class HstcmsConfigHook
             'icon' => '',
             'url' => 'manageSpecialIndex',
             'parent' => 'system',
-            'parents' => 'config',
+            'parents' => 'content',
             'level' => 3,
             'module' => 'hstcms'
         ];
@@ -117,6 +127,16 @@ class HstcmsConfigHook
             'url' => 'manageAreaIndex',
             'parent' => 'system',
             'parents' => 'config',
+            'level' => 3,
+            'module' => 'hstcms'
+        ];
+        $data['manageBlockIndex'] = [
+            'name' => hst_lang('hstcms::manage.block'),
+            'ename' => 'manageBlockIndex',
+            'icon' => '',
+            'url' => 'manageBlockIndex',
+            'parent' => 'system',
+            'parents' => 'content',
             'level' => 3,
             'module' => 'hstcms'
         ];

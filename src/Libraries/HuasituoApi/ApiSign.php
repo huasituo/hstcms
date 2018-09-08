@@ -8,7 +8,6 @@ namespace Huasituo\Hstcms\Libraries\HuasituoApi;
 
 class ApiSign 
 {
-
     public function createSign($para_temp, $secretKey = '', $privateKey = '', $publicKey = '')
     {
         $prestr = $para_temp;

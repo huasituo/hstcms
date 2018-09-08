@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        @if($roles)
+        @if(count($roles))
         @foreach($roles as $v)
         <tr>
           <td>{!! $v['name'] !!}</td>

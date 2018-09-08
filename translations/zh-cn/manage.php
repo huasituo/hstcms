@@ -27,6 +27,7 @@ return [
     'request.log' => '请求日志',
     'operation.log' => '操作日志',
     'login.log' => '登录日志',
+    'image'=>'图片',
     'safe.setting' => '安全配置',
     'safe.login.ctime' => '登录超时',
     'safe.login.ips' => 'IP限制',
@@ -157,7 +158,8 @@ return [
     'caches.memcached.setting'=>'memcached驱动配置',
     'caches.memcached.update'=>'更新memcached驱动配置',
     'caches.save.error.001'=>'请先设置memcached驱动配置',
-    'account'=>'账户系统',
+    
+    'account'=>'账户',
 
     'form'=>'表单',
     'form.add'=>'添加表单',
@@ -268,8 +270,6 @@ return [
     'special.delete'=>'删除单页',
     'special.dir.one'=>'目录已存在',
 
-
-
     'area.manage'=>'区域管理',
     'area.list'=>'下一级',
     'area.zip'=>'邮政编码',
@@ -280,6 +280,9 @@ return [
     'area.name.empty'=>'地区名称不能为空',
     'area.areaid.one'=>'地区行政编码不能重复',
     'area.add'=>'添加地区',
-    'area.edit'=>'更新区域'
+    'area.edit'=>'更新区域',
 
+    'block'=>'数据块',
+    'block.name.empty'=>'名称不能为空',
+    'type.empty'=>'类型不能为空'
 ];

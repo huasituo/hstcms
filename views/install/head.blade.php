@@ -10,11 +10,11 @@
 <link rel="stylesheet" href="{{ hst_public('assets/install/install.css') }}">
 <script>
 var G = {
-  	RES_ROOT: '{{ config('hstcms.resurl') }}',
-  	TIPS_MESSAGE: {
-  		STATE : '',
-  		MESSAGE : '',
-  	}
+	RES_ROOT: '{{ config('hstcms.resurl') }}',
+	TIPS_MESSAGE: {
+		STATE : '{!! session('state') !!}',
+		MESSAGE : '{!! session('message') !!}',
+	}
 }
 </script>
 <script type="text/javascript" src="{{ config('hstcms.resurl') }}/js/hstui.min.js"></script>

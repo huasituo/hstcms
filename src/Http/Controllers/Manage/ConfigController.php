@@ -31,7 +31,6 @@ class ConfigController extends BasicController
     	$arrRequest = $request->all();
     	$data =[
     		['name'=>'name', 'value'=>$arrRequest['name'], 'issystem'=>1],
-    		// ['name'=>'url', 'value'=>$arrRequest['siteUrl'], 'issystem'=>1],
     		['name'=>'icp', 'value'=>$arrRequest['icp'], 'issystem'=>1],
     		['name'=>'headerhtml', 'value'=>$arrRequest['headerhtml'], 'issystem'=>1],
     		['name'=>'footerhtml', 'value'=>$arrRequest['footerhtml'], 'issystem'=>1],
@@ -77,7 +76,7 @@ class ConfigController extends BasicController
         ];
         $configData = [
             'APP_URL'=>$arrRequest['url'],
-            'APP_DEBUG'=> hst_switch('debug') == 1 ? 'true' : 'false',
+            'APP_DEBUG'=> hst_switch($arrRequest, 'debug') == 1 ? 'true' : 'false',
             'APP_TIMEZONE'=>isset($arrRequest['timezone']) ? $arrRequest['timezone'] : 'Asia/Shanghai'
         ];
         $oldConfig = hst_config('site');

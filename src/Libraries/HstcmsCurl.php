@@ -29,6 +29,7 @@ class HstcmsCurl {
 	public $httpCode = 200;
 	public $httpInfo = array();
 	public $response = '';
+    public $header = '';
 
     public function __construct()
     {
@@ -75,6 +76,7 @@ class HstcmsCurl {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); // 从证书中检查SSL加密算法是否存在
         }
         if ($postData) {
+            print_r($postData);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
@@ -85,6 +87,10 @@ class HstcmsCurl {
         		curl_setopt($ch, CURLOPT_COOKIE, $this->cookieContent);
         	}
         }
+        if($this->header){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $this->header);
+        }
+
         if($this->cookie === 1 || $this->cookie === 3) {
         	curl_setopt($ch, CURLOPT_HEADER, true); //将头文件的信息作为数据流输出
         }
@@ -128,8 +134,6 @@ class HstcmsCurl {
 				}
 			}
     		Cache::forever($cacheDataName, $this->cookieData);
-			//$this->cookieContent = implode(';', $cookies[1]);
-    		//Cache::forever($cacheName, $this->cookieContent);
     	} else if($type == 'add') {
     		$this->cookieDatas[$v] = $v2;
     	} else if($type == 'get') {
@@ -137,12 +141,12 @@ class HstcmsCurl {
     		if($this->cookieDatas) {
     			$this->cookieData = array_merge($this->cookieData, $this->cookieDatas);
     		}
+            print_r($this->cookieData);
     		$cookieContent = '';
     		foreach ($this->cookieData as $key => $value) {
     			 $cookieContent .= $key.'='.$value.';';
     		}
     		if(!$this->cookieContent){
-    			//$this->cookieContent = Cache::get($cacheName);
     			$this->cookieContent = trim($cookieContent, ';');
     		}
     		if($v) {

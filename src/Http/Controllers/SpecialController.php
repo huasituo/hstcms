@@ -39,6 +39,12 @@ class SpecialController extends BasicController
             }
             return $this->loadTemplate($info['module'].'::'.$info['style'], $view);
         }
+        if($this->isMobile) {
+            $view['css'] = url('theme/special/'.$v.'/wap/css');
+            $view['images'] = url('theme/special/'.$v.'/wap/images');
+            $view['js'] = url('theme/special/'.$v.'/wap/js');
+            return $this->loadTemplate('special::'.$v.'.wap.index', $view);
+        }
         $view['css'] = url('theme/special/'.$v.'/css');
         $view['images'] = url('theme/special/'.$v.'/images');
         $view['js'] = url('theme/special/'.$v.'/js');

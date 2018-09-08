@@ -16,7 +16,6 @@ class GlobalBasicController extends Controller
 {
     // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected   $_showdata;                         //显示信息array
     public      $viewData = array();                //传递给模版的共享内容
     protected   $lav_route = '';
 
@@ -37,7 +36,7 @@ class GlobalBasicController extends Controller
     protected function addMessage($message = array(), $str = '')
     {
         if(!$str) return;
-        $this->_showdata[$str] = $message;
+        $this->viewData[$str] = $message;
     }
 
     public function showError($message = '', $routeName = '', $with = 0)
@@ -59,9 +58,9 @@ class GlobalBasicController extends Controller
             $message = hst_lang($message);
         }
         $viewDatas = isset($this->viewData) ? $this->viewData : array();
-        if($routeName && !preg_match('|^http://|', $routeName) && !$with) {
-            $routeName = $routeName ? route($routeName) : '';
-        }
+        // if($routeName && !preg_match('|^http://|', $routeName) && !$with) {
+        //     $routeName = $routeName ? route($routeName) : '';
+        // }
         $viewData = [
             'message'=>$message,
             'referer'=>$routeName,
@@ -70,19 +69,19 @@ class GlobalBasicController extends Controller
         ];
         $viewData = array_merge($viewData, $viewDatas);
         if(substr_count($_SERVER['HTTP_ACCEPT'], 'application/json')) {
-            if($routeName && !preg_match('|^http://|', $routeName)) {
+            if($routeName && !preg_match('|^http://|', $routeName) && !preg_match('|^https://|', $routeName)) {
                 $routeName = $routeName ? route($routeName) : '';
             }
             $viewData['referer'] = $routeName;
             return response()->json($viewData);
         }
         if($with == 1) {                                            //跳转指定链接提示
-            if(preg_match('|^http://|', $routeName)) {
+            if(preg_match('|^http://|', $routeName) || preg_match('|^https://|', $routeName)) {
                 return redirect($routeName)->with($viewData);
             }
             return redirect()->route($routeName)->with($viewData);
         } else if($with == 2) {                                       //表单提交错误提示
-            if(preg_match('|^http://|', $routeName)) {
+            if(preg_match('|^http://|', $routeName) || preg_match('|^https://|', $routeName)) {
                 return redirect($routeName)
                     ->withErrors($message)
                     ->withInput();
@@ -97,6 +96,9 @@ class GlobalBasicController extends Controller
                 ->withInput();
         } else if($with == 5) {                                     //返回上一级提示
             return back()->with($viewData);
+        }
+        if($this->isMobile) {
+            return $this->loadTemplate('hstcms::wap.tips', $viewData);
         }
         return $this->loadTemplate('hstcms::common.tips', $viewData);
     }

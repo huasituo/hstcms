@@ -142,7 +142,7 @@ class RoleController extends BasicController
         }
         CommonRoleModel::where('id', $id)->delete();
         CommonRoleModel::setCache();
-        $this->addOperationLog(hst_lang('hstcms::manage.role.delete').':'.$role['name'], '', $role->toArray());
+        $this->addOperationLog(hst_lang('hstcms::manage.role.delete').':'.$role['name'], '', [], $role->toArray());
         return $this->showMessage('hstcms::public.delete.success');
     }
 }

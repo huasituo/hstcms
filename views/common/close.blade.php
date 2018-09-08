@@ -11,7 +11,7 @@
 	width: 370px;
 
 }
-.common-tips.hstui-frame .hstui-frame-title{
+.common-tips.hstui-frame .hstui-frame-title {
 	height: 40px;
 	line-height: 40px;
 	background: linear-gradient(rgb(248, 248, 248) 0px, rgb(236, 236, 236) 100%) repeat-x rgb(242, 242, 242);
@@ -19,7 +19,7 @@
     text-align: center;
 }
 
-.common-tips.hstui-frame .hstui-frame-content{
+.common-tips.hstui-frame .hstui-frame-content {
     text-align: center;
 }
 .common-tips.hstui-frame .hstui-frame-content p {
