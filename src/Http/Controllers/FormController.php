@@ -62,7 +62,10 @@ class FormController extends BaseController
         $psotData['vieworder'] = 0;
         $commonFormContentModel = new CommonFormContentModel();
         $commonFormContentModel->setTable($info['table']);
-        $commonFormContentModel->insertGetId($psotData);
+        $id = $commonFormContentModel->insertGetId($psotData);
+        if($id) {
+            $hstcmsFields->saveAttach($id, $request, $fields);
+        }
         return $this->showMessage('hstcms::public.add.success'); 
     }
 }

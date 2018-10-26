@@ -65,4 +65,19 @@ class PublicController extends BaseController
         echo json_encode($list);
         exit;
     } 
+
+    public function viewpw(Request $request)
+    {
+        $viewpw = $request->get('viewpw');
+        $password = $request->get('password');
+        if(!$password) {
+            return $this->showError('hstcms::public.viewpw.password.empty');
+        }
+        $result = hst_decrypt($viewpw, $password);
+        if(hst_message_verify($result)) {
+            return $this->showError($result['message']);
+        }
+        $this->addMessage($result, 'viewpw');
+        return $this->showMessage('hstcms::public.successfull');
+    }
 }

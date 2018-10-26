@@ -61,32 +61,30 @@
 	</div>
 	<div class="hstui-frame-content">
 		<p>{{ $message }}</p>
-		<a class="J_tips"><em style="color: red;" id="t">(5)</em>{!! hst_lang('hstcms::public.tips.tiao') !!}</a>
+		<a class="J_tips" style="display: none;"><em style="color: red;" id="t">(5)</em>{!! hst_lang('hstcms::public.tips.tiao') !!}</a>
 	</div>
 </div>
 <script>
 var referer = '{!! $referer !!}';
-var withs = {!! $with !!};
 Hstui.use('jquery','common',function() {
 	var t = 5;
-    setInterval(function () {
-    	t--;
-    	$("#t").html('('+t+')');
-    	if(t == 1) {
+	if(referer) {
+		$(".J_tips").show();
+	    setInterval(function () {
+	    	t--;
+	    	$("#t").html('('+t+')');
+	    	if(t == 1) {
+		    	if(referer) {
+		    		window.location.href = referer;
+		    	}
+	    	}
+	    }, 1000);
+	    $(".J_tips").on('click',function(){
 	    	if(referer) {
 	    		window.location.href = referer;
-	    	} else {
-	    		history.back(-1);
 	    	}
-    	}
-    }, 1000);
-    $(".J_tips").on('click',function(){
-    	if(referer) {
-    		window.location.href = referer;
-    	} else {
-    		history.back(-1);
-    	}
-    });
+	    });
+	}
 });
 </script>
 </body>

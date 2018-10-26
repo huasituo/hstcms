@@ -13,6 +13,7 @@
                 <th width="80" >{{ hst_lang('ID') }}</th>
                 <th width="20%" >{{ hst_lang('hstcms::public.name') }}</th>
                 <th >{{ hst_lang('hstcms::public.dir') }}</th>
+                <th >{{ hst_lang('hstcms::manage.area.zimu') }}</th>
                 <th >{{ hst_lang('hstcms::manage.area.zip') }}</th>
                 <th width="10%" >{{ hst_lang('hstcms::public.operation') }}</th>
             </tr>
@@ -24,6 +25,7 @@
                 <td>{!! $v['areaid'] !!}</td>
                 <td>{!! $v['name'] !!}</td>
                 <td>{!! $v['joinname'] !!}</td>
+                <td>{!! $v['initials'] !!}</td>
                 <td>{!! $v['zip'] !!}</td>
                 <td>
                    <a href="{{ route('manageAreaDelete', ['areaid'=>$v['areaid']]) }}" class="J_ajax_del" style="margin-right: 5px;">{{ hst_lang('hstcms::public.delete') }}</a>

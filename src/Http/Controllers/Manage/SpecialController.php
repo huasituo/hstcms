@@ -27,7 +27,7 @@ class SpecialController extends BasicController
         $this->navs = [
             'index'=>['name'=>hst_lang('hstcms::manage.special.manage'), 'url'=>route('manageSpecialIndex', ['module'=>$this->module])],
             'add'=>['name'=>hst_lang('hstcms::manage.special.add'), 'url'=>route('manageSpecialAdd', ['module'=>$this->module]), 'class'=>'J_dialog', 'title'=>hst_lang('hstcms::manage.special.add')],
-            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'url'=>route('manageSpecialCache', ['module'=>$this->module])]
+            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'class'=>'J_ajax_refresh', 'url'=>route('manageSpecialCache', ['module'=>$this->module])]
         ];
         $this->viewData['module'] = $this->module;
     }

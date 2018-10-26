@@ -18,10 +18,10 @@ use Illuminate\Http\Request;
 */
 
 Route::group([
-    'middleware'=>['openapi.check.app', 'openapi.check.sign', 'hstsms.check.api']
+    'middleware'=>['open.check.app', 'open.check.sign', 'hstsms.check.api']
 ], function() {
 	Route::get('/', function() {
 		echo '欢迎开放平台Cms Api接口';
-	})->name('hstcmsOpenApi');
-	Route::get('/test', 'TestController@index')->name('hstcmsOpenApiTest');						//测试接口
+	})->name('openApiHstcms');
+	Route::get('/test', 'TestController@index')->name('openApiHstcmsTest');						//测试接口
 });

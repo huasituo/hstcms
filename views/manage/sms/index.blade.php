@@ -15,6 +15,7 @@
           <label class="hstui-u-sm-2 hstui-form-label">{{ hst_lang('hstcms::manage.sms.selection.platform') }}</label>
           <div class="hstui-u-sm-10 hstui-form-input">
               @foreach($platforms as $key=>$val)
+                 <div class="hstui-u-sm-12 hstui-form-input">
                 <div class="hstui-u-sm-4">
                     <label class="blue mr10">
                       <input name="platform" value="{{ $key }}" type="radio"  {{ hst_ifCheck(hst_value('platform', $config) == $key) }} />
@@ -22,6 +23,7 @@
                     </label>
                 </div>
                 <div class="hstui-form-input-tips" id="J_form_tips_safeRequest">{!! $val['desc'] !!}</div>
+                </div>
               @endforeach
           </div>
         </div>

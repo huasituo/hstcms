@@ -5,7 +5,7 @@
  * @license http://www.huasituo.com
  */
 return [
-    'title' => 'HSTCMS管理系统',
+    'title' => config('hstcms.name').'管理系统',
     'login.title' => '系统登录',
     'manage.system'=>'管理系统',
     'open.full.screen'=>'开启全屏',
@@ -49,6 +49,8 @@ return [
     'role.delete.error.001' => '该角色正在使用，暂时无法删除',
     'enter.one.role.name' =>'请输入角色名称',
     'select.role' =>'请请选择角色',
+    'config.site'=>'站点配置',
+    'config.global'=>'全局配置',
     'config.email.update'=>'更新邮箱配置',
     'email.config' =>'邮箱配置',
     'email.test' =>'邮箱测试',
@@ -66,7 +68,6 @@ return [
                 <p style="height: 20px;line-height: 20px;">内容：恭喜您，如果您收到此邮件则代表后台邮件发送设置正确！</p>',
     'email.test.title' =>'测试邮件',
     'email.test.content' =>'恭喜您，如果您收到此邮件则代表后台邮件发送设置正确！',
-
     'email.test.success' =>'发送测试邮件[成功]',
     'email.test.error' =>'发送测试邮件[失败]',
     'sms.service'=>'短信服务',
@@ -124,7 +125,7 @@ return [
     'timecv'=>'服务器时间校正(秒)',
     'timecv.tips'=>'如果站点显示时间与服务器时间有差异，可用此功能进行微调',
     'debug'=>'DEBUG 模式运行站点',
-    'debug.tips'=>'当站点运行出现错误或异常时，开启DEBUG模式显示程序错误报告信息。并及时将错误信息反馈给程序开发商，以便尽快得到解决',
+    'debug.tips'=>'当站点运行出现错误或异常时，开启DEBUG模式显示程序错误报告信息。并及时将错误信息反馈给程序开发商，以便尽快得到解决, <a href="'.route('developmentDebugbarIndex').'" target="_b">查看</a>',
     'attach.service'=>'附件管理',
     'attach.setting'=>'附件设置',
     'attach.storage'=>'附件存储',
@@ -158,9 +159,11 @@ return [
     'caches.memcached.setting'=>'memcached驱动配置',
     'caches.memcached.update'=>'更新memcached驱动配置',
     'caches.save.error.001'=>'请先设置memcached驱动配置',
-    
+    'caches.driver.redis.tips'=>'请配置redis参数,<a class="" data-id="redis" data-name="配置redis参数" href="'.Route('manageCachesRedisConfig').'">[设置]</a>',
+    'caches.redis.setting'=>'redis驱动配置',
+    'caches.redis.update'=>'更新redis驱动配置',
+    'caches.save.error.002'=>'请先设置redis驱动配置',
     'account'=>'账户',
-
     'form'=>'表单',
     'form.add'=>'添加表单',
     'form.name'=>'表单名称',
@@ -181,8 +184,6 @@ return [
     'form.delete'=>'删除表单',
     'form.no.info'=>'表信息不存在',
     'form.delete.msg'=>'确定要删除该表单吗',
-
-
     'fields.manage'=>'字段管理',
     'fields.add'=>'添加字段',
     'fields.cache'=>'更新字段缓存',
@@ -224,31 +225,23 @@ return [
     'fields.show'=>'数据显示',
     'fields.manage.content.list.show'=>'后台列表显示',
     'fields.manage.content.list.show.tips'=>'开启后，将显示于后台内容管理列表',
-
-
     'editor.admin'=>'后台编辑器',
     'editor.admin.tips'=>'后台编辑器',
     'editor.admin.tool'=>'工具',
     'editor.admin.tool.tips'=>"必须严格按照KindEditor工具栏格式：'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link'",
-
-
     'editor.index'=>'后台编辑器',
     'editor.index.tips'=>'后台编辑器',
     'editor.index.tool'=>'工具',
     'editor.index.tool.tips'=>"必须严格按照KindEditor工具栏格式：'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline','removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist','insertunorderedlist', '|', 'emoticons', 'image', 'link'",
-
     'editor.type.001'=>'高级',
     'editor.type.002'=>'简单',
     'editor.type.003'=>'自定义',
     'editor.ispage'=>'是否翻页',
     'editor.source'=>'编辑模式',
     'editor.source.tips'=>'开启后编辑器可以切换代码模式',
-
-
     'special.manage'=>'单页管理',
     'special.add'=>'添加单页',
     'special.dir.tips'=>'目录只支持字母开头，字母数字斜杠组成的',
-
     'special.domain'=>'域名',
     'special.domain.tips'=>'如：http://new.huasituo.com  请不要加斜杠结尾，不可重复',
     'special.style'=>'模版',
@@ -269,8 +262,10 @@ return [
     'special.edit'=>'单页修改',
     'special.delete'=>'删除单页',
     'special.dir.one'=>'目录已存在',
-
     'area.manage'=>'区域管理',
+    'area.update'=>'更新',
+    'area.zimu'=>'首字母',
+    'area.update.success'=>'更新成功',
     'area.list'=>'下一级',
     'area.zip'=>'邮政编码',
     'area.delete'=>'删除地区',
@@ -281,8 +276,13 @@ return [
     'area.areaid.one'=>'地区行政编码不能重复',
     'area.add'=>'添加地区',
     'area.edit'=>'更新区域',
-
     'block'=>'数据块',
     'block.name.empty'=>'名称不能为空',
-    'type.empty'=>'类型不能为空'
+    'type.empty'=>'类型不能为空',
+    'url.html'=>'链接结尾',
+    'url.html.tips'=>'开启后详情阅读页面，以.html结尾',
+    'url.dir'=>'链接目录化',
+    'url.dir.tips'=>'开启后分类链接以目录形式显示',
+    'url.dirs'=>'链接上级目录',
+    'url.dirs.tips'=>'开启后分类链接目录形式以：上级目录/当前目录',
 ];

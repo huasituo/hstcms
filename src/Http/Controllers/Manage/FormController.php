@@ -33,7 +33,7 @@ class FormController extends BasicController
         $this->navs = [
             'index'=>['name'=>hst_lang('hstcms::manage.form'), 'url'=>route('manageFormIndex', ['module'=>$this->module, 'relatedid'=>$this->relatedid])],
             'add'=>['name'=>hst_lang('hstcms::manage.form.add'), 'url'=>route('manageFormAdd', ['module'=>$this->module, 'relatedid'=>$this->relatedid]), 'class'=>'J_dialog', 'title'=>hst_lang('hstcms::hook.add')],
-            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'url'=>route('manageFormCache', ['module'=>$this->module, 'relatedid'=>$this->relatedid])]
+            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'class'=>'J_ajax_refresh', 'url'=>route('manageFormCache', ['module'=>$this->module, 'relatedid'=>$this->relatedid])]
         ];
         $this->viewData['module'] = $this->module;
         $this->viewData['relatedid'] = $this->relatedid;
@@ -51,9 +51,7 @@ class FormController extends BasicController
 
     public function add(Request $request)
     {
-        $view = [
-        ];
-        return $this->loadTemplate('hstcms::manage.form.add', $view);
+        return $this->loadTemplate('hstcms::manage.form.add');
     }
 
     public function addSave(Request $request)

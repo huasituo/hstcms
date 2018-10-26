@@ -14,24 +14,24 @@ if ( ! function_exists('hst_changeTimeType'))
     function hst_changeTimeType($seconds)
     {
         $one_day = 3600*24;
-        if ($seconds > $one_day) 
-        {
+        if ($seconds > $one_day) {
             $day = floor($seconds/$one_day);
             $hour = $seconds%$one_day;
             $hour = floor($hour/3600);
-            return $day.hst_lang('hstcms::public.day').$hour.hst_lang('hstcms::public.hour');
-        } 
-        elseif($seconds > 3600) 
-        {
+            $mimute = ($seconds - $day * $one_day) % 3600 ;
+            $mimute = floor($mimute/60);
+            $seconds = $seconds - $day * $one_day - $hour * 3600 - $mimute * 60;
+            return $day.hst_lang('hstcms::public.day').$hour.hst_lang('hstcms::public.hour').$mimute.hst_lang('hstcms::public.minute').$seconds.hst_lang('hstcms::public.minutes');
+        }  elseif($seconds > 3600) {
             $hour = floor($seconds/3600);
             $mimute = $seconds%3600;
             $mimute = floor($mimute/60);
-            return $hour.hst_lang('hstcms::public.hour').$mimute.hst_lang('hstcms::public.minute');
-        } 
-        elseif($seconds > 60)
-        {
+            $seconds = $seconds%3600 - $mimute * 60;
+            return $hour.hst_lang('hstcms::public.hour').$mimute.hst_lang('hstcms::public.minute').$seconds.hst_lang('hstcms::public.minutes');
+        } elseif($seconds > 60) {
             $mimute = floor($seconds/60);
-            return $mimute.hst_lang('hstcms::public.minute');
+            $seconds = $seconds - $mimute * 60;
+            return $mimute.hst_lang('hstcms::public.minute').$seconds.hst_lang('hstcms::public.minutes');
         }
         return $seconds.hst_lang('hstcms::public.minutes');
     }

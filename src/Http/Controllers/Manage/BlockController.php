@@ -7,6 +7,7 @@
 namespace Huasituo\Hstcms\Http\Controllers\Manage;
 
 use Huasituo\Hstcms\Model\CommonBlockModel;
+use Huasituo\Hstcms\Model\AttachmentModel;
 
 use Validator;
 use App\Http\Requests;
@@ -27,19 +28,19 @@ class BlockController extends BasicController
         $this->navs = [
             'index'=>['name'=>hst_lang('hstcms::manage.block'), 'url'=>route('manageBlockIndex', ['module'=>$this->module])],
             'add'=>['name'=>hst_lang('hstcms::public.add'), 'url'=>route('manageBlockAdd', ['module'=>$this->module]), 'class'=>'J_dialog', 'title'=>hst_lang('hstcms::manage.special.add')],
-            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'url'=>route('manageSpecialCache', ['module'=>$this->module])]
+            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'class'=>'J_ajax_refresh', 'url'=>route('manageSpecialCache', ['module'=>$this->module])]
         ];
         $this->viewData['module'] = $this->module;
     }
 
     public function index(Request $request)
     {
-        
         $listQuery = CommonBlockModel::where('id', '>', 0);
         $args = [];
         $list = $listQuery->orderby('times', 'desc')->paginate($this->paginate);
         $view = [
             'list'=>$list,
+            'args'=>$args,
             'navs'=>$this->getNavs('index')
         ];
     	return $this->loadTemplate('hstcms::manage.block.index', $view);
@@ -47,9 +48,8 @@ class BlockController extends BasicController
 
     public function add(Request $request)
     {
-        $view = [
-        ];
-        return $this->loadTemplate('hstcms::manage.block.add', $view);
+        return $this->loadTemplate('hstcms::manage.block.add', [
+        ]);
     }
 
     public function addSave(Request $request)
@@ -88,6 +88,9 @@ class BlockController extends BasicController
         $id = CommonBlockModel::insertGetId($psotData);
         if(!$id) {
             return $this->showError('hstcms::public.error');
+        }
+        if($contents['image']) {
+            AttachmentModel::updateAttach($contents['image'], $id);
         }
         CommonBlockModel::setCache($id);
         $this->addOperationLog(hst_lang('hstcms::public.add','hstcms::public.block').':'.trim($request->get('name')), '', $psotData, []);
@@ -133,7 +136,7 @@ class BlockController extends BasicController
         $image = $request->get('image');
         $link = $request->get('link');
         $contents = [
-            'image'=>$image ? $image['aid'] : 0,
+            'image'=>isset($image['aid']) && $image['aid'] ? $image['aid'] : 0,
             'link'=>$link
         ];
         if($type == 'image') {
@@ -150,6 +153,9 @@ class BlockController extends BasicController
             'times'=>hst_time()
         ];
         CommonBlockModel::where('id', $id)->update($psotData);
+        if($contents['image']) {
+            AttachmentModel::updateAttach($contents['image'], $id);
+        }
         CommonBlockModel::setCache($id);
         $this->addOperationLog(hst_lang('hstcms::manage.edit').':'.$id, '', $psotData, $info);
         return $this->showMessage('hstcms::public.edit.success'); 
@@ -165,6 +171,7 @@ class BlockController extends BasicController
             return $this->showError('hstcms::public.no.data', 5);
         }
         CommonBlockModel::deleteBlock($id);
+        AttachmentModel::deleteAttachByAppId('block', $info['id']);
         $this->addOperationLog(hst_lang('hstcms::public.delete').':'.$id, '', [], $info);
         return $this->showMessage('hstcms::public.delete.success', 5); 
     }

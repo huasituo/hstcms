@@ -42,15 +42,26 @@ class CheckAuth
             return redirect()->route('manageAuthLogin')->withInput()->withErrors(['password'=> hst_lang('hstcms::manage.user.disable')]);
         }
         $loginCitme = hst_config('safe', 'manage.login.ctime') ? hst_config('safe', 'manage.login.ctime') : 30;
-        if(hst_time() - $time > $loginCitme*60) {
+        if((hst_time() - $time) > $loginCitme*60 && !Session::get('manager_locked')) {
             ManageLoginLogModel::addLog(hst_manager(), hst_lang('hstcms::manage.ctime.logout'));
             $request->session()->forget('manager');
             return redirect()->route('manageAuthLogin');
         }
         Session::put('manager', encrypt($uinfo['uid'].'|'.$uinfo['username'].'|'.$uinfo['mobile'].'|'.$uinfo['email'].'|'.hst_time()));
+        $route = Route::currentRouteName();
+        if(Session::get('manager_locked')) {
+            if($route && !in_array($route, ['manageLocked', 'manageUnLocked', 'manageDoLocked'])) {
+                if(substr_count($_SERVER['HTTP_ACCEPT'], 'application/json')) {
+                    $viewData = [
+                        'message'=> hst_lang('hstcms::public.lockeds')
+                    ];
+                    return response()->json($viewData);
+                }
+                return redirect()->route('manageLocked');
+            }
+        }
         if($uinfo['gid'] != '99') {
             $roleInfo = CommonRoleModel::getInfo($uinfo['gid']);
-            $route = Route::currentRouteName();
             if($route && !in_array($route, ['manageIndex', 'manageHome', 'manageUserInfoEdit', 'manageUserInfoEditSave']) && !in_array($route, $roleInfo['auths'])) {
                 if(substr_count($_SERVER['HTTP_ACCEPT'], 'application/json')) {
                     $viewData = [

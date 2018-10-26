@@ -68,6 +68,13 @@ return [
 @return array', 
             'module'=>'hstcms'
         ],
+        's_sms_types'=>[
+            'name'=>'s_sms_types', 
+            'description'=>'短信服务类型', 
+            'document'=>'@param array
+@return array', 
+            'module'=>'hstcms'
+        ],
     ],
     'hookInject'=>[
         's_test_arr'=>[

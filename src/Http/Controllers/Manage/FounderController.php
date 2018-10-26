@@ -84,7 +84,7 @@ class FounderController extends BasicController
         if(!$uid) {
             return $this->showError('hstcms::public.no.id');
         }
-        $user = ManageUserModel::where('uid', $uid)->first();
+        $user = ManageUserModel::getUser($uid);
         if(!$user) {
             return $this->showError('hstcms::public.no.data');
         }
@@ -143,7 +143,7 @@ class FounderController extends BasicController
         if(!$uid) {
             return $this->showError('hstcms::public.no.id');
         }
-        $user = ManageUserModel::where('uid', $uid)->first();
+        $user = ManageUserModel::getUser($uid);
         if(!$user) {
             return $this->showError('hstcms::public.no.data');
         }

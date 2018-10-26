@@ -21,7 +21,7 @@ if ( ! function_exists('hst_storage_url'))
     		return storage::disk($attachInfo['disk'])->url($attachInfo['path']);
     	} else {
     		if(!$disk) {
-    			$disks = hst_config('attachment', 'storage');
+    			$disk = hst_config('attachment', 'storage');
     		}
     		return storage::disk($disk)->url($v);
     	}
@@ -58,7 +58,7 @@ if ( ! function_exists('hst_storage_download'))
         }
         $result = $hstcmsStorage->download();
         if(hst_message_verify($result)) {
-            return $this->showError($result['message']);
+            return $result;
         }
         return $result;
     }
@@ -83,7 +83,7 @@ if ( ! function_exists('hst_image_resize'))
             $url = storage::disk($attachInfo['disk'])->url($attachInfo['path']);
         } else {
             if(!$disk) {
-                $disks = hst_config('attachment', 'storage');
+                $disk = hst_config('attachment', 'storage');
             }
             $url = storage::disk($disk)->url($v);
         }

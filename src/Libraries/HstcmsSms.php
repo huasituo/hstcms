@@ -23,23 +23,23 @@ class HstcmsSms
 	public function getStatus($id = 0) 
 	{
 		if (!$this->plat) {
-			return ['state'=>'error', 'message'=>hst_lang('hstcms::manage.sms.plat.choose.error')];
+			return hst_message(hst_lang('hstcms::manage.sms.plat.choose.error'));
 		}
 		$smsLog = CommonSmsModel::where('id', $id)->select('id', 'rtype', 'requestid', 'status')->first();
 		if(!$smsLog) {
-			return ['state'=>'error', 'message'=>hst_lang('hstcms::manage.sms.log.no.error')];
+			return hst_message(hst_lang('hstcms::manage.sms.log.no.error'));
 		}
 		if(!$smsLog['requestid']) {
-			return ['state'=>'error', 'message'=>hst_lang('hstcms::manage.sms.log.no.error')];
+			return hst_message(hst_lang('hstcms::manage.sms.log.no.error'));
 		}
 		if($smsLog['status'] == 3) {
 			return true;
 		}
 		$result = $this->plat->getStatus($smsLog['rtype'], $smsLog['requestid']);
-		if (isset($result['state']) && $result['state'] === 'error') {
+		if (hst_message_verify($result)) {
 			return $result;
 		}
-		CommonSmsModel::where('id', $id)->update(['jstimes'=>$result['data']['jstimes'], 'stimes'=>$result['data']['times'], 'status'=>$result['data']['status']]);
+		CommonSmsModel::where('id', $id)->update(['jstimes'=>$result['res']['jstimes'], 'stimes'=>$result['res']['times'], 'status'=>$result['res']['status']]);
 		return true;
 	}
 	
@@ -51,27 +51,27 @@ class HstcmsSms
 	public function sendMobileMessage($mobile, $type, $param = [], $uid = 0) 
 	{
 		if (!$this->plat) {
-			return ['state'=>'error', 'message'=>hst_lang('hstcms::manage.sms.plat.choose.error')];
+			return hst_message(hst_lang('hstcms::manage.sms.plat.choose.error'));
 		}
 		$this->type = CommonSmsModel::getType($type);
 		if (!$this->type) {
-			return ['state'=>'error', 'message'=>hst_lang('hstcms::manage.sms.plat.choose.error')];
+			return hst_message(hst_lang('hstcms::manage.sms.plat.choose.error'));
 		}
 		$code = CommonSmsCodeModel::_buildCode();
 		$content = $this->_buildContent($code, $type);
 		$number = $this->checkTodayNum($mobile, $type);
-		if (isset($number['state']) && $number['state'] == 'error') {
+		if (hst_message_verify($number)) {
 			return $number;
 		}
 		$param['code'] = $code;
 		$param['product'] = hst_config('sms', 'product');
 		$result = $this->plat->sendMobileMessage($mobile, $content, $param);
-		if (isset($result['state']) && $result['state'] === 'error') {
+		if (hst_message_verify($result)) {
 			return $result;
 		}
 		$results = CommonSmsCodeModel::addInfo($mobile, $type, $code, $number);
 		if($results) {
-			CommonSmsModel::addInfo($mobile, $type, $code, $content, json_encode($param), (int)$result['data']['type'], $result['data']['requestid'], $uid);
+			CommonSmsModel::addInfo($mobile, $type, $code, $content, json_encode($param), (int)$result['res']['type'], $result['res']['requestid'], $uid);
 		}
 		return true;
 	}
@@ -82,11 +82,11 @@ class HstcmsSms
 	 */
 	public function checkVerify($mobile, $inputCode, $type = 'register') 
 	{
-		if (!$mobile || !$inputCode) return ['state'=>'error', 'message'=>hst_lang('hstcms::public.mobile.code.mobile.empty')];
+		if (!$mobile || !$inputCode) return hst_message(hst_lang('hstcms::public.mobile.code.mobile.empty'));
 		$info = CommonSmsCodeModel::where('type', $type)->where('mobile', $mobile)->first();
-		if (!$info) return ['state'=>'error', 'message'=>hst_lang('hstcms::public.mobile.code.error')];
-		if ($info['expired_time'] < hst_time()) return ['state'=>'error', 'message'=>hst_lang('hstcms::public.mobile.code.expired_time.error')];
-		if ($inputCode !== $info['code']) return ['state'=>'error', 'message'=>hst_lang('hstcms::public.mobile.code.error')];
+		if (!$info) return hst_message(hst_lang('hstcms::public.mobile.code.error'));
+		if ($info['expired_time'] < hst_time()) return hst_message(hst_lang('hstcms::public.mobile.code.expired_time.error'));
+		if ($inputCode !== $info['code']) return hst_message(hst_lang('hstcms::public.mobile.code.error'));
 		return true;
 	}
 
@@ -109,7 +109,7 @@ class HstcmsSms
 			}
 		}
 		if ($number > $this->type['num']) {
-			return ['state'=>'error', 'message'=>hst_lang('hstcms::public.mobile.code.send.num.error')];
+			return hst_message(hst_lang('hstcms::public.mobile.code.send.num.error'));
 		}
 		return $number;
 	}
@@ -123,7 +123,8 @@ class HstcmsSms
 		return $content;
 	}
 
-	public function setPlat() {
+	public function setPlat() 
+	{
 		$plat = hst_config('sms', 'platform');
         $this->platforms = CommonSmsModel::getPlatform($plat);	
         if(class_exists($this->platforms['components'])) {

@@ -15,13 +15,19 @@ trait ApiResponse
      * @var int
      */
     protected $stateCode = FoundationResponse::HTTP_OK;
+    protected $header = [
+        'Author-name'=>'huasituo',
+        'Author-url'=>'www.huasituo.com'
+    ];
 
     /**
-     * @return mixed
+     * @param $setHeader
+     * @return $this
      */
-    public function getStateCode()
+    public function setHeader(array $header)
     {
-        return $this->stateCode;
+        $this->header = array_merge($header, $this->header);
+        return $this;
     }
 
     /**
@@ -35,33 +41,24 @@ trait ApiResponse
     }
 
     /**
+     * @return mixed
+     */
+    public function getStateCode()
+    {
+        return $this->stateCode;
+    }
+
+    /**
      * @param $data
      * @param array $header
      * @return mixed
      */
     public function respond($data, $header = [])
     {
+        if(!$header) {
+            $header = $this->header;
+        }
         return Response::json($data, $this->getStateCode(), $header);
-    }
-
-    /**
-     * @param $message
-     * @param string $state
-     * @return mixed
-     */
-    public function message($message, $state = 0, $data = [], $code = null)
-    {
-        if(is_array($state)) {
-            $data = $state;
-            $state = 0;
-        }
-        $datas = [
-            'message' => $message
-        ];
-        if($data) {
-            $datas['data'] = $data;
-        }
-        return $this->state($state, $datas, $code);
     }
 
     /**
@@ -70,18 +67,17 @@ trait ApiResponse
      * @param null $code
      * @return mixed
      */
-    public function state($state, array $data, $code = null)
+    public function state($code, array $data, $state = 200)
     {
-        if ($code) {
-            $this->setStateCode($code);
+        if ($state) {
+            $this->setStateCode($state);
         }
-        $state = [
-            'state' => $state,
-            'code' => $this->stateCode
+        $code = [
+            'code' => $code,
+            'state' => $this->stateCode
         ];
-        $data = array_merge($state, $data);
+        $data = array_merge($code, $data);
         return $this->respond($data);
-
     }
 
     /**
@@ -90,9 +86,8 @@ trait ApiResponse
      * @param string $state
      * @return mixed
      */
-    public function failed($message, $code = FoundationResponse::HTTP_BAD_REQUEST, $state = '-1'){
-
-        return $this->setStateCode($code)->message($message, $state);
+    public function failed($message, $state = FoundationResponse::HTTP_BAD_REQUEST, $code = '-99'){
+        return $this->setStateCode($state)->message($message, $code);
     }
 
     /**
@@ -111,17 +106,17 @@ trait ApiResponse
     public function created($message = "created")
     {
         return $this->setStateCode(FoundationResponse::HTTP_CREATED)
-            ->message($message);
+            ->message($message, '-99');
     }
 
     /**
-     * @param $data
-     * @param string $state
+     * @param string $message
      * @return mixed
      */
-    public function toSuccess($data, $state = "0")
+    public function accepted($message = "accepted")
     {
-        return $this->state($state, compact('data'));
+        return $this->setStateCode(FoundationResponse::HTTP_ACCEPTED)
+            ->message($message, '-99');
     }
 
     /**
@@ -131,5 +126,43 @@ trait ApiResponse
     public function notFond($message = 'Not Fond!')
     {
         return $this->failed($message, Foundationresponse::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @param $message
+     * @param string $code
+     * @return mixed
+     */
+    public function message($message, $code = 0, $data = [], $state = null)
+    {
+        if(is_array($code)) {
+            $data = $code;
+            $code = 0;
+        }
+        return $this->state($code, [
+            'message' => $message,
+            'res'=>$data
+        ], $state);
+    }
+
+    /**
+     * @param $data
+     * @param string $state
+     * @return mixed
+     */
+    public function toSuccess($msg = '', array $data)
+    {
+        return $this->state(0, [
+            'message' => $message,
+            'res'=>$data
+        ], 200);
+    }
+
+    public function toList($list) 
+    {
+        $newList = $list->toArray();
+        unset($newList['first_page_url'], $newList['last_page_url'],$newList['next_page_url'],$newList['path'],$newList['prev_page_url'], $newList['from'], $newList['to'], $newList['last_page']);
+        $newList['total_page'] = ceil($newList['total']/$newList['per_page']);
+        return $this->message('success', 0, $newList);
     }
 }

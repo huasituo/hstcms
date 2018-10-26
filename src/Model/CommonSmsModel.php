@@ -28,7 +28,7 @@ class CommonSmsModel extends Model
             'content'=>$content,
             'sendnum'=>1,
             'status'=>1,
-            'requestid'=>$requestid,
+            'requestid'=>(string)$requestid,
             'rtype'=>(string)$rtype,
             'times'=> hst_time()
         ];

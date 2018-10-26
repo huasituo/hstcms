@@ -42,7 +42,7 @@ class RouteServiceProvider extends ServiceProvider
         
         $this->mapApiRoutes();
 
-        $this->mapOpenApiRoutes();
+        $this->mapOpenRoutes();
     }
 
     /**
@@ -82,15 +82,15 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     //开放平台API
-    protected function mapOpenApiRoutes()
+    protected function mapOpenRoutes()
     {
         Route::group([
             'middleware' => 'api',
             'namespace'  => $this->namespace.'\Open',
-            'prefix'     => config('openapi.apiDomain') ? config('openapi.apiDomain') : env('APP_URL'),
-            'prefix'     => config('openapi.apiDomain') ? 'api/cms' : 'open/api/cms',
+            'prefix'     => config('open.apiDomain') ? config('open.apiDomain') : env('APP_URL'),
+            'prefix'     => config('open.apiDomain') ? 'api/cms' : 'open/api/cms',
         ], function ($router) {
-            require __DIR__.'/../Routes/openapi.php';
+            require __DIR__.'/../Routes/open.php';
         });
     }
 }

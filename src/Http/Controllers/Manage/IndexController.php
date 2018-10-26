@@ -31,6 +31,10 @@ class IndexController extends BasicController
             'menus' => json_encode($menus),
             'userInfo'=>$user
         ];
+        $locked = Session::get('manager_locked');
+        if($locked) {
+            return redirect()->route('manageLocked');
+        }
     	return $this->loadTemplate('index', $view);
     }
 
@@ -43,6 +47,49 @@ class IndexController extends BasicController
         return $this->loadTemplate('home', $view);
     }
 
+    public function locked(Request $request)
+    {
+        $user = hst_manager();
+        $menus = ManageMenuModel::getMenu($user);
+        $view = [
+            'menus' => json_encode($menus),
+            'userInfo'=>$user
+        ];
+        $locked = Session::get('manager_locked');
+        return $this->loadTemplate('locked', $view);  
+    }
+
+    public function doLocked(Request $request)
+    {
+        Session::put('manager_locked', 1);
+        return $this->showMessage('hstcms::public.successful');       
+    }
+
+    public function unLocked(Request $request)
+    {
+        $uid =hst_manager('uid');
+        $user = ManageUserModel::getUser($uid);
+        if(!$user) {
+            return $this->showError('hstcms::public.no.data');
+        }
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|between:6,16|string'
+        ],[
+            'password.required'=> hst_lang('hstcms::public.password.empty'),
+            'password.between' => hst_lang('hstcms::public.password.length.tips')
+        ]);
+        if ($validator->fails()) {
+            return $this->showError($validator, 'manageLocked', 2);
+        }
+        if (!ManageUserModel::checkPassword($user['username'], $request->get('password'))) {
+            ManageLoginLogModel::addLog(['uid'=>$user['uid'], 'username'=>$user['username']], hst_lang('hstcms::public.unLocked.password.error'));
+            return $this->showError(['password'=> hst_lang('hstcms::public.unLocked.password.error')], 'manageLocked', 2);
+        }
+        ManageLoginLogModel::addLog($user, hst_lang('hstcms::public.unLocked.success'));
+        Session::put('manager_locked', 0);
+        return redirect()->route('manageIndex');
+    }
+
     public function customSet(Request $request)
     {
 
@@ -53,7 +100,7 @@ class IndexController extends BasicController
         if(!$uid) {
             return $this->showError('hstcms::public.no.id');
         }
-        $user = ManageUserModel::where('uid', $uid)->first();
+        $user = ManageUserModel::getUser($uid);
         if(!$user) {
             return $this->showError('hstcms::public.no.data');
         }

@@ -5,7 +5,6 @@
  * @license http://www.huasituo.com
  */
 return [
-
     'host'=>'服务器',
     'port'=>'端口',
     'change'=>'变动',
@@ -25,11 +24,18 @@ return [
     'send'=>'发送',
     'hook'=>'钩子',
     'detailed'=>'明细',
+    'category'=>'分类',
+    'download'=>'下载',
+    'buy'=>'购买',
+    'pic'=>'图片',
+    'visit'=>'访问',
     'basic.information'=>'基本资料',
     'vieworder'=>'排序',
+    'sort'=>'排序',
     'income'=>'收入',
     'expenditure'=>'支出',
     'extends'=>'扩展',
+    'size'=>'大小',
     'no.category'=>'暂无类别',
     'phone'=>'电话',
     'postal.code'=>'邮政编码',
@@ -40,6 +46,7 @@ return [
     'to'=>'给',
     'note'=>'备注',
     'content'=>'内容',
+    'total'=>'统计',
     'dir'=>'目录',
     'view'=>'查看',
     'add.times'=>'添加时间',
@@ -60,6 +67,11 @@ return [
     'closes'=>'关闭',
     'loading'=>'加载中...',
     'locked'=>'锁屏',
+    'lockeds'=>'锁屏状态，功能无法使用',
+    'unlocked'=>'解锁',
+    'unlocked.loading'=>'解锁中...',
+    'unLocked.success'=>'解锁成功',
+    'unLocked.password.error'=>'解锁失败，密码错误',
     'close.this.page'=>'关闭此页',
     'checks'=>'效验',
     'close'=>'关闭',
@@ -72,24 +84,22 @@ return [
     'uninstall'=>'卸载',
     'uninstall.success'=>'卸载成功',
     'regular.verification'=>'正则验证',
-
+    'hits'=>'浏览数',
+    'shares'=>'分享数',
+    'replys'=>'回复数',
     'issystem'=>'是否系统',
     'yes'=>'是',
     'no'=>'否',
-
     'extend'=>'扩展',
     'param'=>'参数',
-
     'all'=>'全部',
     'unlimited'=>'不限',
     'audited'=>'待审核',
     'notice'=>'通知',
-
     'contacts'=>'联系人',
     'contact.number'=>'联系电话',
     'personal'=>'个人',
     'enterprise'=>'企业',
-
     'last.times'=>'最后时间',
     'ordernum'=>'订单号',
     'paynum'=>'付款单号',
@@ -97,10 +107,10 @@ return [
     'subject'=>'标题',
     'payuser'=>'付款账户',
     'paymoney'=>'付款金额',
-
     'order.number'=>'订单号',
     'pay.order.number'=>'支付订单号',
     'amount.of.money'=>'金额',
+    'money'=>'金额',
     'unit.price'=>'单价',
     'minimum.recharge'=>'最低充值',
     'payment'=>'支付',
@@ -157,12 +167,14 @@ return [
     'e.info'=>'基本信息',
     'stime'=>'开始时间',
     'etime'=>'结束时间',
-
     'tips.title'=>'提示信息',
     'tips.tiao'=>'如果你的浏览器没有反应，请点击这里...',
-
     'balance'=>'余额',
     'manage'=>'管理',
+    'more'=>'更多',
+    'loading.more'=>'加载更多',
+    'mo.more'=>'暂无更多',
+    'map'=>'地图',
     'add'=>'添加',
     'edit'=>'编辑',
     'field'=>'字段',
@@ -197,25 +209,19 @@ return [
     'male'=>'男',
     'female'=>'女',
     'secrecy'=>'保密',
-
     'browser'=>'浏览器',
     'operating.system'=>'操作系统',
     'remark'=>'备注',
-
     'olddata'=>'旧数据',
     'newdata'=>'新数据',
-
     'wait.for.a.return.receipt'=>'等待回执',
     'serial.number'=>'流水号',
     'sales.management'=>'销售管理',
-
     'user.manage'=>'用户管理',
     'user.profile'=>'个人简介',
-
     'verified'=>'已验证',
     'unverified'=>'已验证',
     'verification.failure'=>'验证失败',
-
     'menu'=>'菜单',
     'icon'=>'图标',
     'enter.one.icon' =>'请输入图标',
@@ -225,7 +231,6 @@ return [
     'url'=>'链接',
     'enter.one.url' =>'请输入链接',
     'url.empty' => '链接不能为空',
-
     'module'=> '模型',
     'ename'=> '别名',
     'enter.one.ename' =>'请输入别名',
@@ -241,9 +246,7 @@ return [
     'ascription.empty' => '归属不能为空',
     'configure'=>'配置',
     'no.auth'=>'你没有权限操作该项',
-
     'enter.one.ip' =>'请输入IP',
-
     'user'=>'用户',
     'role'=>'角色',
     'name'=> '名称',
@@ -277,14 +280,11 @@ return [
     'manage.user.gid'=>'用户组ID',
     'auths'=>'权限点',
     'user.status'=>'账户状态 0：正常 1：冻结',
-
     'apply'=>'申请',
     'numbers'=>'编号',
     'rank'=>'头衔',
     'authentication'=>'认证',
     'bank.card.number'=>'银行卡号',
-
-
     'please.enter.the.search.content'=>'请输入搜索内容',
     'please.enter.the.evidence.number'=>'请输入证据号码',
     'registration.number'=>'注册号',
@@ -296,47 +296,33 @@ return [
     'please.enter.the.correct.mailbox.address'=>'请输入正确的邮箱地址',
     'enter.one.qq' =>'请输入QQ',
     'enter.one.weixin' =>'请输入真实微信',
-
-
     'the.installation.file.was.not.detected' => '未检测到安装文件',
-
     'review.status'=>'状态 0:待审阅，1:已审阅',
     'review.uid'=>'审阅用户UID',
     'review.username'=>'审阅用户名',
     'review.times'=>'审阅时间',
     'site.close.tips'=>'网站暂时关闭，请稍后访问。',
-
-
     'lowercase.letters'=>'小写字母',
     'capital'=>'大写字母',
     'letters'=>'字母',
     'number'=>'数字',
     'integer'=>'整数',
     'symbol'=>'符号',
-
-
     'sfzzm'=>'身份证正面',
     'sfzfm'=>'身份证反面',
     'yyzz'=>'营业执照',
-
     'mobile.code.send.num.error'=>'今日获取验证码次数已上线',
     'mobile.code.error'=>'手机验证码错误',
     'mobile.code.expired_time.error'=>'验证码已过期',
     'mobile.code.mobile.empty'=>'验证码不能为空',
-
-
     'file.type.is.not.allowed.to.upload'=>'文件类型不允许上传',
     'unknown.file.type'=>'未知文件类型',
     'upload.files.beyond.the server.size.limit'=>'上传文件超出服务器大小限制',
     'upload.error'=>'上传失败',
     'download.file.error.001'=>'下载文件不存在',
-
-
     'verify.code.error'=>'验证码错误',
     'mobile.code.no'=>'请输入手机验证码',
     'mobile.required'=>'请输入手机号',
-
-
     'token.required'=>'TOKEN无效',
     'click.verify'=>'点击验证',
     'email.btn.tips'=>'如果点击上面的按钮没有效果，请复制下面的链接到浏览器上访问：',
@@ -344,11 +330,9 @@ return [
     'active.email.time.tips'=>'请在有效时间内, 点击以下按钮完成邮箱验证：',
     'welcome.to.join'=>'欢迎加入',
     'active.q'=>'如果您有任何问题，请联系我们，我们会尽快回复',
-
     'email.active.error'=>'邮箱验证失败',
     'email.active.error.01'=>'该账号已验证，请勿重复验证',
     'email.active.success'=>'邮箱验证成功',
-
     'name.empty'=>'名称不能为空',
     'ename.empty'=>'别名不能为空',
 

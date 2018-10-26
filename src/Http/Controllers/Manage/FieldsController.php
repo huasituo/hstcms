@@ -29,17 +29,8 @@ class FieldsController extends BasicController
     {
         parent::__construct();
         $this->rname = $request->get('rname');
+        $this->relatedtable = $request->get('relatedtable');
         $this->relatedid = (int)$request->get('relatedid');
-        $this->navs = [
-            'index'=>['name'=>hst_lang('hstcms::manage.fields.manage'), 'url'=>route('manageFieldsIndex', [
-                'rname' => $this->rname,
-                'relatedid' => $this->relatedid
-            ])],
-            'add'=>['name'=>hst_lang('hstcms::manage.fields.add'), 'url'=>route('manageFieldsAdd', [
-                'rname' => $this->rname,
-                'relatedid' => $this->relatedid
-            ])]
-        ];
         $this->viewData['rname'] = $this->rname;
         $this->viewData['relatedid'] = $this->relatedid;
         $this->hstcmsFields = new HstcmsFields();
@@ -49,8 +40,21 @@ class FieldsController extends BasicController
                 $this->relatedtable = $this->formInfo['table'];
                 $this->module = $this->formInfo['module'];
             }
+        } else {
+            $this->module = $this->rname;
         }
-
+        $this->navs = [
+            'index'=>['name'=>hst_lang('hstcms::manage.fields.manage'), 'url'=>route('manageFieldsIndex', [
+                'rname' => $this->rname,
+                'relatedid' => $this->relatedid,
+                'relatedtable' => $this->relatedtable
+            ])],
+            'add'=>['name'=>hst_lang('hstcms::manage.fields.add'), 'url'=>route('manageFieldsAdd', [
+                'rname' => $this->rname,
+                'relatedid' => $this->relatedid,
+                'relatedtable' => $this->relatedtable
+            ])]
+        ];
     }
 
     public function index(Request $request)
@@ -60,6 +64,8 @@ class FieldsController extends BasicController
                     return $this->showError('hstcms::manage.form.no.info');
             }
             $fields = CommonFieldsModel::getFields($this->formInfo['table'], $this->formInfo['module']);
+        } else {
+            $fields = CommonFieldsModel::getFields($this->relatedtable, $this->module);
         }
         $view = [
             'list'=>$fields,

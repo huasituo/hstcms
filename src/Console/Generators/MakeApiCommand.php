@@ -8,6 +8,7 @@ namespace Huasituo\Hstcms\Console\Generators;
 
 use Huasituo\Hstcms\Hstcms;
 
+use Huasituo\Hstcms\Model\ApiModel;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
@@ -122,6 +123,7 @@ class MakeApiCommand extends Command
                 ];
                 $apps[$appid] = $vData;
                 $this->saveCache($apps);
+                ApiModel::insert($vData);
                 $this->info('Add Success');
             }
         } else if($t === 'edit') {
@@ -138,6 +140,10 @@ class MakeApiCommand extends Command
                 $apps[$this->container['appid']]['name'] = $this->container['name'];
                 $apps[$this->container['appid']]['edittimes'] = hst_time();
                 $this->saveCache($apps);
+                ApiModel::where('appid', $this->container['appid'])->update([
+                    'name'=>$this->container['name'],
+                    'edittimes'=>$apps[$this->container['appid']]['edittimes']
+                ]);
                 $this->info('Edit Success');
             }
         } else if($t === 'status') {
@@ -153,6 +159,10 @@ class MakeApiCommand extends Command
                 $apps[$this->container['appid']]['status'] = $s;
                 $apps[$this->container['appid']]['edittimes'] = hst_time();
                 $this->saveCache($apps);
+                ApiModel::where('appid', $this->container['appid'])->update([
+                    'status'=>$s,
+                    'edittimes'=>$apps[$this->container['appid']]['edittimes']
+                ]);
                 $this->info('Edit Success');
             }
         } else if($t === 'delete') {
@@ -162,12 +172,13 @@ class MakeApiCommand extends Command
             if ($this->confirm('If the provided information is correct, type "yes" to generate.')) {
                 unset($apps[$this->container['appid']]);
                 $this->saveCache($apps);
+                ApiModel::where('appid', $this->container['appid'])->delete();
                 $this->info('Delete Success');
             }
         } else if($t === 'clear') {
-            $this->container['appid']        = $this->ask('Please enter the appid:');
             if ($this->confirm('If the provided information is correct, type "yes" to generate.')) {
                 $this->saveCache([]);
+                ApiModel::where('id', '>', 0)->delete();
                 $this->info('Clear Success');
             }
         } else {

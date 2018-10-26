@@ -38,7 +38,7 @@ class MobileController extends GlobalBasicController
         }
         $HstcmsSms = new HstcmsSms();
         $result = $HstcmsSms->sendMobileMessage($mobile, $type, [], $uid);
-        if (isset($result['state']) && $result['state'] === 'error') return $this->showError($result['message']);
+        if (hst_message_verify($result)) return $this->showError($result['message']);
         return $this->showMessage('Hstcms::public.send.success');
     }
 
@@ -58,7 +58,7 @@ class MobileController extends GlobalBasicController
         }
         $HstcmsSms = new HstcmsSms();
         $result = $HstcmsSms->checkVerify($mobile, $mobileCode, $type);
-        if (isset($result['state']) && $result['state'] === 'error') return $this->showError($result['message']);
+        if (hst_message_verify($result))  return $this->showError($result['message']);
         return $this->showMessage('Hstcms::public.send.success');
     }
 }

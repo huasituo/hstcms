@@ -391,6 +391,7 @@ a {
 	padding: 0px;
 	padding-right: 15px;
 }
+
 .tnav .return i{
 	margin-right: 5px;
 }
@@ -430,6 +431,7 @@ a {
 	border: 1px solid #ddd;
 	border-bottom: 0px;
 }
+
 /*信息提醒*/
 .manage-tips {
 	position: absolute;
@@ -439,6 +441,7 @@ a {
 	width: 370px;
 
 }
+
 .manage-tips.hstui-frame .hstui-frame-title{
 	height: 40px;
 	line-height: 40px;
@@ -450,11 +453,13 @@ a {
 .manage-tips.hstui-frame .hstui-frame-content{
     text-align: center;
 }
+
 .manage-tips.hstui-frame .hstui-frame-content p {
 	margin-bottom: 10px;
 	margin-top: 10px;
 	font-size: 16px;
 }
+
 .manage-tips.hstui-frame .hstui-frame-content a{
 	cursor: pointer;
 	font-size: 12px;
@@ -471,11 +476,13 @@ a {
 .manage-tips-dialog.hstui-frame .hstui-frame-content{
     text-align: center;
 }
+
 .manage-tips-dialog.hstui-frame .hstui-frame-content p {
 	margin-bottom: 10px;
 	margin-top: 10px;
 	font-size: 16px;
 }
+
 .manage-tips-dialog.hstui-frame .hstui-frame-content a{
 	cursor: pointer;
 	font-size: 12px;
@@ -488,6 +495,7 @@ a {
 	padding: 10px;
 	overflow:hidden;
 }
+
 .manage-bottom .hstui-pagination{
 	float: right;
 }
@@ -496,6 +504,7 @@ a {
 .three_list{
 	width: 100%;
 }
+
 .three_list li{
 	float: left;
 	margin-right: 10px;
@@ -506,4 +515,103 @@ a {
 	margin-left: 0px;
 }
 
+/*字体颜色选择组合*/
+.color_pick_dom{
+	width:70px;
+	width:300px;
+}
 
+.color_pick_dom ul{
+	height:29px;
+	width:170px;
+	padding:3px 0 0 0;
+}
+
+.color_pick_dom li{
+	float:left;
+	margin-right:10px;
+	_margin-right:8px;
+	white-space:nowrap;
+}
+
+.color_pick_dom li input{
+	_margin:0 0 -1px -3px;
+	_padding:0;
+}
+
+.color_pick_dom li.none{
+	margin-right:0;
+}
+
+.color_pick_dom .color_pick{
+	background-position:151px center;
+}
+
+.color_pick_dom .color_pick em{
+	width:145px;
+}
+
+.color_pick_dom .case{
+	float:right;
+	width:100px;
+	border:1px solid #ccc;
+	background:#fff;
+	padding:10px 10px;
+}
+
+.i {
+    font-style: italic !important;
+}
+
+.u {
+    text-decoration: underline !important;
+}
+
+.b {
+    font-weight: 700 !important;
+}
+
+.color_pick{
+	border:1px solid #ccc;
+	padding:2px 13px 2px 3px;
+	background:#fff url(http://res.huasituo.com/images/down.png) 40px center no-repeat;
+	display:inline-block;
+	cursor:pointer;
+	height: 30px;
+	overflow:hidden;
+	vertical-align:middle;
+	position:relative;
+	line-height:normal;
+}
+
+.color_pick:hover{
+	background-color:#fffbde;
+}
+
+.color_pick.color_current{
+	border-color:#aaa #aaa #555;
+	background-color:#fffbde;
+}
+
+.color_pick em{
+	height: 30px;
+	width:34px;
+	display:inline-block;
+	background:url(http://res.huasituo.com/images/transparent.png);
+}
+
+.color_pick.color_big{
+	background-image:none;
+	width:80px;
+	padding:3px;
+	height:60px;
+	text-align:center;
+	color:#333;
+}
+
+.color_pick.color_big em{
+	width:80px;
+	height:38px;
+	*margin-bottom:3px;
+	text-align:center;
+}

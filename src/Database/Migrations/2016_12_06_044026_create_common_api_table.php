@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommonBlockTable extends Migration
+class CreateCommonApiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,14 +18,15 @@ class CreateCommonBlockTable extends Migration
     public function up()
     {
         //
-        Schema::create('common_block', function (Blueprint $table) 
+        Schema::create('common_api', function (Blueprint $table) 
         {
             $table->increments('id')->comment('ID');
             $table->string('name')->nullable()->comment(hst_lang('hstcms::public.name'));
-            $table->integer('times')->nullable()->comment(hst_lang('hstcms::public.times'));
-            $table->text('content')->nullable()->comment();
-            $table->tinyInteger('isopen', false)->default(0)->nullable()->comment(hst_lang('hstcms::public.status'));
-            $table->string('type')->nullable()->comment();
+            $table->integer('addtimes')->nullable()->comment(hst_lang('hstcms::public.times'));
+            $table->integer('edittimes')->nullable()->comment(hst_lang('hstcms::public.times'));
+            $table->tinyInteger('status', false)->default(0)->nullable()->comment(hst_lang('hstcms::public.status'));
+            $table->string('appid')->nullable()->comment();
+            $table->string('secret')->nullable()->comment();
         });
     }
 
@@ -37,6 +38,6 @@ class CreateCommonBlockTable extends Migration
     public function down()
     {
         //
-        Schema::drop('common_block');
+        Schema::drop('common_api');
     }
 }

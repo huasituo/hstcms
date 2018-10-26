@@ -17,11 +17,13 @@ class GlobalBasicController extends Controller
     // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public      $viewData = array();                //传递给模版的共享内容
+    public      $isMobile = false;                  //
     protected   $lav_route = '';
 
     public function __construct()
     {
         $this->lav_route = Route::currentRouteName();
+        $this->isMobile = hst_is_mobile();
     }
 
     //================================================信息显示区==========================================================//
@@ -58,9 +60,6 @@ class GlobalBasicController extends Controller
             $message = hst_lang($message);
         }
         $viewDatas = isset($this->viewData) ? $this->viewData : array();
-        // if($routeName && !preg_match('|^http://|', $routeName) && !$with) {
-        //     $routeName = $routeName ? route($routeName) : '';
-        // }
         $viewData = [
             'message'=>$message,
             'referer'=>$routeName,

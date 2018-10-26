@@ -8,6 +8,7 @@ namespace Huasituo\Hstcms\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Huasituo\Hstcms\Libraries\HstcmsStorage;
+use Cache;
 
 class AttachmentModel extends Model
 {
@@ -46,12 +47,38 @@ class AttachmentModel extends Model
 
     static function getAttach($aid = 0)
     {
-        $attachInfo = AttachmentModel::where('aid', $aid)->first();
-        if(!$attachInfo) {
+        if(!$aid) {
             return [];
         }
-        $attachInfo['url'] = hst_storage_url($attachInfo['path'], $attachInfo['disk']);
-        return $attachInfo->toArray();
+        $cacheName = 'hstcms:attachment:info:'.$aid;
+        if (!Cache::has($cacheName)) {
+            $info = self::setCacheInfo($aid);
+        } else {
+            $info = Cache::get($cacheName, []);
+        }
+        if(!$info) {
+            return [];
+        }
+        $info['url'] = hst_storage_url($info['path'], $info['disk']);
+        return $info;
+    }
+
+    static function setCacheInfo($aid = 0)
+    {
+        $info = AttachmentModel::where('aid', $aid)->first();
+        $cacheName = 'hstcms:attachment:info:'.$aid;
+        if($info) {
+            Cache::forever($cacheName, $info->toArray());
+            return $info->toArray();
+        }
+        // Cache::forever($cacheName, []);
+        return [];
+    }
+
+    static function delCacheInfo($aid = 0)
+    {
+        $cacheName = 'hstcms:attachment:info:'.$aid;
+        Cache::forget($cacheName);
     }
 
     static function getAttachs($aids = [])
@@ -77,4 +104,44 @@ class AttachmentModel extends Model
         return true;
     }
 
+    static function deleteAttachByAppId($app = '', $app_id) 
+    {
+        $attachs = AttachmentModel::where('app', $app)->where('app_id', $app_id)->select('aid')->get();
+        if($attachs) {
+            foreach ($attachs as $key => $value) {
+                self::deleteAttach($value['aid']);
+            }
+        }
+        return true;
+    }
+
+    static function updateAttach($aid, $app_id)
+    {
+        $postData = [
+            'app_id'=>$app_id
+        ];
+        AttachmentModel::where('aid', $aid)->update($postData);
+    }
+
+    static function setTempData($tempid = '', $aid = 0)
+    {
+        if(!$tempid || !$aid) {
+            return true;
+        }
+        $cacheName = 'hstcms:attachment:temp:'.$tempid;
+        $data = Cache::get($cacheName, []);
+        array_push($data, $aid);
+        Cache::forever($cacheName, $data);
+        return true;
+    }
+
+    static function delTempData($tempid = '')
+    {
+        if(!$tempid) {
+            return true;
+        }
+        $cacheName = 'hstcms:attachment:temp:'.$tempid;
+        Cache::forget($cacheName);
+        return true;
+    }
 }

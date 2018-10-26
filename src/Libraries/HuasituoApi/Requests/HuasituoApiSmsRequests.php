@@ -143,8 +143,7 @@ class HuasituoApiSmsRequests
 			'-41'=>'发送记录不存在',
 			'0'=>'发送成功'
 		);
-		if(!isset($_arr[$staus]))
-		{
+		if(!isset($_arr[$staus])) {
 			return false;
 		}
 		return $_arr[$staus];	

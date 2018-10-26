@@ -14,6 +14,8 @@ use Huasituo\Hstcms\Model\ManageUserModel;
 use Huasituo\Hstcms\Libraries\HstcmsPinYin;
 use Huasituo\Hstcms\Libraries\Hststring;
 use Huasituo\Hstcms\Libraries\HstcmsFields;
+use Huasituo\Hstcms\Libraries\HstcmsEncrypter;
+use Huasituo\Hstcms\Model\ApiModel;
 
 
 /**
@@ -77,9 +79,11 @@ if ( ! function_exists('hst_message'))
     {
         $message = [
             'state'=>'error',
-            'message'=> hst_lang($message),
-            'data'=>$data
+            'message'=> hst_lang($message)
         ];
+        if($data) {
+            $message['data'] = $data;
+        }
         return $message;
     }
 }
@@ -156,7 +160,7 @@ if( ! function_exists('hst_value'))
         if(old($k)) {
             return old($k);
         }
-        if(isset($data[$k])) {
+        if(isset($data[$k]) && $data[$k]) {
             return $data[$k];
         }
         return $default;
@@ -204,6 +208,21 @@ if ( ! function_exists('hst_manager'))
             return $uinfo[$v];
         }
         return $uinfo;
+    }
+}
+
+/**
+ * check auth
+ *
+ * @return 
+ */
+if ( ! function_exists('hst_check_auth'))
+{
+    function hst_check_auth($route = '')
+    {
+        $uinfo = hst_manager();
+        $roleInfo = CommonRoleModel::getInfo($uinfo['gid']);
+        return in_array($route, $roleInfo['auths']);
     }
 }
 
@@ -1009,7 +1028,7 @@ if ( ! function_exists('hst_api_app'))
     {
         $cacheName = 'hstcms:api';
         if (!Cache::has($cacheName)) {
-            $data = [];
+            $data = ApiModel::setCache();
         } else {
             $data = Cache::get($cacheName, []);
         }
@@ -1126,17 +1145,131 @@ if ( ! function_exists('hst_is_weixin'))
     }  
 }
 
+/**
+ * 数组转树
+ * @param type $list
+ * @param type $root
+ * @param type $pk
+ * @param type $pid
+ * @param type $child
+ * @return type
+ */
+if ( ! function_exists('hst_list_to_tree'))
+{
+    function hst_list_to_tree($list, $root = 0, $pk = 'id', $pid = 'parentid', $child = '_child') 
+    {
+        // 创建Tree
+        $tree = array();
+        if (is_array($list)) {
+            // 创建基于主键的数组引用
+            $refer = array();
+            foreach ($list as $key => $data) {
+                $refer[$data[$pk]] = &$list[$key];
+            }
+            foreach ($list as $key => $data) {
+                // 判断是否存在parent
+                $parentId = 0;
+                if (isset($data[$pid])) {
+                    $parentId = $data[$pid];
+                }
+                if ($root == $parentId) {
+                    $tree[] = &$list[$key];
+                } else {
+                    if (isset($refer[$parentId])) {
+                        $parent = &$refer[$parentId];
+                        $parent[$child][] = &$list[$key];
+                    }
+                }
+            }
+        }
+        return $tree;
+    }
+}
 
+if ( ! function_exists('hst_encrypt'))
+{
+    function hst_encrypt($value = '', $key = '', $serialize = false)
+    {
+        $key = hst_key($key);
+        $HstcmsEncrypter = new HstcmsEncrypter($key, config('app.cipher'));
+        $str = $HstcmsEncrypter->encrypt($value, $serialize);
+        if(!config('hstcms.crypt')) {
+            return $str;
+        }
+        $cacheName = 'crypt:'.md5($value.$key);
+        Cache::forget($cacheName);
+        Cache::forever($cacheName, $str);
+        return md5($value.$key);
+    }  
+}
 
+if ( ! function_exists('hst_decrypt'))
+{
+    function hst_decrypt($value = '', $key = '', $serialize = false)
+    {
+        $key = hst_key($key);
+        if(config('hstcms.crypt')) {
+            $cacheName = 'crypt:'.md5($value.$key);
+            $value = Cache::get($cacheName, '');
+        }
+        if(!$value) {
+            return hst_message('The payload is invalid.', 'error');
+        }
+        $HstcmsEncrypter = new HstcmsEncrypter($key, config('app.cipher'));
+        $str = $HstcmsEncrypter->decrypt($value, $serialize);
+        return $str;
+    }
+}
 
+if ( ! function_exists('hst_key'))
+{
+    function hst_key($key = '')
+    {
+        $key = $key ? $key : 'safe';
+        $Salt = 'ChinesePublicSecurity';
+        $keyLength = config('app.cipher') == 'AES-128-CBC' ? 16 : 32;
+        $key = $keyLength == 32 ? md5($key.md5($Salt)) : substr(md5($key.md5($Salt)), 8, 16); 
+        return $key;
+    }  
+}
 
-
-
-
-
-
-
-
+if ( ! function_exists('hst_encode'))
+{
+    /*
+    * 加密解密方法
+    *  $tmp1 = diy_encode('tex','key'); //加密
+    *  $tmp2 = diy_encode($tmp1,'key','decode'); //解密
+    */
+    function hst_encode($tex, $key, $type="encode")
+    {
+        $key = $key ? $key : '(@#$!$!$fgbcvnGHJKUX*(#$%^$%%*)(*)_$%fgbcvnGHJKUX@#*&*)(*_()*(O$%^$%SDF3456F$#^';
+        $chrArr=array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+                      'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                      '0','1','2','3','4','5','6','7','8','9');
+        if($type == "decode") {
+            if(strlen($tex) < 14) return false;
+            $verity_str = substr($tex, 0, 8);
+            $tex=substr($tex, 8);
+            if($verity_str != substr(md5($tex), 0, 8)) { //完整性验证失败
+                return false;
+            }
+        }
+        $key_b = $type == "decode" ? substr($tex, 0, 6):$chrArr[rand()%62].$chrArr[rand()%62].$chrArr[rand()%62].$chrArr[rand()%62].$chrArr[rand()%62].$chrArr[rand()%62];
+        $rand_key = $key_b.$key;
+        $rand_key = md5($rand_key);
+        $tex = $type == "decode" ? base64_decode(substr($tex, 6)) : $tex;
+        $texlen = strlen($tex);
+        $reslutstr = "";
+        for($i = 0; $i < $texlen; $i++) {
+            $reslutstr .= $tex{$i}^$rand_key{$i%32};
+        }
+        if($type != "decode") {
+            $reslutstr = trim($key_b.base64_encode($reslutstr), "==");
+            $reslutstr = substr(md5($reslutstr), 0,8).$reslutstr;
+        }
+        return $reslutstr;
+    }
+}
 
 
 

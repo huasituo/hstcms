@@ -40,6 +40,11 @@ class CachesController extends BasicController
                 return $this->showError('hstcms::manage.caches.save.error.001', 5);
             }
         }
+        if($arrRequest['driver'] == 'redis') {
+            if(!isset($oldConfig['redishost']) || !$oldConfig['redishost']) {
+                return $this->showError('hstcms::manage.caches.save.error.002', 5);
+            }
+        }
         $data =[
             ['name'=>'driver', 'value'=>trim($arrRequest['driver'])]
         ];
@@ -81,6 +86,34 @@ class CachesController extends BasicController
         ];
         hst_updateEnvInfo($configData);
         $this->addOperationLog(hst_lang('hstcms::manage.caches.memcached.update'),'', hst_config('sms'), $oldConfig);
+        return $this->showMessage('hstcms::public.save.success');
+    }
+
+    public function redisConfig(Request $request)
+    {
+        $config = hst_config('caches');
+        $this->navs['redis'] = ['name'=>hst_lang('hstcms::manage.caches.redis.setting'),'url'=>'manageCachesRedisConfig'];
+        $this->viewData['navs'] = $this->getNavs('redis');
+        return $this->loadTemplate('caches.redis', ['config'=>$config]);
+    }
+
+    public function redisConfigSave(Request $request) 
+    {
+        $arrRequest = $request->all();
+        $postData =[
+            ['name'=>'redishost', 'value'=>$arrRequest['host'], 'issystem'=>1],
+            ['name'=>'redisport', 'value'=>$arrRequest['port'], 'issystem'=>1],
+            ['name'=>'redispassword', 'value'=>$arrRequest['password'], 'issystem'=>1]
+        ];
+        $oldConfig = hst_config('caches');
+        hst_save_config('caches', $postData);
+        $configData = [
+            'REDIS_PASSWORD'=>$arrRequest['password'],
+            'REDIS_HOST'=>$arrRequest['host'],
+            'REDIS_PORT'=>$arrRequest['port']
+        ];
+        hst_updateEnvInfo($configData);
+        $this->addOperationLog(hst_lang('hstcms::manage.caches.redis.update'),'', hst_config('sms'), $oldConfig);
         return $this->showMessage('hstcms::public.save.success');
     }
 }

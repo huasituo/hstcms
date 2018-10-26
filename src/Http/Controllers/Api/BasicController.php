@@ -17,6 +17,10 @@ class BasicController extends Controller
     
     protected   $_showdata;                         //显示信息array
     public      $viewData = array();                //传递给模版的共享内容
+    
+    public function __construct()
+    {
+    }
 
     // 其他通用的Api帮助函数
 

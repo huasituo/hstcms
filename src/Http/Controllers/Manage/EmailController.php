@@ -76,9 +76,6 @@ class EmailController extends BasicController
         if ($validator->fails()) {
             return $this->showError($validator->errors(), 2);
         }
-        // $flag = Mail::queue('hstcms::mail.test', [], function($message) use($toemail) {
-        //     $message ->to($toemail)->subject(hst_lang('hstcms::manage.email.test.title'));
-        // });
         $flag = HstcmsEmail::sendMail(['email'=>$toemail, 'title'=>hst_lang('hstcms::manage.email.test.title')], 'hstcms::mail.test');
         if(!$flag) {
             $this->addOperationLog(hst_lang('hstcms::public.to').$toemail.hst_lang('hstcms::manage.email.test.success'));

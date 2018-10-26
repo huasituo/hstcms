@@ -21,10 +21,17 @@
                 </div>
                 <div class="hstui-u-sm-12">
                       <label class="hstui-fl hstui-u-sm-5" style="padding: 0px">
-                      <input name="driver" value="memcached" type="radio"  {{ hst_ifCheck(hst_value('memcached', $config) == 'file') }}  />
+                      <input name="driver" value="memcached" type="radio"  {{ hst_ifCheck(hst_value('driver', $config) == 'memcached') }}  />
                       <span>memcached</span>
                       </label>
                 <div class="hstui-form-input-tips" id="" data-tips="">{!! hst_lang('hstcms::manage.caches.driver.memcached.tips') !!}</div>
+              </div>
+                <div class="hstui-u-sm-12">
+                      <label class="hstui-fl hstui-u-sm-5" style="padding: 0px">
+                      <input name="driver" value="redis" type="radio"  {{ hst_ifCheck(hst_value('driver', $config) == 'redis') }}  />
+                      <span>redis</span>
+                      </label>
+                <div class="hstui-form-input-tips" id="" data-tips="">{!! hst_lang('hstcms::manage.caches.driver.redis.tips') !!}</div>
               </div>
           </div>
         </div>

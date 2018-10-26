@@ -34,6 +34,7 @@ class HstcmsStorage
             return $this;
         }
         $this->disks = hst_config('attachment', 'storage');
+        return $this;
     }
 
     public function download() 

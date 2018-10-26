@@ -25,7 +25,9 @@ class AreaController extends BasicController
             $this->module = $module;
         }
         $this->navs = [
-            'index'=>['name'=>hst_lang('hstcms::manage.area.manage'), 'url'=>route('manageAreaIndex')]
+            'index'=>['name'=>hst_lang('hstcms::manage.area.manage'), 'url'=>route('manageAreaIndex')],
+            'update'=>['name'=>hst_lang('hstcms::manage.area.update'), 'url'=>route('manageAreaIndex', ['isupdate'=>1,'areaid'=>$request->get('areaid')])],
+            'cache'=>['name'=>hst_lang('hstcms::public.update.cache'), 'class'=>'J_ajax_refresh', 'url'=>route('manageAreaCache')]
         ];
         $this->viewData['module'] = $this->module;
     }
@@ -44,6 +46,16 @@ class AreaController extends BasicController
         }
         $this->navs['add'] = ['name'=>hst_lang('hstcms::public.add'), 'url'=>route('manageAreaAdd', ['areaid'=>$areaid]), 'class'=>'J_dialog', 'title'=>hst_lang('hstcms::public.add')];
         $list = CommonAreaModel::getSubByAreaid($areaid);
+        if($request->get('isupdate')) {
+            $pinfo = CommonAreaModel::getInfoByAreaid($areaid);
+            foreach ($list as $key => $value) {
+                CommonAreaModel::where('areaid', $value['areaid'])->update([
+                    'joinname'=>trim(isset($pinfo['joinname']) ? $pinfo['joinname'] . '|' . $value['name'] : $value['name'] , '|'),
+                    'initials'=>hst_word2pinyin($value['name'], false, true, false, true)
+                ]);
+            }
+            return $this->showMessage('hstcms::manage.area.update.success', 5);
+        }
         $view = [
             'list'=>$list,
             'navs'=>$this->getNavs('index'.($areaid ? $areaid : ''))
@@ -84,10 +96,14 @@ class AreaController extends BasicController
             'parentid'=>$request->get('parentid'),
             'zip'=>(int)$request->get('zip'),
             'vieworder'=>0,
-            'joinname'=>$pinfo['joinname'] . '|' . $request->get('name'),
+            'joinname'=>trim($pinfo['joinname'] . '|' . $request->get('name'), '|'),
             'initials'=>hst_word2pinyin($request->get('name'), false, true, false, true)
         ];
         CommonAreaModel::updateData($areaid, $psotData);
+        CommonAreaModel::setCacheInfo($areaid);
+        CommonAreaModel::setCacheSubByAreaid(0);
+        CommonAreaModel::setCacheSubByAreaid($areaid);
+        CommonAreaModel::setCacheCityAll();
         $this->addOperationLog(hst_lang('hstcms::manage.area.add').':'.trim($request->get('name')), '', $psotData, []);
         return $this->showMessage('hstcms::public.add.success'); 
     }
@@ -114,7 +130,7 @@ class AreaController extends BasicController
         if(!$areaid) {
             return $this->showError('hstcms::public.no.id');
         }
-        $info = CommonAreaModel::where('areaid', $areaid)->first();
+        $info = CommonAreaModel::getInfo($areaid);
         if(!$info) {
             return $this->showError('hstcms::public.no.data');
         }
@@ -126,12 +142,18 @@ class AreaController extends BasicController
         if ($validator->fails()) {
             return $this->showError($validator->errors(), 2);
         }
+        $pinfo = CommonAreaModel::getInfoByAreaid($info['parentid']);
         $psotData = [
             'name'=>$request->get('name'),
             'zip'=>(int)$request->get('zip'),
+            'joinname'=>trim(isset($pinfo['joinname']) ? $pinfo['joinname'] . '|' . $request->get('name') : $request->get('name') , '|'),
             'initials'=>hst_word2pinyin($request->get('name'), false, true, false, true)
         ];
         CommonAreaModel::where('areaid', $areaid)->update($psotData);
+        CommonAreaModel::setCacheInfo($areaid);
+        CommonAreaModel::setCacheSubByAreaid(0);
+        CommonAreaModel::setCacheSubByAreaid($areaid);
+        CommonAreaModel::setCacheCityAll();
         $this->addOperationLog(hst_lang('hstcms::manage.area.edit').':'.$areaid, '', $psotData, $info);
         return $this->showMessage('hstcms::public.edit.success'); 
     }
@@ -150,8 +172,19 @@ class AreaController extends BasicController
         }
         unset($info['sublist']);
         CommonAreaModel::where('areaid', $areaid)->delete();
+        CommonAreaModel::setCacheInfo($areaid);
+        CommonAreaModel::setCacheSubByAreaid(0);
+        CommonAreaModel::setCacheSubByAreaid($areaid);
+        CommonAreaModel::setCacheCityAll();
         $this->addOperationLog(hst_lang('hstcms::manage.area.delete').':'.$info['name'], '', [], $info);
         return $this->showMessage('hstcms::public.delete.success', 5); 
+    }
+
+    public function cache(Request $request)
+    {
+        CommonAreaModel::setCacheSubByAreaid(0, true);
+        CommonAreaModel::setCacheCityAll();
+        return $this->showMessage('hstcms::public.successful', 5); 
     }
 }
 

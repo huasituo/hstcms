@@ -15,7 +15,7 @@ class ApiBase {
      * 获取access token url
      * @var string
      */
-    public $apiUrl = 'http://www.huasituo.com/open/api/';
+    public $apiUrl = 'http://h.94dx.com/open/api/';
 
 
     public $signType = "MD5";

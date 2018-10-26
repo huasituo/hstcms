@@ -14,6 +14,7 @@ use Huasituo\Hstcms\Providers\LibrariesServiceProvider;
 use Huasituo\Hstcms\Providers\RepositoryServiceProvider;
 use Huasituo\Hstcms\Providers\MiddlewareServiceProvider;
 use Huasituo\Hstcms\Providers\GeneratorServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -40,6 +41,8 @@ class HstcmsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../translations', 'hstcms');
         //处理单页多元化模版
         $this->loadViewsFrom(public_path('theme/special'), 'special');
+        Paginator::defaultView('hstcms::pagination.default');
+        Paginator::defaultSimpleView('hstcms::pagination.simple-default');
     }
 
     /**

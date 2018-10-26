@@ -21,8 +21,8 @@ class HstcmsSmsApi
 		$this->smsConfig = hst_config('sms');
 		$this->HuasituoSmsApi = new ApiBase();
 
-		$this->HuasituoSmsApi->appId = $this->smsConfig['hstsmsappid'];
-		$this->HuasituoSmsApi->secretKey = $this->smsConfig['hstsmskey'];
+		$this->HuasituoSmsApi->appId = isset($this->smsConfig['hstsmsappid']) ? $this->smsConfig['hstsmsappid'] : '';
+		$this->HuasituoSmsApi->secretKey = isset($this->smsConfig['hstsmskey']) ? $this->smsConfig['hstsmskey'] : '';
 
 		if(isset($config['appId'])) {
 			$this->HuasituoSmsApi->appId = $config['appId'];
@@ -49,8 +49,8 @@ class HstcmsSmsApi
 		$request->setParam($param);
 		$request->sendMessage();
 		$result = $this->HuasituoSmsApi->execute($request);
-		if($result['state'] != 0) {
-			return ['state'=>'error', 'message'=>$result['message']];
+		if($result['code'] != 0) {
+			return hst_message($result['message']);
 		}
 		return $result;
 	}
@@ -80,7 +80,7 @@ class HstcmsSmsApi
 		$request->getStatus();
 		$result = $this->HuasituoSmsApi->execute($request);
 		if($result['state'] != 0) {
-			return ['state'=>'error', 'message'=>$result['message']];
+			return hst_message($result['message']);
 		}
 		return $result;
 	}

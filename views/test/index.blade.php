@@ -4,9 +4,10 @@
 @include('hstcms::common.head')
 </head>
 <body>
-<form method="post" action="{{ route('hstcmsTextIndexPost') }}" enctype="multipart/form-data">
+<form method="post" action="{{ route('uploadImageSave') }}" enctype="multipart/form-data">
     {!! hst_csrf() !!} 
-	<input type="file" name="image">
+	<input type="file" name="filedata">
+	<input type="text" name="aid" value="">
 	<button type="submit" value="提交">提交</button>
 </form>
 <style>
@@ -81,6 +82,73 @@
 
 					// 	}
 					// });
+					$(".J_pw").on('click', function(e){
+						e.preventDefault();
+						var _this = $(this),pwstr = _this.data('pw'),isview = _this.data('isview');
+						if(isview) {
+							return false;
+						}
+						html = '<div class="hstui-form hstui-form-horizontal"><div class="hstui-frame"><div class="hstui-frame-content"><div class="hstui-form-group hstui-form-group-sm " id="J_form_error_viewpw"><input type="password" name="viewpw" id="hstcms_viewpw" value="" class="hstui-input hstui-length-6" placeholder="请输入查看密码"><div class="hstui-form-input-tips" id="J_form_tips_viewpw" data-tips=""></div></div></div><div class="hstui-form-button"><button type="submit" class="hstui-button hstui-button-primary J_pw_submit_btn" data-dialog="1">{{ hst_lang('hstcms::public.submit')}}</button></div></div></div>';
+						Hstui.use('dialog', function() {
+							Hstui.dialog.html(html,{
+								id:'J_pw',
+								title:'{{ hst_lang('hstcms::public.view')}}',
+								className: 'hstui-pop-showmsg-wrap',
+								isMask: false,
+								zIndex: 99,
+								callback:function() {
+									$(".J_pw_submit_btn").on('click',function(e){
+										e.preventDefault();
+										var viewpw = $("#hstcms_viewpw").val();
+										if(!viewpw) {
+											$("#J_form_error_viewpw").removeClass('hstui-form-error').addClass('hstui-form-error');
+											$("#J_form_tips_viewpw").html('').html('请输入查看密码');
+											setTimeout(function() {
+												$("#J_form_error_viewpw").removeClass('hstui-form-error');
+												$("#J_form_tips_viewpw").html('');
+											}, 1500);
+											return false;
+										}
+										Hstui.Util.ajaxMaskShow();
+										$.ajax({
+											url: _this.data('href'),
+											type: 'post',
+											dataType: 'json',
+											data:{
+												viewpw:pwstr,
+												password:viewpw,
+												_token: $('meta[name="csrf-token"]').attr('content')
+											},
+											success: function(data) {
+												Hstui.Util.ajaxMaskRemove();
+												if(data.state === 'success') {
+													_this.html(data.viewpw);
+													_this.data("isview", 1);
+													$('.J_close').click();
+												} else if(data.state === 'fail') {
+													$("#J_form_error_viewpw").removeClass('hstui-form-error').addClass('hstui-form-error');
+													$("#J_form_tips_viewpw").html('').html(data.message);
+													setTimeout(function() {
+														$("#J_form_error_viewpw").removeClass('hstui-form-error');
+														$("#J_form_tips_viewpw").html('');
+													}, 1500);
+												}
+											},
+											error: function() {
+												Hstui.Util.ajaxMaskRemove();
+												$("#J_form_error_viewpw").removeClass('hstui-form-error').addClass('hstui-form-error');
+												$("#J_form_tips_viewpw").html('').html('请求出错');
+												setTimeout(function() {
+													$("#J_form_error_viewpw").removeClass('hstui-form-error');
+													$("#J_form_tips_viewpw").html('');
+												}, 1500);
+											}
+										});
+									})
+								}
+							});
+						});
+					});
 					$(".J_upload").hstuiUpload({
 						// uploadNum: 5,
 						fileName: 'filedata',

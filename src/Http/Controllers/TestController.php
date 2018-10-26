@@ -9,6 +9,7 @@ namespace Huasituo\Hstcms\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Huasituo\Hstcms\Libraries\HstcmsSms;
 use Huasituo\Hstcms\Libraries\HstcmsCurl;
+use Huasituo\Hstcms\Libraries\HstcmsEditerCode;
 use Uuid;
 use Log;
 use Huasituo\Hstcms\Libraries\HstcmsFields;
@@ -39,8 +40,83 @@ class TestController extends BasicController
         parent::__construct();
     }
 
+    public function api(Request $request) 
+    {
+        $appid = '1804721386';
+        $Secret = '0hgpmr73r63yvzrnwvycabmezlqzzfvk';
+        $uri = 'live/log/view';
+        $me = 'get';
+        $data = [
+            'mobile'=>'18664597716',
+            'type'=>'login',
+            'province'=>'广东省',
+            'city'=>'深圳市',
+            'area'=>'罗湖区',
+            'id'=>'130000',
+            'category_code'=>'chanyuandi',
+            'page'=>1,
+            'idkey'=>'6df72417d6e1e0d31da2f1e77d0b1fe7'
+        ];
+        $HstcmsSign = new HstcmsSign();
+        $sign = $HstcmsSign->createSign($data, $Secret);
+        $data['sign'] = $sign;
+        $data['sign_type'] = 'MD5';
+        $HstcmsCurl = new HstcmsCurl();
+        $HstcmsCurl->url = url('api'.'/'.$uri);
+        $HstcmsCurl->isHeaders = true;
+        $HstcmsCurl->setHeader([
+            'appid'=>$appid,
+            'token'=>'cd4c7498wcLVddVwULH1JRBAwBWwBWUARSBgNcAwJVBgAJCwdWVwMNBQEBAAxWGVQGDAVTDlBeAVI'
+        ]);
+        if($me == 'get') {
+            $HstcmsCurl->get($data);
+        } else if($me == 'post') {
+            $HstcmsCurl->post($data);
+        }
+        $result = $HstcmsCurl->data(true);
+        print_r($HstcmsCurl->headers());
+        echo $HstcmsCurl->data(false).PHP_EOL.PHP_EOL;
+        print_r($result);
+    }
+
     public function index(Request $request) 
     {
+        // CommonAreaModel::setCacheSubByAreaid(0);
+        //$citys = CommonAreaModel::getInfo('110000');
+        //print_r($citys);
+        // $HstcmsCurl->isHeaders = true;
+        // $HstcmsCurl->setHeader([
+        //     'appid'=>'1801788022'
+        // ]);
+        // $HstcmsCurl->get();
+
+        // $result = $HstcmsCurl->data(true);
+        // print_r($HstcmsCurl->headers());
+        // print_r($HstcmsCurl->data());
+        // print_r($result);
+
+        //$str = "Name: <pw>PHP</pw> <br> Title: [pw]3242423[/pw]";
+        // preg_match_all ("/<pw>(.*)<\/pw>/U", $str, $arr);
+        // print_r($arr[1]);
+        // $replace = [];
+        // foreach ($arr[1] as $value) {
+        //     $replace[] = '<span class="J_pw" data-pw="'.hst_encrypt($value, '2222').'">点击查看</span>';
+        // }
+        // $str = str_replace($arr[0], $replace, $str);
+        // $HstcmsEditerCode = new HstcmsEditerCode($str);
+        // $HstcmsEditerCode->createContent();
+        // $str = $HstcmsEditerCode->getContent();
+        //echo base64_decode('NFduS2twUnhFeWFyVDJmQ2FheUhDQjJUcjc4TnliNDQ=');
+        // echo config('app.cipher');
+        // echo openssl_cipher_iv_length('AES-256-CBC');
+        // echo strlen(base64_decode('NFduS2twUnhFeWFyVDJmQ2FheUhDQjJUcjc4TnliNDQ=', true)) === openssl_cipher_iv_length(config('app.cipher'));
+        // echo base64_decode('Zk5mZkpGOHR6eTIzajQ4RQ==', true);
+        // echo strlen(base64_decode('Zk5mZkpGOHR6eTIzajQ4RQ==', true)) === openssl_cipher_iv_length(config('app.cipher'));
+        // echo base64_decode('Cr7XZOIQOrf5nrnblHdYBQ==');
+        //echo $str = hst_encrypt('222');
+
+        //exit;
+        //echo hst_decrypt('eyJpdiI6ImpZNk9Rb2ZMaCtKMVBRM3Z1QXkxNGc9PSIsInZhbHVlIjoiNDR0RkpDcHhwWmlWYWV3WHJLOHZpQT09IiwibWFjIjoiM2M5NzkxYmNmNzcxMmJjMzlhZWIyYzRmMGY4MDMyYmE1YjhkODkwMzRhZjk1MmMwODlhYmIzNmE4YWE0MmRjOCJ9', 'hstcms2018s++');
         //return $this->showError('当前属于非法操作');
         //         $a1=array("red"=>array("red","green"));
         // $a2=array("red"=>array("blue","yellow"));
@@ -70,7 +146,7 @@ class TestController extends BasicController
         // $data = [
         //     'mobile'=>'+86-18664597716'
         // ];
-        $HstcmsCurl = new HstcmsCurl();
+        //$HstcmsCurl = new HstcmsCurl();
         //网易ok
         // $HstcmsCurl->url = 'http://reg.email.163.com/unireg/call.do?cmd=added.mobileverify.verifyIntMobileFormat';
         // $HstcmsCurl->get($data);
@@ -239,30 +315,30 @@ class TestController extends BasicController
         // $HstcmsCurl->post($data);
         // $result = $HstcmsCurl->data(false);
 
-        $HstcmsCurl->url = 'https://reg.gome.com.cn/register/validateExist/refuse.do';
-        $data = [
-            'login'=>'18664597712'
-        ];
-        $HstcmsCurl->post($data);
-        $result = $HstcmsCurl->data(false);
+        // $HstcmsCurl->url = 'https://reg.gome.com.cn/register/validateExist/refuse.do';
+        // $data = [
+        //     'login'=>'18664597712'
+        // ];
+        // $HstcmsCurl->post($data);
+        // $result = $HstcmsCurl->data(false);
 
 
 
-            //房天下经纪云
-         $HstcmsCurl->url = 'http://yun.fang.com/navi/register.html';
-         $HstcmsCurl->cookie = 1;
-         $HstcmsCurl->get();
-         $results = $HstcmsCurl->data(false);
+        //     //房天下经纪云
+        //  $HstcmsCurl->url = 'http://yun.fang.com/navi/register.html';
+        //  $HstcmsCurl->cookie = 1;
+        //  $HstcmsCurl->get();
+        //  $results = $HstcmsCurl->data(false);
 
 
-         $HstcmsCurl->url = 'https://passport.fang.com/checkPhonebinding.api?callback=myCallBack&Service=soufun-passport-web&_=1535729467297';
-         $HstcmsCurl->cookie = 3;
-         $HstcmsCurl->get([
-            'MobilePhone'=>'18664597716'
-        ]);
-         $results = $HstcmsCurl->data(false);
-        print_r($result);
-        exit;
+        //  $HstcmsCurl->url = 'https://passport.fang.com/checkPhonebinding.api?callback=myCallBack&Service=soufun-passport-web&_=1535729467297';
+        //  $HstcmsCurl->cookie = 3;
+        //  $HstcmsCurl->get([
+        //     'MobilePhone'=>'18664597716'
+        // ]);
+        //  $results = $HstcmsCurl->data(false);
+        // print_r($result);
+        // exit;
 
         // CommonFormModel::addForm([
         //     'module'=>'hstcms',

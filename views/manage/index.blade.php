@@ -23,24 +23,7 @@
         </div>
         <div class="hstui-topbar-collapse hstui-collapse" id="topbar-collapse">
           <ul class="hstui-nav hstui-nav-pills hstui-topbar-nav hstui-topbar-left" id="hstui-topbar-nav">
-            <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
-            </li>
-            <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
-            </li>
-            <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
-            </li>
-            <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
-            </li>
-            <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
-            </li>
-            <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
-            </li>
+           
           </ul>
 
           <ul class="hstui-nav hstui-nav-pills hstui-topbar-nav hstui-topbar-right">
@@ -64,7 +47,7 @@
               </ul>
             </li>
             <li class="hstui-hide-sm-only">
-              <a href="javascript:;"><span class="hstui-icon hstui-icon-locked"></span> <span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
+              <a href="{{ route('manageDoLocked') }}" class="J_confirm" data-msg="确认锁屏吗"><span class="hstui-icon hstui-icon-locked"></span> <span class="admin-fullText">{{ hst_lang('hstcms::public.locked') }}</span></a>
             </li>
           </ul>
         </div>

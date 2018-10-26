@@ -19,13 +19,13 @@ class CaptchaController extends BasicController
 
     public function index(Request $request)
     {
-        $view = [
+    	return $this->loadTemplate('hstcms::manage.captcha.index', [
             'config'=>hst_config('captcha')
-        ];
-    	return $this->loadTemplate('hstcms::manage.captcha.index', $view);
+        ]);
     }
 
-    public function save(Request $request) {
+    public function save(Request $request) 
+    {
         $arrRequest = $request->all();
         $arrRequest['width'] = $arrRequest['width'] ? $arrRequest['width'] : 120;
         $arrRequest['height'] = $arrRequest['height'] ? $arrRequest['height'] : 60;

@@ -25,29 +25,29 @@ class ApiService
      */
     public function handle(Request $request, Closure $next)
     {
-        $appid = $request->get('appid');
+        $appid = $request->headers->get('appid') ? $request->headers->get('appid') : $request->get('appid');
         if(!$appid) {
-            return $this->message('Appid does not exist', 'error');
+            return $this->message('Appid does not exist', '-1');
         }
         $apps = hst_api_app();
-        if(!isset($apps[$appid])) {
-            return $this->message('Appid does not exist', 'error');
+        if(!isset($apps[$appid]) || !$apps[$appid]) {
+            return $this->message('Appid does not exist', '-2');
         }
         $app = $apps[$appid];
         if($app && $app['status']) {
-            return $this->message('Appid A suspension of use', 'error');
+            return $this->message('Appid A suspension of use', '-3');
         }
         if(config('hstcms.apiSign')) {
             $sign = $request->get('sign');
             if(!$sign) {
-                return $this->message('Sign Error', 'error');
+                return $this->message('Sign Error', '-4');
             }
             $all = $request->all();
             $checkSign = false;
             $HstcmsSign = new HstcmsSign();
             $checkSign = $HstcmsSign->verifySign($all, $app['secret']);
             if(!$checkSign) {
-                return $this->message('Sign Error', 'error');
+                return $this->message('Sign Error', '-5');
             }
         }
         $request->attributes->add(['apiAppInfo'=>$app]);    //添加参数

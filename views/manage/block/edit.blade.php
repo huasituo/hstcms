@@ -79,9 +79,10 @@ Hstui.use('jquery','common', 'upload', 'kindeditor', function() {
       fName: 'image',
       isedit: true,
       multi:false,
-      url: '{{ route('uploadSave') }}',
+      url: '{{ route('uploadImageSave') }}',
       dataList: [{!! json_encode($info['attach']) !!}],
       formParam: {
+        upapp: 'block',
         _token: $("input[name='_token']").val()
       }
     });

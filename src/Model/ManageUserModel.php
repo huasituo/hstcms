@@ -26,7 +26,16 @@ class ManageUserModel extends Model
 
     static function checkPassword($username, $password)
     {
-    	$uinfo = ManageUserModel::where('username', $username)->first();
+        if(!$username || !$password) {
+            return false;
+        }
+        $users = self::getAll();
+        $uinfo = [];
+        foreach ($users  as $key => $value) {
+            if($value['username'] == $username) {
+                $uinfo = $value;
+            }
+        }
     	if(!$uinfo) {
     		return false;
     	}
@@ -74,7 +83,7 @@ class ManageUserModel extends Model
 
     static function getAll()
     {
-        if (!Cache::has('manageUser')) {
+        if (!Cache::has('manage:user')) {
             $data = self::setCache();
         } else {
             $data = Cache::get('manageUser');
@@ -102,7 +111,7 @@ class ManageUserModel extends Model
                 'weixin'=>trim($value['weixin'])
             ];
         }
-        Cache::forever('manageUser', $cacheData);
+        Cache::forever('manage:user', $cacheData);
         if(!$result) {
             unset($data);
             unset($cacheData);

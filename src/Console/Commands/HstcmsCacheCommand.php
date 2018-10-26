@@ -11,6 +11,9 @@ use Huasituo\Hstcms\Model\CommonRoleModel;
 use Huasituo\Hstcms\Model\CommonRoleUriModel;
 use Huasituo\Hstcms\Model\ManageMenuModel;
 use Huasituo\Hstcms\Model\ManageUserModel;
+use Huasituo\Hstcms\Model\ManageModulesModel;
+use Huasituo\Hstcms\Model\CommonConfigModel;
+use Huasituo\Hstcms\Model\ApiModel;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,7 +26,7 @@ class HstcmsCacheCommand extends Command
      *
      * @var string
      */
-    protected $name = 'hstcms:cache';
+    protected $name = 'hstcms:cache {--t=null} {--v=null}';
 
     /**
      * The console command description.
@@ -57,9 +60,19 @@ class HstcmsCacheCommand extends Command
     public function handle()
     {
         CommonRoleModel::setCache('manage', false);
+        $this->info('Common Role Success');
         CommonRoleUriModel::setCache('manage', false);
+        $this->info('Common Role Uri Success');
         ManageMenuModel::setCache('manage', false);
+        $this->info('Manage Menu Success');
         ManageUserModel::setCache(false);
+        $this->info('Manage User Success');
+        ManageModulesModel::setCache(false);
+        $this->info('Modules Success');
+        CommonConfigModel::setAllCache();
+        $this->info('Config Success');
+        ApiModel::setCache();
+        $this->info('Api Success');
         $this->call('hook:cache', [
             '--p'=>'all'
         ]);

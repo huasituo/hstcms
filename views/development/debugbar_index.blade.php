@@ -22,7 +22,7 @@ td{
 	<div class="manage-search">
 		<label>Method:</label>
 		<select id="search-method">
-			<option value="">全部</option>
+			<option value="">{{ hst_lang('hstcms::public.all') }}</option>
 			<option value="get">GET</option>
 			<option value="post">POST</option>
 			<option value="put">PUT</option>
@@ -31,8 +31,8 @@ td{
 		<label>URL:</label>
 	    <input class="hstui-input hstui-length-4" id="search-uri" placeholder="uri" />
 		<label>IP:</label>
-	    <input class="hstui-input hstui-length-4" id="search-ip" placeholder="请输入IP" />
-	    <a href="javascript:;" class="hstui-button hstui-button-default hstui-button-xs J_search">搜索</a>
+	    <input class="hstui-input hstui-length-4" id="search-ip" placeholder="IP" />
+	    <a href="javascript:;" class="hstui-button hstui-button-default hstui-button-xs J_search">{{ hst_lang('hstcms::public.search') }}</a>
 	</div>
 	<div class="table-main">
 	    <table class="hstui-table hstui-table-bordered hstui-table-radius hstui-table-striped hstui-table-hover hstui-table-compact hstui-text-nowrap">
@@ -70,7 +70,7 @@ Hstui.use('jquery','common',function() {
   		offset:offset
   	}, function(data) {
 	  	if(data.length == 0){
-  			table.html('<tr><td colspan="5">暂无数据</td></tr>');
+  			table.html('<tr><td colspan="5">{{ hst_lang('hstcms::public.no.list') }}</td></tr>');
   			return false;
   		}
   		bindHtml(data);
@@ -96,7 +96,7 @@ Hstui.use('jquery','common',function() {
 		page = 0;
 		getData(url,data, function(data){
 	  		if(data.length == 0){
-	  			table.html('<tr><td colspan="5">暂无数据</td></tr>');
+	  			table.html('<tr><td colspan="5">{{ hst_lang('hstcms::public.no.list') }}</td></tr>');
 	  			return false;
 	  		}
 		  	bindHtml(data);
@@ -143,7 +143,7 @@ function bindHtml(data, ) {
                 	method:meta['method']
                 },function(data){
 	  				if(data.length == 0){
-			  			table.html('<tr><td colspan="5">暂无数据</td></tr>');
+			  			table.html('<tr><td colspan="5">{{ hst_lang('hstcms::public.no.list') }}</td></tr>');
 			  			return false;
 			  		}
                 	bindHtml(data);
@@ -177,7 +177,7 @@ function bindHtml(data, ) {
                 	ip:meta['ip']
                 },function(data){
 	  				if(data.length == 0){
-			  			table.html('<tr><td colspan="5">暂无数据</td></tr>');
+			  			table.html('<tr><td colspan="5">{{ hst_lang('hstcms::public.no.list') }}</td></tr>');
 			  			return false;
 			  		}
                 	bindHtml(data);
@@ -196,7 +196,7 @@ function bindHtml(data, ) {
                 	uri:meta['uri']
                 },function(data){
 	  				if(data.length == 0){
-			  			table.html('<tr><td colspan="5">暂无数据</td></tr>');
+			  			table.html('<tr><td colspan="5">{{ hst_lang('hstcms::public.no.list') }}</td></tr>');
 			  			return false;
 			  		}
                 	bindHtml(data);

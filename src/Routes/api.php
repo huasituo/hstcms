@@ -25,3 +25,12 @@ Route::group([
 	Route::get('/test', 'TestController@index')->name('hstcmsApiText');
 	Route::post('/test', 'TestController@index')->name('hstcmsApiTextPost');
 });
+
+Route::group([
+    'middleware'=>['api.service']
+], function() {
+    Route::get('/mobile/code/send', 'MobileController@send')->name('apiMobileSendCode');
+    Route::get('/area/list', 'AreaController@list')->name('apiAreaList');
+    Route::get('/area/citys', 'AreaController@citys')->name('apiAreaCitys');
+    Route::get('/area/id/by/name', 'AreaController@getId')->name('apiAreaGetId');
+});

@@ -35,7 +35,7 @@
 	          <label class="hstui-u-sm-2 hstui-form-label">{{ hst_lang('hstcms::manage.debug') }}</label>
 	          <div class="hstui-u-sm-10 hstui-form-input">
 	              <input type="checkbox" name="debug" id="hstcms_debug" data-class="hstui-switchx-default hstui-round hstui-fl hstui-mr-sm" data-switchx-offtext="{{ hst_lang('hstcms::public.close')}}" data-switchx-ontext="{{ hst_lang('hstcms::public.open')}}" data-hstui-switchx @if(old('debug')) {{ hst_ifCheck(old('debug')) }} @else {{ hst_ifCheck($config['debug']) }} @endif data-switchx-text="debug"/>
-	            <div class="hstui-form-input-tips" id="J_form_tips_debug" data-tips="{{ hst_lang('hstcms::manage.debug.tips') }}">{{ hst_lang('hstcms::manage.debug.tips') }}</div>
+	            <div class="hstui-form-input-tips" id="J_form_tips_debug" data-tips="{{ hst_lang('hstcms::manage.debug.tips') }}">{!! hst_lang('hstcms::manage.debug.tips') !!}</div>
 	          </div>
 	        </div>
       	</div>
